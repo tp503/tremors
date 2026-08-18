@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tremors: Perfection</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="top">
+        <div>
+          <p class="kicker">Fully cooperative · one death ends the game</p>
+          <h1>Tremors: Perfection</h1>
+          <p class="tag">Phase 1 prototype. Noise is shared. The thing under the town is listening.</p>
+        </div>
+        <button id="helpBtn" type="button">How to play</button>
+      </header>
+
+      <section class="meters" aria-label="Round and noise">
+        <div class="track-wrap">
+          <div class="track-label">Round track</div>
+          <ol id="roundTrack" class="round-track"></ol>
+        </div>
+        <div class="noise-wrap">
+          <div class="track-label">Noise this round</div>
+          <div id="noiseMeter" class="noise-meter"></div>
+          <p id="noiseCaption" class="caption"></p>
+        </div>
+        <dl class="resources">
+          <div><dt>Rescue</dt><dd id="resRescue">3</dd></div>
+          <div><dt>Medkits</dt><dd id="resMed">2</dd></div>
+          <div><dt>Quiet moves</dt><dd id="resQuiet">0</dd></div>
+          <div><dt>Distractions</dt><dd id="resDist">0</dd></div>
+          <div><dt>Fuel</dt><dd id="resFuel">0</dd></div>
+          <div><dt>Aggression</dt><dd id="resAgg">0</dd></div>
+        </dl>
+      </section>
+
+      <main class="board-layout">
+        <section class="map-panel">
+          <svg id="map" viewBox="0 0 100 100" role="img" aria-label="Map of Perfection"></svg>
+          <p id="mapHint" class="caption">Select an action, then click a highlighted node if a target is needed.</p>
+        </section>
+
+        <aside class="side">
+          <section class="panel" id="turnPanel">
+            <h2 id="turnTitle">Turn</h2>
+            <p id="turnStatus" class="lede"></p>
+            <div id="actionList" class="actions"></div>
+          </section>
+
+          <section class="panel">
+            <h2>Party</h2>
+            <div id="party" class="party"></div>
+          </section>
+
+          <section class="panel">
+            <h2>Graboids</h2>
+            <div id="graboids" class="graboids"></div>
+          </section>
+        </aside>
+      </main>
+
+      <section class="bottom">
+        <div class="panel">
+          <h2>Objectives</h2>
+          <div id="objectives" class="objectives"></div>
+        </div>
+        <div class="panel log-panel">
+          <h2>What just happened</h2>
+          <ol id="log" class="log"></ol>
+        </div>
+      </section>
+    </div>
+
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card" id="modalCard"></div>
+    </div>
+
+    <div id="help" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card help-card">
+        <h2>How to play</h2>
+        <p>This is a solo-friendly table of the cooperative board game sketched in the design conversation. You control Val, Earl, Rhonda and Burt. <b>If anyone dies, everyone loses.</b></p>
+        <ul>
+          <li>Each character gets 2 actions (1 if Injured). Move, search, work objectives, divert, rescue, fight.</li>
+          <li><b>Noise is shared.</b> Careful moves are quiet and slow. Guns, metal, and running feed the round total.</li>
+          <li>Location noise decays by 1 at the end of each round. Graboids hunt the loudest node in their sector.</li>
+          <li>Underground tokens climb a Hunt track. At Hunt 3 they <b>surface</b> — the model hits the board and cannot be ignored.</li>
+          <li>Sharing a surfaced Graboid’s node: Threatened → Grabbed → Dragged (game over). You have 3 Rescue tokens for the whole game.</li>
+          <li>Rounds 4, 7, 9, 11, 12 draw a Calamity. Severity is Quiet / Disturbed / Frenzy based on this round’s noise.</li>
+          <li>Finish every Essential objective and Evacuate, or still be alive with them done when round 12 ends.</li>
+        </ul>
+        <button id="helpClose" type="button">Close</button>
+      </div>
+    </div>
+
+    <script src="./js/data.js"></script>
+    <script src="./js/engine.js"></script>
+    <script src="./js/ui.js"></script>
+  </body>
+</html>
