@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tremors: Perfection — printable map</title>
+    <style>
+      :root {
+        --ink: #1a120c;
+        --paper: #f7edd4;
+        --sand: #e4d0a6;
+        --line: #4a3424;
+        --blood: #7a1c14;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: #2a2218;
+        color: var(--ink);
+        font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+      }
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        background: #1c140c;
+        color: #f0dcb4;
+      }
+      .toolbar h1 { font-size: 18px; margin: 0; }
+      .toolbar p { margin: 0; font-size: 13px; color: #d4b888; }
+      .toolbar a, .toolbar button {
+        font-family: inherit;
+        color: #1c140c;
+        background: linear-gradient(#f0dcb4, #d7b888);
+        border: 1px solid #5a4030;
+        padding: 8px 14px;
+        border-radius: 4px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .sheet {
+        width: 11in;
+        min-height: 8.5in;
+        margin: 16px auto;
+        background: var(--paper);
+        padding: 0.35in 0.4in 0.3in;
+        box-shadow: 0 8px 24px #0008;
+      }
+      .sheet h2 {
+        margin: 0 0 2px;
+        font-size: 22px;
+        letter-spacing: 0.04em;
+      }
+      .kicker {
+        margin: 0 0 8px;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--blood);
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 1.7fr 0.9fr;
+        gap: 12px;
+        align-items: stretch;
+      }
+      #board {
+        width: 100%;
+        height: auto;
+        background:
+          radial-gradient(circle at 22% 18%, #c4a06a 0%, transparent 42%),
+          radial-gradient(circle at 78% 72%, #a67c4e 0%, transparent 48%),
+          linear-gradient(#d8b888, #b8945c);
+        border: 3px solid var(--ink);
+        border-radius: 4px;
+      }
+      .legend h3 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; }
+      .legend p, .legend li { font-size: 11.5px; line-height: 1.35; margin: 0 0 6px; }
+      .legend ul { margin: 0 0 10px; padding-left: 16px; }
+      .swatch {
+        display: inline-block;
+        width: 11px;
+        height: 11px;
+        border: 1px solid var(--ink);
+        vertical-align: -1px;
+        margin-right: 4px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10.5px;
+        margin-top: 10px;
+      }
+      th, td {
+        border: 1px solid #8a6a44;
+        padding: 3px 5px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th { background: #e8d2a8; }
+      .page-break { page-break-before: always; }
+      @media print {
+        html, body { background: #fff; }
+        .toolbar { display: none; }
+        .sheet {
+          width: auto;
+          min-height: 0;
+          margin: 0;
+          padding: 0;
+          box-shadow: none;
+        }
+        .sheet + .sheet { page-break-before: always; padding-top: 0.2in; }
+        @page { size: landscape; margin: 0.4in; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar no-print">
+      <div>
+        <h1>Tremors: Perfection — printable map</h1>
+        <p>Phase 1 hybrid board. Landscape letter / A4. Use Print → Save as PDF if you want a file.</p>
+      </div>
+      <div>
+        <a href="../index.html">Back to game</a>
+        <button type="button" onclick="window.print()">Print map</button>
+      </div>
+    </div>
+
+    <article class="sheet">
+      <p class="kicker">Phase 1 prototype · town + valley landmarks on one graph</p>
+      <h2>Perfection, Nevada</h2>
+      <p style="margin:0 0 8px;font-size:12px;">North is the cliffs. South is the Bixby Road. This is not a separate valley fold-out — it is the playable Phase 1 board.</p>
+      <div class="layout">
+        <svg id="board" viewBox="-4 -4 108 108" role="img" aria-label="Printable map of Perfection"></svg>
+        <aside class="legend">
+          <h3>What this is</h3>
+          <p>One node-and-route map. Town buildings sit in the middle. Film valley landmarks (Edgar’s pylon, Old Fred’s, the aqueduct, the Cat, the Bixby Road, the north cliffs) are compressed onto the same graph so the simulated balance is unchanged.</p>
+          <h3>Sectors (underground)</h3>
+          <p><span class="swatch" style="background:#d9c08a"></span>A North Range<br>
+             <span class="swatch" style="background:#c9b07a"></span>B Town Centre<br>
+             <span class="swatch" style="background:#b89464"></span>C West Compound<br>
+             <span class="swatch" style="background:#c4a878"></span>D East Flats<br>
+             <span class="swatch" style="background:#a67c4e"></span>E South Yard</p>
+          <h3>Node types</h3>
+          <p><b>Building</b> — protects until Compromised / Unsafe.<br>
+             <b>Tower</b> — cannot be grabbed.<br>
+             <b>Metal</b> — louder.<br>
+             <b>Open / road</b> — exposed.</p>
+          <h3>How to read a node</h3>
+          <p>Name on top. Under the circle: sector · type · Search rating. Graboids hunt by sector and surface on the loudest node in that sector.</p>
+        </aside>
+      </div>
+    </article>
+
+    <article class="sheet">
+      <p class="kicker">Gazetteer · same 18 nodes</p>
+      <h2>Locations</h2>
+      <table id="gazetteer">
+        <thead>
+          <tr>
+            <th>Node</th>
+            <th>S</th>
+            <th>Type</th>
+            <th>S / N / D</th>
+            <th>Film</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </article>
+
+    <script src="../js/data.js"></script>
+    <script>
+      const DATA = TREMORS_DATA;
+      const sectorFill = { A: "#d9c08a", B: "#c9b07a", C: "#b89464", D: "#c4a878", E: "#a67c4e" };
+      const ns = "http://www.w3.org/2000/svg";
+      const svg = document.getElementById("board");
+      const byId = Object.fromEntries(DATA.nodes.map((n) => [n.id, n]));
+
+      const labelNudge = {
+        store: [0, -1.2],
+        bar: [0, -0.6],
+        school: [0, 0.4],
+        clinic: [1.6, 0],
+        fuel: [-1.2, 0.4],
+        workshop: [-1.4, 0.6],
+        caterpillar: [2.2, 0.4],
+        aqueduct: [-1.6, 0.8],
+        highway: [0, 1.4],
+        mountain_road: [0, -0.4],
+        radio: [-1.8, -0.4],
+        edgar: [1.8, -0.4],
+      };
+
+      function el(name, attrs, text) {
+        const n = document.createElementNS(ns, name);
+        for (const [k, v] of Object.entries(attrs || {})) n.setAttribute(k, v);
+        if (text != null) n.textContent = text;
+        return n;
+      }
+
+      const compass = el("g", { "font-family": "Georgia, serif", "font-size": "3.2", fill: "#3a2418" });
+      compass.appendChild(el("text", { x: 96, y: 3.2, "text-anchor": "end", "font-weight": "700" }, "N  cliffs"));
+      compass.appendChild(el("text", { x: 96, y: 102.4, "text-anchor": "end", "font-weight": "700" }, "S  Bixby →"));
+      svg.appendChild(compass);
+
+      const routes = el("g", {});
+      for (const [a, b] of DATA.routes) {
+        routes.appendChild(el("line", {
+          x1: byId[a].x, y1: byId[a].y, x2: byId[b].x, y2: byId[b].y,
+          stroke: "#4a3424", "stroke-width": "0.55", "stroke-linecap": "round",
+        }));
+      }
+      svg.appendChild(routes);
+
+      for (const node of DATA.nodes) {
+        const g = el("g", {});
+        const [dx, dy] = labelNudge[node.id] || [0, 0];
+        g.appendChild(el("circle", {
+          cx: node.x, cy: node.y, r: 3.4,
+          fill: sectorFill[node.sector],
+          stroke: "#1a120c",
+          "stroke-width": "0.45",
+        }));
+        g.appendChild(el("text", {
+          x: node.x + dx, y: node.y - 4.6 + dy,
+          "text-anchor": "middle",
+          "font-family": "Georgia, serif",
+          "font-size": "2.55",
+          "font-weight": "700",
+          fill: "#1a120c",
+        }, node.name));
+        g.appendChild(el("text", {
+          x: node.x + dx, y: node.y + 5.6 + dy,
+          "text-anchor": "middle",
+          "font-family": "Georgia, serif",
+          "font-size": "1.9",
+          fill: "#3a2418",
+        }, `${node.sector} · ${node.type} · S${node.search}`));
+        svg.appendChild(g);
+      }
+
+      const tbody = document.querySelector("#gazetteer tbody");
+      const film = {
+        mountain_road: "Northern granite rim; last Graboid stampedes over the edge.",
+        radio: "Phone poles toward Bixby. The line dies when the road crew does.",
+        edgar: "Electrical pylon. Edgar climbed it and died of thirst.",
+        ranch: "Old Fred’s garden and sheep. First massacre.",
+        rhonda: "Seismograph camp. Readings are not earthquakes.",
+        burt: "Hilltop compound. Basement breach; gun-wall kill; bombs.",
+        store: "Chang’s Market: store, tavern, post office, siege hub. Walter dies here.",
+        bar: "Melvin’s mobile home and rusted Quonset, across the street from Chang’s.",
+        clinic: "Jim & Megan’s half-built house. Buried station wagon.",
+        nancy: "Nancy and Mindy. Rooftop jump.",
+        fuel: "Pumps and tin sheds. Fuel for the Cat.",
+        water: "Tallest structure in town.",
+        school: "Horse corral. Val and Earl borrow the horses here.",
+        trailer: "Nestor’s fenced trailer. Pulled through the floor.",
+        workshop: "Garbage dump / salvage.",
+        caterpillar: "Junkyard. The Caterpillar and earth-mover trailer.",
+        aqueduct: "Concrete culvert. First full Graboid rams the wall and dies.",
+        highway: "Only paved road south. Rockslide seals the valley.",
+      };
+      for (const n of DATA.nodes) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td><b>${n.name}</b></td><td>${n.sector}</td><td>${n.type}</td><td>${n.search} / ${n.noiseMod} / ${n.defence}</td><td>${film[n.id] || n.note}</td>`;
+        tbody.appendChild(tr);
+      }
+    </script>
+  </body>
+</html>

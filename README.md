@@ -12,7 +12,7 @@ Open `index.html` in a browser, or:
 python -m http.server 8000
 ```
 
-Then go to `http://localhost:8000/`.
+Then go to `http://localhost:8000/`. Printable board: `http://localhost:8000/print/map.html` (landscape letter / A4).
 
 You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Every action is at least 1 Noise unless Rhonda hasn't moved this turn or you spend a Quiet Move token. Graboids surface on Hunt 2 and chase the nearest character. First catch is Threatened; the same worm catching again is Grabbed. Search fills a shared item supply; two items can be rigged into a Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, or Field Generator.
 
