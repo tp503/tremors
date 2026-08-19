@@ -14,14 +14,15 @@ python -m http.server 8000
 
 Then go to `http://localhost:8000/`.
 
-You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Graboids hunt by sector and surface on the loudest node. Sharing that node is Threatened → Grabbed → Dragged.
+You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Every action is at least 1 Noise unless Rhonda hasn't moved this turn or you spend a Quiet Move token. Graboids surface on Hunt 2 and chase the nearest character. First catch is Threatened; the same worm catching again is Grabbed.
 
 ## Tests
 
 ```bash
 node js/engine.test.js
+node js/simulate.js 20
 ```
 
 ## Status
 
-Phase 1 (Perfection, 12-round calamity clock) is playable. Phase 2 (valley fold-out) is specified in the design conversation, not built.
+Phase 1 (Perfection, 12-round calamity clock) is playable with the unpublished ruleset: Quiet ≤8 / Disturbed 9–14 / Frenzy 15+, Evacuate from round 8+. Phase 2 (valley fold-out) is specified in the design conversation, not built.
