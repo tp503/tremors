@@ -98,13 +98,42 @@ Drawn each game: **3 Essential**, **2 Optional**, **1 Character** (prototype cou
 
 Work them on-site. Failure is not "lose immediately" — it changes the board (blocked routes, extra aggression, scattered starting positions, damaged loader).
 
+## Search and items
+
+Search is the item economy. Roll **d6 + Search + the node's Search rating** against **9**, then **+1 per prior find at that node**. Success draws from a **16-card deck** (two each of eight items) into a **shared team supply**.
+
+Items are minor alone (each use is an action and the 1-noise floor):
+
+| Item | Solo use |
+| --- | --- |
+| Tin Cans | +2 Noise diversion on an adjacent node |
+| Fishing Line | Reveal Graboids in your sector |
+| Pipe | Next Fight +1 Combat |
+| Black Powder | Next Fight +2 Combat, +2 Noise now |
+| Fuel Can | +1 Fuel |
+| Rope | Pull a Pinned/Threatened teammate here or adjacent one node clear |
+| Radio Parts | +1 Work on the radio or loader objective here |
+| Walkie-Talkies | Next character gains +1 action |
+
+Five **Rig** recipes spend two specific items as one action:
+
+| Rig | Parts | Effect |
+| --- | --- | --- |
+| Pipe Bomb | Pipe + Powder | 1 wound at range, no fight roll |
+| Tripwire Bait | Cans + Line | Next Graboid surfaces at a node you choose, **no ambush** |
+| Fire Bomb | Fuel + Powder | Force a surfaced worm here to dive at Hunt 1 |
+| Line Rescue | Rope + Walkies | Pull a Grabbed teammate from an adjacent node onto yours |
+| Field Generator | Parts + Fuel | Clear Power Failure / Darkness; dump 2 lingering noise |
+
+Tripwire Bait is the signature play: it turns the Hunt rule into a tool.
+
 ## Calamity deck
 
 30 cards in three acts. Not fully shuffled: Act I on round 4, Act II on 7 and 9, Act III on 11, **Get Out of Perfection** on 12. Noise chooses which text on the card fires.
 
 ## Phase 2 (not fully built)
 
-The conversation's second board is the valley fold-out: sand 0 / dirt 1 / rocks 2 / road 2 / vehicle 4, extraction on high ground, loader as lifeboat. **Evacuate** is only legal from **round 8+**, with essentials done and nobody grabbed or dead. This prototype stops at a successful Evacuate from town. Shared **rigs** (Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, Field Generator) come from Search.
+The conversation's second board is the valley fold-out: sand 0 / dirt 1 / rocks 2 / road 2 / vehicle 4, extraction on high ground, loader as lifeboat. **Evacuate** is only legal from **round 8+**, with essentials done and nobody grabbed or dead. This prototype stops at a successful Evacuate from town.
 
 ## What the prototype is for
 

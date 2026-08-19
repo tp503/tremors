@@ -301,22 +301,35 @@ test("search succeeds on d6 + Search + node.search >= 9", () => {
   g.refreshTurn();
   rhonda.location = "radio";
   g.rng = () => 0.99;
-  const before = g.stash.length + g.medicalKits + g.quietMoves + g.distractions;
+  const before = g.stash.length;
   g.act("rhonda", { type: "search" });
-  const after = g.stash.length + g.medicalKits + g.quietMoves + g.distractions;
-  assert.ok(after >= before);
+  assert.ok(g.stash.length >= before);
 });
 
-test("search finds go to the shared stash or shared tokens", () => {
+test("search draws from the 16-card item deck into the shared supply", () => {
   const g = fresh(10);
   g.turnIndex = 2;
   g.refreshTurn();
   g.char("rhonda").location = "radio";
-  const rolls = [0.99, 0.01, 0.01];
-  let i = 0;
-  g.rng = () => rolls[Math.min(i++, rolls.length - 1)];
+  g.rng = () => 0.99;
+  const deckBefore = g.itemDeck.length;
   g.act("rhonda", { type: "search" });
-  assert.ok(g.stash.length >= 1);
+  assert.equal(g.itemDeck.length, deckBefore - 1);
+  assert.equal(g.stash.length, 1);
+  assert.ok(DATA.items.some((it) => it.id === g.stash[0]));
+});
+
+test("each successful search at a node raises the next target by 1", () => {
+  const g = fresh(10);
+  g.turnIndex = 2;
+  g.refreshTurn();
+  g.char("rhonda").location = "radio";
+  g.rng = () => 0.99;
+  g.act("rhonda", { type: "search" });
+  assert.equal(g.searchWear.radio, 1);
+  g.char("rhonda").actions = 2;
+  g.act("rhonda", { type: "search" });
+  assert.equal(g.searchWear.radio, 2);
 });
 
 test("rigs include Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, Field Generator", () => {
@@ -324,18 +337,111 @@ test("rigs include Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, Field Gener
   assert.deepEqual(names, ["Pipe Bomb", "Tripwire Bait", "Fire Bomb", "Line Rescue", "Field Generator"]);
 });
 
-test("pipe bomb wounds a surfaced graboid", () => {
+test("item deck is two copies of eight thematic cards", () => {
+  assert.equal(DATA.items.length, 8);
+  const g = fresh(3);
+  assert.equal(g.itemDeck.length, 16);
+});
+
+test("pipe bomb wounds a surfaced graboid and spends Pipe + Powder", () => {
   const g = fresh(12);
-  g.stash.push("pipe_bomb");
+  g.stash.push("pipe", "powder");
   const graboid = g.graboids[0];
   graboid.surfaced = true;
   graboid.node = g.char("val").location;
   graboid.wounds = 0;
   const res = g.act("val", { type: "rig", rig: "pipe_bomb" });
   assert.equal(res.ok, true, res.error);
+  assert.equal(g.stash.includes("pipe"), false);
+  assert.equal(g.stash.includes("powder"), false);
   const still = g.graboids.find((x) => x.id === graboid.id);
   if (still) assert.equal(still.wounds, 1);
-  else assert.equal(g.stash.includes("pipe_bomb"), false);
+});
+
+test("tin cans dump +2 noise on an adjacent node", () => {
+  const g = fresh(4);
+  g.stash.push("cans");
+  const adj = neighbors(g.char("val").location, g.blocked)[0];
+  const before = g.locationNoise[adj] || 0;
+  const res = g.act("val", { type: "useItem", item: "cans", target: adj });
+  assert.equal(res.ok, true, res.error);
+  assert.ok((g.locationNoise[adj] || 0) >= before + 2);
+  assert.equal(g.stash.includes("cans"), false);
+});
+
+test("walkie-talkies give the next character +1 action", () => {
+  const g = fresh(5);
+  g.stash.push("walkies");
+  g.act("val", { type: "useItem", item: "walkies" });
+  g.act("val", { type: "endTurn" });
+  assert.equal(g.activeId(), "earl");
+  assert.equal(g.char("earl").actions, g.char("earl").maxActions);
+  assert.ok(g.char("earl").maxActions >= 3);
+});
+
+test("tripwire bait makes the next surface land on the chosen node with no ambush", () => {
+  const g = fresh(6);
+  g.stash.push("cans", "line");
+  const dest = neighbors(g.char("val").location, g.blocked)[0];
+  g.char("val").location = dest;
+  const res = g.act("val", { type: "rig", rig: "tripwire", target: dest });
+  assert.equal(res.ok, true, res.error);
+  const graboid = g.graboids[0];
+  g.surface(graboid);
+  assert.equal(graboid.node, dest);
+  assert.equal(graboid.surfaced, true);
+  assert.equal(g.char("val").grabbed, false);
+  assert.equal(g.char("val").threatened, false);
+});
+
+test("fire bomb forces a surfaced graboid to dive", () => {
+  const g = fresh(8);
+  g.stash.push("fuel_can", "powder");
+  const graboid = g.graboids[0];
+  graboid.surfaced = true;
+  graboid.node = g.char("val").location;
+  const res = g.act("val", { type: "rig", rig: "fire_bomb" });
+  assert.equal(res.ok, true, res.error);
+  assert.equal(graboid.surfaced, false);
+  assert.equal(graboid.hunt, 1);
+});
+
+test("line rescue pulls an adjacent grabbed teammate without sharing the kill node", () => {
+  const g = fresh(9);
+  g.stash.push("rope", "walkies");
+  const val = g.char("val");
+  const earl = g.char("earl");
+  const adj = neighbors(val.location, g.blocked)[0];
+  earl.location = adj;
+  earl.grabbed = true;
+  const res = g.act("val", { type: "rig", rig: "line_rescue", target: adj });
+  assert.equal(res.ok, true, res.error);
+  assert.equal(earl.location, val.location);
+  assert.equal(earl.grabbed, false);
+});
+
+test("field generator clears darkness and power failure", () => {
+  const g = fresh(11);
+  g.stash.push("parts", "fuel_can");
+  g.darkness = true;
+  g.poweredOff.add("store");
+  const res = g.act("val", { type: "rig", rig: "field_gen" });
+  assert.equal(res.ok, true, res.error);
+  assert.equal(g.darkness, false);
+  assert.equal(g.poweredOff.size, 0);
+});
+
+test("pipe fight bonus is consumed on the next fight", () => {
+  const g = fresh(13);
+  g.stash.push("pipe");
+  g.act("val", { type: "useItem", item: "pipe" });
+  assert.equal(g.fightBonus, 1);
+  const graboid = g.graboids[0];
+  graboid.surfaced = true;
+  graboid.node = g.char("val").location;
+  g.rng = () => 0.99;
+  g.act("val", { type: "fight" });
+  assert.equal(g.fightBonus, 0);
 });
 
 test("calamity 30 frenzy fails unfinished essentials and can end the game", () => {
@@ -398,4 +504,4 @@ test("work on a 0-printed objective still makes 1 noise unless Don't Move", () =
 });
 
 console.log(`\n${passed} engine tests passed.`);
-assert.equal(passed, 33, `expected 33 tests, got ${passed}`);
+assert.equal(passed, 42, `expected 42 tests, got ${passed}`);

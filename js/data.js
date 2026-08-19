@@ -22,12 +22,23 @@ const TREMORS_DATA = {
     { min: 20, max: 99, id: "stampede", label: "Stampede", effect: "A new Graboid enters and all hunt aggressively." },
   ],
 
+  items: [
+    { id: "cans", name: "Tin Cans", copies: 2, text: "Throw +2 Noise onto an adjacent node. Cheap diversion." },
+    { id: "line", name: "Fishing Line", copies: 2, text: "Reveal every Graboid in your sector (Hunt, surface, node)." },
+    { id: "pipe", name: "Pipe", copies: 2, text: "The next Fight this game gets +1 Combat." },
+    { id: "powder", name: "Black Powder", copies: 2, text: "The next Fight gets +2 Combat. Using it is +2 Noise now." },
+    { id: "fuel_can", name: "Fuel Can", copies: 2, text: "Add 1 Fuel to the shared pool." },
+    { id: "rope", name: "Rope", copies: 2, text: "Pull a Pinned or Threatened teammate at this node or adjacent one space clear." },
+    { id: "parts", name: "Radio Parts", copies: 2, text: "+1 Work on the radio or loader objective at this node." },
+    { id: "walkies", name: "Walkie-Talkies", copies: 2, text: "The next character in turn order gains +1 action this round." },
+  ],
+
   rigs: [
-    { id: "pipe_bomb", name: "Pipe Bomb", text: "Wound a surfaced Graboid at your node or adjacent. +4 Noise." },
-    { id: "tripwire", name: "Tripwire Bait", text: "Place bait on a node. The next Graboid to enter takes 1 wound and +3 Noise." },
-    { id: "fire_bomb", name: "Fire Bomb", text: "Force a surfaced Graboid at your node to submerge at Hunt 1. +5 Noise." },
-    { id: "line_rescue", name: "Line Rescue", text: "Pull a grabbed or threatened character from an adjacent node onto yours." },
-    { id: "field_gen", name: "Field Generator", text: "Dump 2 Noise from this node and the round total." },
+    { id: "pipe_bomb", name: "Pipe Bomb", parts: ["pipe", "powder"], text: "1 wound on a surfaced Graboid here or adjacent. No fight roll. +4 Noise." },
+    { id: "tripwire", name: "Tripwire Bait", parts: ["cans", "line"], text: "The next Graboid surfaces at a node you choose, with no ambush." },
+    { id: "fire_bomb", name: "Fire Bomb", parts: ["fuel_can", "powder"], text: "Force a surfaced Graboid here to dive at Hunt 1. +5 Noise." },
+    { id: "line_rescue", name: "Line Rescue", parts: ["rope", "walkies"], text: "Pull a Grabbed or Threatened teammate from an adjacent node onto yours." },
+    { id: "field_gen", name: "Field Generator", parts: ["parts", "fuel_can"], text: "Clear Power Failure and Darkness. Dump 2 lingering noise here." },
   ],
 
   nodes: [

@@ -149,6 +149,14 @@ const TremorsEngine = (() => {
       this.barbed = 0;
       this.urgentEssentials = false;
       this.stash = [];
+      this.itemDeck = this.buildItemDeck();
+      this.searchWear = {};
+      DATA.nodes.forEach((n) => {
+        this.searchWear[n.id] = 0;
+      });
+      this.fightBonus = 0;
+      this.walkieBoost = false;
+      this.baitNode = null;
       this.traps = {};
       this.rhondaPeekPending = false;
       this.rhondaDontMove = false;
@@ -259,6 +267,11 @@ const TremorsEngine = (() => {
         distractions: this.distractions,
         fuel: this.fuel,
         stash: this.stash.slice(),
+        stashLabels: this.stash.map((id) => (this.itemDef(id) || {}).name || id),
+        itemDeckLeft: this.itemDeck.length,
+        fightBonus: this.fightBonus,
+        baitNode: this.baitNode,
+        searchWear: { ...this.searchWear },
         traps: { ...this.traps },
         loaderReady: this.loaderReady,
         loaderDamaged: this.loaderDamaged,
@@ -315,6 +328,48 @@ const TremorsEngine = (() => {
         } else c.bonusMove = 0;
       }
       this.rhondaDontMove = c.id === "rhonda";
+      if (this.walkieBoost) {
+        c.maxActions += 1;
+        c.actions += 1;
+        this.walkieBoost = false;
+        this.note(`${this.def(c.id).name} gets +1 action from Walkie-Talkies.`);
+      }
+    }
+
+    buildItemDeck() {
+      const deck = [];
+      for (const item of DATA.items) {
+        const copies = item.copies || 2;
+        for (let i = 0; i < copies; i++) deck.push(item.id);
+      }
+      return shuffle(deck, this.rng);
+    }
+
+    itemDef(id) {
+      return DATA.items.find((x) => x.id === id);
+    }
+
+    stashCount(id) {
+      return this.stash.filter((x) => x === id).length;
+    }
+
+    spendFromStash(id) {
+      const i = this.stash.indexOf(id);
+      if (i < 0) return false;
+      this.stash.splice(i, 1);
+      return true;
+    }
+
+    canCraft(rig) {
+      const need = {};
+      for (const p of rig.parts || []) need[p] = (need[p] || 0) + 1;
+      return Object.entries(need).every(([id, n]) => this.stashCount(id) >= n);
+    }
+
+    spendParts(rig) {
+      if (!this.canCraft(rig)) return false;
+      for (const p of rig.parts || []) this.spendFromStash(p);
+      return true;
     }
 
     movementOf(c) {
@@ -427,7 +482,7 @@ const TremorsEngine = (() => {
 
       const here = nodeById(c.location);
       if (!c.pinned) {
-        acts.push({ type: "search", label: `Search ${here.name} (+1 Noise)` });
+        acts.push({ type: "search", label: `Search ${here.name} (vs ${9 + (this.searchWear[here.id] || 0)}, +1 Noise)` });
         acts.push({ type: "work", label: "Work an objective here" });
         acts.push({ type: "distract", label: "Create a diversion (+3 Noise at adjacent node)", needsTarget: "adjacent" });
         acts.push({ type: "hide", label: "Stay quiet (end remaining actions, 1 Noise unless Don't Move)" });
@@ -462,6 +517,22 @@ const TremorsEngine = (() => {
       if (this.distractions > 0) {
         acts.push({ type: "useDistract", label: "Throw a distraction (+3 Noise adjacent)", needsTarget: "adjacent" });
       }
+      for (const itemId of [...new Set(this.stash)]) {
+        const item = this.itemDef(itemId);
+        if (!item) continue;
+        const act = { type: "useItem", item: itemId, label: `Use ${item.name}` };
+        if (itemId === "cans") act.needsTarget = "adjacent";
+        if (itemId === "rope") act.needsTarget = "here_or_adjacent";
+        acts.push(act);
+      }
+      for (const rig of DATA.rigs) {
+        if (!this.canCraft(rig)) continue;
+        const parts = (rig.parts || []).map((id) => (this.itemDef(id) || {}).name || id).join(" + ");
+        const act = { type: "rig", rig: rig.id, label: `Rig ${rig.name} (${parts})` };
+        if (rig.id === "tripwire") act.needsTarget = "here_or_adjacent";
+        if (rig.id === "line_rescue") act.needsTarget = "adjacent";
+        acts.push(act);
+      }
       if (c.id === "earl" && this.earlFreeMoveReady) {
         acts.push({ type: "earlReact", label: "Earl: move 1 toward the noise (free)" });
       }
@@ -473,13 +544,6 @@ const TremorsEngine = (() => {
         !this.gameOver
       ) {
         acts.push({ type: "evacuate", label: "Evacuate Perfection (round 8+, essentials done)" });
-      }
-      for (const rigId of [...new Set(this.stash)]) {
-        const rig = DATA.rigs.find((r) => r.id === rigId);
-        if (!rig) continue;
-        const act = { type: "rig", rig: rigId, label: `Rig: ${rig.name}` };
-        if (rigId === "tripwire" || rigId === "line_rescue") act.needsTarget = rigId === "tripwire" ? "adjacent" : "adjacent";
-        acts.push(act);
       }
       acts.push({ type: "endTurn", label: "End turn" });
       return acts;
@@ -581,9 +645,10 @@ const TremorsEngine = (() => {
         case "struggle":
           if (!spend()) return { ok: false, error: "No actions left." };
           return this.doStruggle(c);
+        case "useItem":
+          return this.doUseItem(c, action, spend);
         case "rig":
-          if (!spend()) return { ok: false, error: "No actions left." };
-          return this.doRig(c, action);
+          return this.doRig(c, action, spend);
         case "earlReact":
           return this.doEarlReact();
         case "endTurn":
@@ -674,43 +739,39 @@ const TremorsEngine = (() => {
       const noise = this.actionNoise(c, 1);
       this.addNoise(c.location, noise, "search");
       const def = this.def(c.id);
+      const target = 9 + (this.searchWear[here.id] || 0);
       let roll = this.d6() + def.search + (here.search || 0);
-      if (c.id === "val" && !c.luckUsed && roll < 9) {
+      if (c.id === "val" && !c.luckUsed && roll < target) {
         c.luckUsed = true;
         const retry = this.d6() + def.search + (here.search || 0);
-        if (retry < 9) {
+        if (retry < target) {
           this.addNoise(c.location, 1, "Val's luck fails");
         }
         roll = Math.max(roll, retry);
       }
-      if (roll >= 9) {
-        this.grantSearchFind(c, here, roll);
+      if (roll >= target) {
+        this.searchWear[here.id] = (this.searchWear[here.id] || 0) + 1;
+        this.grantSearchFind(c, here, roll, target);
       } else {
-        this.note(`${def.name} searches ${here.name} and comes up empty (roll ${roll} vs 9).`);
+        this.note(`${def.name} searches ${here.name} and comes up empty (roll ${roll} vs ${target}).`);
       }
       this.emit();
       return { ok: true };
     }
 
-    grantSearchFind(c, here, roll) {
+    grantSearchFind(c, here, roll, target) {
       const def = this.def(c.id);
-      const table = this.rng();
-      if (table < 0.45) {
-        const rig = DATA.rigs[Math.floor(this.rng() * DATA.rigs.length)];
-        this.stash.push(rig.id);
-        this.note(`${def.name} searches ${here.name} (roll ${roll}) and finds a shared <b>${rig.name}</b>.`);
-      } else if (table < 0.65) {
-        this.medicalKits += 1;
-        this.note(`${def.name} searches ${here.name} (roll ${roll}) and finds a medical kit (shared).`);
-      } else if (table < 0.8) {
-        this.quietMoves += 1;
-        this.note(`${def.name} searches ${here.name} (roll ${roll}) and finds a Quiet Move token (shared).`);
-      } else if (table < 0.92) {
-        this.distractions += 1;
-        this.note(`${def.name} searches ${here.name} (roll ${roll}) and rigs a distraction (shared).`);
-      } else {
-        this.note(`${def.name} searches ${here.name} (roll ${roll}): local knowledge, nothing to pocket.`);
+      if (this.itemDeck.length) {
+        const itemId = this.itemDeck.shift();
+        this.stash.push(itemId);
+        const item = this.itemDef(itemId);
+        this.note(
+          `${def.name} searches ${here.name} (roll ${roll} vs ${target}) and finds <b>${item.name}</b> for the shared supply. Next search here is vs ${target + 1}.`
+        );
+        return;
       }
+      this.quietMoves += 1;
+      this.note(`${def.name} searches ${here.name} (roll ${roll}): the item deck is empty. Quiet Move token instead.`);
     }
 
     doWork(c) {
@@ -885,28 +946,137 @@ const TremorsEngine = (() => {
       return { ok: true };
     }
 
-    spendRig(rigId) {
-      const i = this.stash.indexOf(rigId);
-      if (i < 0) return false;
-      this.stash.splice(i, 1);
-      return true;
+    doUseItem(c, action, spend) {
+      const itemId = action.item;
+      const item = this.itemDef(itemId);
+      if (!item) return { ok: false, error: "Unknown item." };
+      if (!this.stash.includes(itemId)) return { ok: false, error: "That item is not in the shared supply." };
+
+      if (itemId === "cans") {
+        const target = action.target;
+        if (!target) return { ok: false, error: "Pick an adjacent node." };
+        if (!neighbors(c.location, this.blocked).includes(target)) return { ok: false, error: "Not adjacent." };
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendFromStash(itemId);
+        this.addNoise(target, this.actionNoise(c, 2), "tin cans");
+        this.note(`${this.def(c.id).name} throws Tin Cans at ${nodeById(target).name} (+2 Noise).`);
+        this.emit();
+        return { ok: true };
+      }
+
+      if (itemId === "line") {
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendFromStash(itemId);
+        this.addNoise(c.location, this.actionNoise(c, 1), "fishing line");
+        const sector = nodeById(c.location).sector;
+        const worms = this.graboids.filter((g) => g.sector === sector);
+        if (!worms.length) this.note(`${this.def(c.id).name} strings Fishing Line. Sector ${sector} is quiet.`);
+        else {
+          worms.forEach((g) => {
+            const loc = g.surfaced ? nodeById(g.node).name : "underground";
+            this.note(`Fishing Line: ${g.id} is ${loc} in sector ${g.sector}, Hunt ${g.hunt}.`);
+          });
+        }
+        this.emit();
+        return { ok: true };
+      }
+
+      if (itemId === "pipe") {
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendFromStash(itemId);
+        this.fightBonus += 1;
+        this.addNoise(c.location, this.actionNoise(c, 1), "ready a pipe");
+        this.note(`${this.def(c.id).name} keeps a Pipe handy. Next Fight +1 Combat.`);
+        this.emit();
+        return { ok: true };
+      }
+
+      if (itemId === "powder") {
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendFromStash(itemId);
+        this.fightBonus += 2;
+        this.addNoise(c.location, this.actionNoise(c, 2), "black powder");
+        this.note(`${this.def(c.id).name} primes Black Powder. Next Fight +2 Combat. The powder is already loud.`);
+        this.emit();
+        return { ok: true };
+      }
+
+      if (itemId === "fuel_can") {
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendFromStash(itemId);
+        this.fuel += 1;
+        this.addNoise(c.location, this.actionNoise(c, 1), "fuel can");
+        this.note(`${this.def(c.id).name} adds a Fuel Can to the pool. Fuel ${this.fuel}.`);
+        this.emit();
+        return { ok: true };
+      }
+
+      if (itemId === "rope") {
+        const nodeId = action.target || c.location;
+        const hereOrAdj = nodeId === c.location || neighbors(c.location, this.blocked).includes(nodeId);
+        if (!hereOrAdj) return { ok: false, error: "They must be here or adjacent." };
+        const t = this.characters.find(
+          (o) => o.id !== c.id && o.location === nodeId && (o.pinned || o.threatened) && !o.grabbed && o.health !== "dead"
+        );
+        if (!t) return { ok: false, error: "No pinned or threatened teammate there. Grabbed needs Line Rescue." };
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendFromStash(itemId);
+        const dest = this.pullClear(t);
+        this.addNoise(c.location, this.actionNoise(c, 1), "rope");
+        this.note(
+          `${this.def(c.id).name} hauls ${this.def(t.id).name} clear with Rope${dest ? ` to ${nodeById(dest).name}` : ""}.`
+        );
+        this.emit();
+        return { ok: true };
+      }
+
+      if (itemId === "parts") {
+        const obj = this.objectives.find(
+          (o) =>
+            o.status === "active" &&
+            o.location === c.location &&
+            (o.id === "radio_working" || o.id === "heavy_vehicle")
+        );
+        if (!obj) return { ok: false, error: "Radio Parts only help the radio or loader job, on-site." };
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendFromStash(itemId);
+        this.addNoise(c.location, this.actionNoise(c, 1), "radio parts");
+        obj.progress += 1;
+        this.note(`${this.def(c.id).name} slots Radio Parts into <b>${obj.name}</b> (${obj.progress}/${obj.work}).`);
+        if (obj.progress >= obj.work) this.completeObjective(obj);
+        this.emit();
+        return { ok: true };
+      }
+
+      if (itemId === "walkies") {
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendFromStash(itemId);
+        this.walkieBoost = true;
+        this.addNoise(c.location, this.actionNoise(c, 1), "walkie-talkies");
+        this.note(`${this.def(c.id).name} hands off Walkie-Talkies. Next character gets +1 action.`);
+        this.emit();
+        return { ok: true };
+      }
+
+      return { ok: false, error: "Cannot use that item." };
     }
 
-    doRig(c, action) {
+    doRig(c, action, spend) {
       const rigId = action.rig;
       const rig = DATA.rigs.find((r) => r.id === rigId);
       if (!rig) return { ok: false, error: "Unknown rig." };
-      if (!this.stash.includes(rigId)) return { ok: false, error: "That rig is not in the shared stash." };
+      if (!this.canCraft(rig)) return { ok: false, error: "Missing parts in the shared supply." };
 
       if (rigId === "pipe_bomb") {
         const g =
           this.graboids.find((x) => x.surfaced && x.node === c.location) ||
           this.graboids.find((x) => x.surfaced && neighbors(c.location, this.blocked).includes(x.node));
         if (!g) return { ok: false, error: "No surfaced Graboid in range." };
-        this.spendRig(rigId);
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendParts(rig);
         g.wounds += 1;
         this.addNoise(g.node, this.actionNoise(c, 4), "pipe bomb");
-        this.note(`${this.def(c.id).name} sets a Pipe Bomb. ${g.id} wound ${g.wounds}/2.`);
+        this.note(`${this.def(c.id).name} rigs a Pipe Bomb. ${g.id} wound ${g.wounds}/2.`);
         if (g.wounds >= 2) this.killGraboid(g);
         this.emit();
         return { ok: true };
@@ -914,10 +1084,15 @@ const TremorsEngine = (() => {
 
       if (rigId === "tripwire") {
         const target = action.target || c.location;
-        this.spendRig(rigId);
-        this.traps[target] = "tripwire";
+        const hereOrAdj = target === c.location || neighbors(c.location, this.blocked).includes(target);
+        if (!hereOrAdj) return { ok: false, error: "Place bait here or adjacent." };
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendParts(rig);
+        this.baitNode = target;
         this.addNoise(c.location, this.actionNoise(c, 1), "set tripwire");
-        this.note(`${this.def(c.id).name} sets Tripwire Bait at ${nodeById(target).name}.`);
+        this.note(
+          `${this.def(c.id).name} rigs Tripwire Bait at ${nodeById(target).name}. The next worm surfaces there, no ambush.`
+        );
         this.emit();
         return { ok: true };
       }
@@ -925,7 +1100,8 @@ const TremorsEngine = (() => {
       if (rigId === "fire_bomb") {
         const g = this.graboids.find((x) => x.surfaced && x.node === c.location);
         if (!g) return { ok: false, error: "No surfaced Graboid here." };
-        this.spendRig(rigId);
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendParts(rig);
         this.addNoise(c.location, this.actionNoise(c, 5), "fire bomb");
         this.submerge(g, 1);
         this.note(`${this.def(c.id).name} hits it with a Fire Bomb. It dives.`);
@@ -942,7 +1118,8 @@ const TremorsEngine = (() => {
         if (!neighbors(c.location, this.blocked).includes(t.location)) {
           return { ok: false, error: "They must be adjacent." };
         }
-        this.spendRig(rigId);
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendParts(rig);
         t.location = c.location;
         t.grabbed = false;
         t.threatened = false;
@@ -955,23 +1132,22 @@ const TremorsEngine = (() => {
       }
 
       if (rigId === "field_gen") {
-        this.spendRig(rigId);
+        if (!spend()) return { ok: false, error: "No actions left." };
+        this.spendParts(rig);
         const dumped = Math.min(2, this.locationNoise[c.location] || 0);
         this.locationNoise[c.location] = Math.max(0, (this.locationNoise[c.location] || 0) - 2);
         this.noiseThisRound = Math.max(0, this.noiseThisRound - 2);
+        this.darkness = false;
+        this.poweredOff.clear();
         this.addNoise(c.location, this.actionNoise(c, 1), "field generator");
-        this.note(`${this.def(c.id).name} runs a Field Generator (dumped ${dumped} lingering noise, then +1 for the kit).`);
+        this.note(
+          `${this.def(c.id).name} runs a Field Generator (power back on, darkness lifted, dumped ${dumped} lingering noise).`
+        );
         this.emit();
         return { ok: true };
       }
 
       return { ok: false, error: "Cannot use that rig." };
-    }
-
-    killGraboid(g) {
-      this.addNoise(g.node || this.loudestNodeInSector(g.sector), 6, "Graboid death");
-      this.note(`<b>${g.id} is killed.</b> The explosion is +6 Noise. The valley still has more.`);
-      this.graboids = this.graboids.filter((x) => x !== g);
     }
 
     submerge(g, hunt) {
@@ -1054,6 +1230,11 @@ const TremorsEngine = (() => {
       if (c.equipment.includes("explosives")) {
         extraNoise = 5;
         combat += 2;
+      }
+      if (this.fightBonus) {
+        combat += this.fightBonus;
+        this.note(`Improvised kit: +${this.fightBonus} Combat on this Fight.`);
+        this.fightBonus = 0;
       }
       if (c.quietNext) {
         extraNoise = 0;
@@ -1441,8 +1622,11 @@ const TremorsEngine = (() => {
     }
 
     surface(g) {
-      const node = this.loudestNodeInSector(g.sector);
-      if (this.solidRockKnown && (node === "aqueduct" || node === "mountain_road")) {
+      let node = this.baitNode;
+      const baited = Boolean(node);
+      if (baited) this.baitNode = null;
+      else node = this.loudestNodeInSector(g.sector);
+      if (!baited && this.solidRockKnown && (node === "aqueduct" || node === "mountain_road")) {
         this.note(`${g.id} tries to surface on solid rock and shears away.`);
         g.hunt = 2;
         return;
@@ -1453,7 +1637,14 @@ const TremorsEngine = (() => {
       g.hunt = DATA.huntSurface;
       g.missRounds = 0;
       g.caughtThisRound = false;
+      g.sector = sectorOf(node);
       this.unsafe.add(node);
+      if (baited) {
+        this.note(
+          `<b>TRIPWIRE BAIT:</b> ${g.id} surfaces at ${nodeById(node).name}. No ambush — you picked this ground.`
+        );
+        return;
+      }
       this.note(`<b>GRABOID SURFACES at ${nodeById(node).name}.</b> This is no longer abstract.`);
       this.springTrap(g, node);
       if (this.gameOver) return;

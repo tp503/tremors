@@ -6,6 +6,7 @@
   const actionList = document.getElementById("actionList");
   const party = document.getElementById("party");
   const graboidsEl = document.getElementById("graboids");
+  const supplyEl = document.getElementById("supply");
   const objectivesEl = document.getElementById("objectives");
   const logEl = document.getElementById("log");
   const turnTitle = document.getElementById("turnTitle");
@@ -195,6 +196,41 @@
     document.getElementById("resAgg").textContent = state.aggression;
   }
 
+  function renderSupply(state) {
+    supplyEl.replaceChildren();
+    if (!(state.stash || []).length) {
+      const empty = document.createElement("p");
+      empty.className = "caption";
+      empty.textContent = `Empty. ${state.itemDeckLeft || 0} cards left in the search deck.`;
+      supplyEl.appendChild(empty);
+      return;
+    }
+    const counts = {};
+    for (const id of state.stash) counts[id] = (counts[id] || 0) + 1;
+    for (const [id, n] of Object.entries(counts)) {
+      const item = DATA.items.find((x) => x.id === id);
+      const row = document.createElement("div");
+      row.className = "supply-row";
+      row.innerHTML = `<b>${n}× ${item ? item.name : id}</b><div>${item ? item.text : ""}</div>`;
+      supplyEl.appendChild(row);
+    }
+    const rigs = DATA.rigs.filter((r) => {
+      const need = {};
+      for (const p of r.parts || []) need[p] = (need[p] || 0) + 1;
+      return Object.entries(need).every(([id, n]) => (counts[id] || 0) >= n);
+    });
+    if (rigs.length) {
+      const hint = document.createElement("p");
+      hint.className = "caption";
+      hint.textContent = "Ready to rig: " + rigs.map((r) => r.name).join(", ");
+      supplyEl.appendChild(hint);
+    }
+    const deck = document.createElement("p");
+    deck.className = "caption";
+    deck.textContent = `${state.itemDeckLeft || 0} cards left in the search deck.`;
+    supplyEl.appendChild(deck);
+  }
+
   function renderParty(state) {
     party.replaceChildren();
     for (const c of state.characters) {
@@ -307,10 +343,14 @@
       drawMap(game.getState());
       return;
     }
-    if (a.needsTarget === "adjacent") {
+    if (a.needsTarget === "adjacent" || a.needsTarget === "here_or_adjacent") {
       const adj = TremorsEngine.neighbors(c.location, new Set(state.blocked));
-      pendingAction = { type: a.type, targets: adj };
-      mapHint.textContent = "Click an adjacent node for the diversion.";
+      const targets = a.needsTarget === "here_or_adjacent" ? [c.location, ...adj] : adj;
+      pendingAction = { type: a.type, item: a.item, rig: a.rig, targets };
+      mapHint.textContent =
+        a.needsTarget === "here_or_adjacent"
+          ? "Click this node or an adjacent one."
+          : "Click an adjacent node.";
       drawMap(game.getState());
       return;
     }
@@ -430,6 +470,7 @@
     renderMeters(state);
     drawMap(state);
     renderParty(state);
+    renderSupply(state);
     renderGraboids(state);
     renderObjectives(state);
     renderLog(state);

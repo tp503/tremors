@@ -2,7 +2,7 @@
 
 Cooperative board-game prototype based on the 1990 film. One table, one death, everyone loses.
 
-This repository is the dedicated home for the game. The design started as a [ChatGPT conversation](https://chatgpt.com/share/6a848aab-4a20-83eb-a0a1-aeb7af2477d3); the full thread is archived in [`docs/design-conversation.md`](docs/design-conversation.md). Compiled rules: [`docs/rules.md`](docs/rules.md).
+This repository is the dedicated home for the game. The design started as a [ChatGPT conversation](https://chatgpt.com/share/6a848aab-4a20-83eb-a0a1-aeb7af2477d3); the full thread is archived in [`docs/design-conversation.md`](docs/design-conversation.md). The prior Cloud Agent thread (chase, pacing, items) is archived in [`docs/prior-agent-conversation.md`](docs/prior-agent-conversation.md). Compiled rules: [`docs/rules.md`](docs/rules.md).
 
 ## Play
 
@@ -14,7 +14,7 @@ python -m http.server 8000
 
 Then go to `http://localhost:8000/`.
 
-You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Every action is at least 1 Noise unless Rhonda hasn't moved this turn or you spend a Quiet Move token. Graboids surface on Hunt 2 and chase the nearest character. First catch is Threatened; the same worm catching again is Grabbed.
+You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Every action is at least 1 Noise unless Rhonda hasn't moved this turn or you spend a Quiet Move token. Graboids surface on Hunt 2 and chase the nearest character. First catch is Threatened; the same worm catching again is Grabbed. Search fills a shared item supply; two items can be rigged into a Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, or Field Generator.
 
 ## Tests
 

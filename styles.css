@@ -212,6 +212,10 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
 .badge.ok { background: var(--sage); }
 
 .graboids { font-size: 13px; }
+
+.supply { font-size: 13px; display: flex; flex-direction: column; gap: 6px; }
+.supply-row b { display: block; }
+.supply-row div { color: #6a4e32; }
 .graboid {
   padding: 6px 8px;
   margin-bottom: 6px;
