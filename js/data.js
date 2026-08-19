@@ -6,20 +6,28 @@ const TREMORS_DATA = {
   startingRescueTokens: 3,
   startingMedicalKits: 2,
   startingNoiseLimit: 6,
-  huntSurface: 3,
+  huntSurface: 2,
 
   noiseBands: [
-    { id: "quiet", min: 0, max: 3, label: "Quiet" },
-    { id: "disturbed", min: 4, max: 7, label: "Disturbed" },
-    { id: "frenzy", min: 8, max: 99, label: "Frenzy" },
+    { id: "quiet", min: 0, max: 8, label: "Quiet" },
+    { id: "disturbed", min: 9, max: 14, label: "Disturbed" },
+    { id: "frenzy", min: 15, max: 99, label: "Frenzy" },
   ],
 
   responseTable: [
-    { min: 0, max: 3, id: "quiet", label: "Quiet", effect: "No extra Graboid response." },
-    { min: 4, max: 6, id: "movement", label: "Movement", effect: "Graboids move 1 sector toward the loudest noise." },
-    { min: 7, max: 9, id: "hunting", label: "Hunting", effect: "Graboids move and gain +1 Hunt." },
-    { min: 10, max: 12, id: "frenzy", label: "Feeding Frenzy", effect: "Graboids activate twice or a new one enters." },
-    { min: 13, max: 99, id: "stampede", label: "Stampede", effect: "A new Graboid enters and all hunt aggressively." },
+    { min: 0, max: 8, id: "quiet", label: "Quiet", effect: "No extra Graboid response." },
+    { min: 9, max: 11, id: "movement", label: "Movement", effect: "Graboids move toward prey / loudest noise." },
+    { min: 12, max: 14, id: "hunting", label: "Hunting", effect: "Graboids move and gain +1 Hunt." },
+    { min: 15, max: 19, id: "frenzy", label: "Feeding Frenzy", effect: "Graboids activate twice or a new one enters." },
+    { min: 20, max: 99, id: "stampede", label: "Stampede", effect: "A new Graboid enters and all hunt aggressively." },
+  ],
+
+  rigs: [
+    { id: "pipe_bomb", name: "Pipe Bomb", text: "Wound a surfaced Graboid at your node or adjacent. +4 Noise." },
+    { id: "tripwire", name: "Tripwire Bait", text: "Place bait on a node. The next Graboid to enter takes 1 wound and +3 Noise." },
+    { id: "fire_bomb", name: "Fire Bomb", text: "Force a surfaced Graboid at your node to submerge at Hunt 1. +5 Noise." },
+    { id: "line_rescue", name: "Line Rescue", text: "Pull a grabbed or threatened character from an adjacent node onto yours." },
+    { id: "field_gen", name: "Field Generator", text: "Dump 2 Noise from this node and the round total." },
   ],
 
   nodes: [

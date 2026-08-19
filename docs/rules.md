@@ -6,7 +6,7 @@ Compiled from the design conversation (noise as a shared resource, two-phase esc
 
 - **Everyone escapes alive = win.**
 - **One survivor dies = game over.**
-- Phase 1 win: complete every Essential objective, then Evacuate, or still have them done when round 12 ends.
+- Phase 1 win: complete every Essential objective, then **Evacuate from round 8+**, or still have them done when round 12 ends.
 - Death comes from being **Dragged underground** after a failed rescue, or from **Critical** bleeding out.
 
 ## Players
@@ -32,28 +32,32 @@ Each character has two passive abilities and **one Signature Moment** (once per 
 
 ## Turn structure (Phase 1, 12 rounds)
 
-Each character: **2 actions** (1 if Injured, 0 if Critical / Grabbed except Struggle).
+Each character: **2 actions** (1 if Injured or Grabbed, 0 if Critical). Grabbed's action is **Struggle**.
+
+**Every action is at least 1 Noise**, unless Rhonda has not moved this turn (Don't Move) or you spend a Quiet Move token.
 
 Typical actions:
 
 | Action | Noise |
 | --- | --- |
-| Move carefully (1 space) | 0 |
+| Move carefully (1 space) | +1 |
 | Move (up to Movement) | +1 |
 | Run | +2 |
-| Search | +1 |
-| Work an objective | as printed |
+| Quiet Move token | 0 |
+| Search | +1 (d6 + Search + node.search ≥ 9) |
+| Work an objective | max(1, printed) |
 | Diversion on an adjacent node | +3 |
 | Fight | +3, more with heavy guns |
-| Rescue | +2 and spend a Rescue token |
-| Stay quiet | 0, dump remaining actions |
+| Rescue | +2, spend a Rescue token, pull one node clear |
+| Struggle | +1, pull one node clear |
+| Stay quiet | +1, dump remaining actions |
 
 After all four characters act:
 
 1. Sum **Noise this round**.
-2. **Graboid response** from the total.
-3. If the round is **4, 7, 9, 11, or 12**, draw a **Calamity**. Severity is Quiet (0–3) / Disturbed (4–7) / Frenzy (8+).
-4. Critical timers tick. Location noise **decays by 1**. Round noise resets.
+2. **Graboid response** from the total. Surfaced worms chase the nearest character.
+3. If the round is **4, 7, 9, 11, or 12**, draw a **Calamity**. Severity is Quiet (0–8) / Disturbed (9–14) / Frenzy (15+).
+4. Critical timers tick. Location noise **decays by 1**. Round noise resets. A surfaced Graboid that misses two rounds submerges at Hunt 1.
 
 ## Noise and Graboids
 
@@ -64,15 +68,15 @@ Hunt track (underground token):
 - Sector noise 1–4: +1 Hunt
 - 5–7: +2 Hunt
 - 8+: +3 Hunt
-- Hunt 3: **Surface** at the **loudest node in that sector**. Ties pick at random.
+- Hunt 2: **Surface** at the **loudest node in that sector**. Ties pick at random.
 
 Response table (round total):
 
-- 0–3 Quiet
-- 4–6 Movement (shift toward loudest noise)
-- 7–9 Hunting (move and extra Hunt)
-- 10–12 Feeding Frenzy (double activation)
-- 13+ Stampede (another Graboid enters)
+- 0–8 Quiet
+- 9–11 Movement
+- 12–14 Hunting (move and extra Hunt)
+- 15–19 Feeding Frenzy (double activation)
+- 20+ Stampede (another Graboid enters)
 
 Killing a surfaced Graboid requires **2 wounds** and immediately generates **+6 Noise**.
 
@@ -80,9 +84,9 @@ Killing a surfaced Graboid requires **2 wounds** and immediately generates **+6 
 
 Sharing a surfaced Graboid's node is a problem the table cannot ignore:
 
-1. **Threatened** — still mobile; leave before the next activation.
-2. **Grabbed** — incapacitated; spend a **Rescue token** (3 for the whole game) or they are gone next activation.
-3. **Dragged** — dead. Everyone loses.
+1. **Threatened** — first catch by that worm; still mobile. Leave.
+2. **Grabbed** — the **same** worm catching you again. Keep 1 action (Struggle). Rescue or Struggle pulls one node clear.
+3. **Dragged** — a further catch while Grabbed. Dead. Everyone loses.
 
 Attacks are a d6 (miss / knockdown / pinned / grabbed). Burt may burn equipment once per round to cancel an attack at his node (**Prepared for Anything**).
 
@@ -100,7 +104,7 @@ Work them on-site. Failure is not "lose immediately" — it changes the board (b
 
 ## Phase 2 (not fully built)
 
-The conversation's second board is the valley fold-out: sand 0 / dirt 1 / rocks 2 / road 2 / vehicle 4, extraction on high ground, loader as lifeboat. This prototype stops at a successful **Evacuate** from town.
+The conversation's second board is the valley fold-out: sand 0 / dirt 1 / rocks 2 / road 2 / vehicle 4, extraction on high ground, loader as lifeboat. **Evacuate** is only legal from **round 8+**, with essentials done and nobody grabbed or dead. This prototype stops at a successful Evacuate from town. Shared **rigs** (Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, Field Generator) come from Search.
 
 ## What the prototype is for
 

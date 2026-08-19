@@ -176,11 +176,11 @@
 
     const meter = document.getElementById("noiseMeter");
     meter.replaceChildren();
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 20; i++) {
       const s = document.createElement("span");
       if (i < state.noiseThisRound) {
         s.classList.add("on");
-        s.classList.add(i < 4 ? "quiet" : i < 8 ? "disturbed" : "frenzy");
+        s.classList.add(i < 9 ? "quiet" : i < 15 ? "disturbed" : "frenzy");
       }
       meter.appendChild(s);
     }
@@ -191,6 +191,7 @@
     document.getElementById("resQuiet").textContent = state.quietMoves;
     document.getElementById("resDist").textContent = state.distractions;
     document.getElementById("resFuel").textContent = state.fuel;
+    document.getElementById("resStash").textContent = (state.stash || []).length;
     document.getElementById("resAgg").textContent = state.aggression;
   }
 
@@ -228,7 +229,7 @@
       const d = document.createElement("div");
       d.className = "graboid" + (g.surfaced ? " surfaced" : "");
       const loc = g.surfaced ? DATA.nodes.find((n) => n.id === g.node).name : `underground · sector ${g.sector}`;
-      d.innerHTML = `<b>${g.surfaced ? "SURFACED MODEL" : g.id}</b><div>${loc}</div><div>Hunt ${g.hunt}/3 · Wounds ${g.wounds}/2 · sector ${g.sector}</div>`;
+      d.innerHTML = `<b>${g.surfaced ? "SURFACED MODEL" : g.id}</b><div>${loc}</div><div>Hunt ${g.hunt}/${DATA.huntSurface} · Wounds ${g.wounds}/2 · sector ${g.sector}</div>`;
       graboidsEl.appendChild(d);
     }
   }
