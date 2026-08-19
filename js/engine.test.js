@@ -84,12 +84,10 @@ test("graboid surfaces at the loudest node in its sector", () => {
   graboid.hunt = 2;
   graboid.surfaced = false;
   g.locationNoise.store = 1;
-  g.locationNoise.bar = 1;
-  g.locationNoise.clinic = 6;
-  g.locationNoise.school = 2;
+  g.locationNoise.school = 6;
   g.surface(graboid);
   assert.equal(graboid.surfaced, true);
-  assert.equal(graboid.node, "clinic");
+  assert.equal(graboid.node, "school");
 });
 
 test("tied noise uses rng rather than a fixed node", () => {
@@ -99,13 +97,11 @@ test("tied noise uses rng rather than a fixed node", () => {
     const graboid = g.graboids[0];
     graboid.sector = "B";
     g.locationNoise.store = 4;
-    g.locationNoise.bar = 4;
-    g.locationNoise.clinic = 0;
-    g.locationNoise.school = 0;
+    g.locationNoise.school = 4;
     g.surface(graboid);
   }
-  assert.ok(["store", "bar"].includes(a.graboids[0].node));
-  assert.ok(["store", "bar"].includes(b.graboids[0].node));
+  assert.ok(["store", "school"].includes(a.graboids[0].node));
+  assert.ok(["store", "school"].includes(b.graboids[0].node));
 });
 
 test("first catch is Threatened", () => {
@@ -169,7 +165,7 @@ test("miss 2 rounds submerges at Hunt 1", () => {
   const g = fresh(8);
   const graboid = g.graboids[0];
   graboid.surfaced = true;
-  graboid.node = "mountain_road";
+  graboid.node = "radio";
   graboid.hunt = 3;
   graboid.caughtThisRound = false;
   g.characters.forEach((c) => {
@@ -453,10 +449,40 @@ test("calamity 30 frenzy fails unfinished essentials and can end the game", () =
   assert.equal(g.gameOver, "loss");
 });
 
-test("DATA has 18 nodes, 30 calamities, 4 characters", () => {
-  assert.equal(DATA.nodes.length, 18);
+test("DATA has 14 town nodes, 30 calamities, 4 characters", () => {
+  assert.equal(DATA.nodes.length, 14);
   assert.equal(DATA.calamities.length, 30);
   assert.equal(DATA.characters.length, 4);
+});
+
+test("every route endpoint and solid rock node exists", () => {
+  const ids = new Set(DATA.nodes.map((n) => n.id));
+  for (const [a, b] of DATA.routes) {
+    assert.ok(ids.has(a), `route endpoint ${a}`);
+    assert.ok(ids.has(b), `route endpoint ${b}`);
+  }
+  for (const s of DATA.solidRockNodes) assert.ok(ids.has(s), `solid rock ${s}`);
+});
+
+test("all objective locations exist on the town board", () => {
+  const ids = new Set(DATA.nodes.map((n) => n.id));
+  const all = [...DATA.objectives.essential, ...DATA.objectives.optional, ...DATA.objectives.character];
+  for (const o of all) assert.ok(ids.has(o.location), `${o.id} at ${o.location}`);
+});
+
+test("solid rock prevents surfacing once revealed", () => {
+  const g = fresh(15);
+  g.solidRockKnown = true;
+  const graboid = g.graboids[0];
+  graboid.sector = "C";
+  graboid.surfaced = false;
+  DATA.nodes.filter((n) => n.sector === "C").forEach((n) => {
+    g.locationNoise[n.id] = 0;
+  });
+  g.locationNoise.water = 5;
+  g.surface(graboid);
+  assert.equal(graboid.surfaced, false);
+  assert.equal(graboid.hunt, 2);
 });
 
 test("location noise decays by 1 each round", () => {
@@ -496,6 +522,7 @@ test("turn order is Val then Earl then Rhonda then Burt", () => {
 test("work on a 0-printed objective still makes 1 noise unless Don't Move", () => {
   const g = fresh(10);
   const obj = g.objectives.find((o) => o.kind === "essential");
+  obj.location = "school"; // neutral ground: no metal/noisy node modifier
   g.char("val").location = obj.location;
   obj.work = 2;
   obj.noise = 0;
@@ -504,4 +531,4 @@ test("work on a 0-printed objective still makes 1 noise unless Don't Move", () =
 });
 
 console.log(`\n${passed} engine tests passed.`);
-assert.equal(passed, 42, `expected 42 tests, got ${passed}`);
+assert.equal(passed, 45, `expected 45 tests, got ${passed}`);

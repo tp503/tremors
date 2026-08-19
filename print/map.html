@@ -120,7 +120,7 @@
     <div class="toolbar no-print">
       <div>
         <h1>Tremors: Perfection — printable map</h1>
-        <p>Phase 1 hybrid board. Landscape letter / A4. Use Print → Save as PDF if you want a file.</p>
+        <p>Phase 1: the town. Landscape letter / A4. Use Print → Save as PDF if you want a file.</p>
       </div>
       <div>
         <a href="../index.html">Back to game</a>
@@ -129,14 +129,14 @@
     </div>
 
     <article class="sheet">
-      <p class="kicker">Phase 1 prototype · town + valley landmarks on one graph</p>
-      <h2>Perfection, Nevada</h2>
-      <p style="margin:0 0 8px;font-size:12px;">North is the cliffs. South is the Bixby Road. This is not a separate valley fold-out — it is the playable Phase 1 board.</p>
+      <p class="kicker">Phase 1 · the town of Perfection</p>
+      <h2>Perfection, Nevada — Main Street</h2>
+      <p style="margin:0 0 8px;font-size:12px;">Town only. Main Street runs north–south: Nestor at the north end, Chang’s on the west side with the water tower beside it, the yard and the Bixby Road to the south. The valley (cliffs, Edgar’s pylon, Old Fred’s, the aqueduct, the pole-vault rocks) is the Phase 2 fold-out.</p>
       <div class="layout">
-        <svg id="board" viewBox="-4 -4 108 108" role="img" aria-label="Printable map of Perfection"></svg>
+        <svg id="board" viewBox="-4 -4 108 108" role="img" aria-label="Printable town map of Perfection"></svg>
         <aside class="legend">
           <h3>What this is</h3>
-          <p>One node-and-route map. Town buildings sit in the middle. Film valley landmarks (Edgar’s pylon, Old Fred’s, the aqueduct, the Cat, the Bixby Road, the north cliffs) are compressed onto the same graph so the simulated balance is unchanged.</p>
+          <p>The playable Phase 1 board: fourteen town nodes. Outlying film locations arrive as calamity news (the dead sheep, Edgar) instead of map spaces, and return as terrain in Phase 2.</p>
           <h3>Sectors (underground)</h3>
           <p><span class="swatch" style="background:#d9c08a"></span>A North Range<br>
              <span class="swatch" style="background:#c9b07a"></span>B Town Centre<br>
@@ -155,7 +155,7 @@
     </article>
 
     <article class="sheet">
-      <p class="kicker">Gazetteer · same 18 nodes</p>
+      <p class="kicker">Gazetteer · the 14 town nodes</p>
       <h2>Locations</h2>
       <table id="gazetteer">
         <thead>
@@ -180,18 +180,20 @@
       const byId = Object.fromEntries(DATA.nodes.map((n) => [n.id, n]));
 
       const labelNudge = {
-        store: [0, -1.2],
-        bar: [0, -0.6],
-        school: [0, 0.4],
-        clinic: [1.6, 0],
-        fuel: [-1.2, 0.4],
-        workshop: [-1.4, 0.6],
-        caterpillar: [2.2, 0.4],
-        aqueduct: [-1.6, 0.8],
-        highway: [0, 1.4],
-        mountain_road: [0, -0.4],
-        radio: [-1.8, -0.4],
-        edgar: [1.8, -0.4],
+        store: [-1.2, -0.4],
+        water: [-2.4, 0],
+        school: [0.8, 0.4],
+        clinic: [2.0, 0.2],
+        fuel: [-1.6, 0.4],
+        workshop: [-1.6, 0.4],
+        caterpillar: [2.4, 0.4],
+        highway: [0, 1.2],
+        radio: [0, -0.2],
+        trailer: [-1.6, -0.2],
+        bar: [1.6, -0.2],
+        rhonda: [1.6, 0],
+        burt: [-0.8, 0.4],
+        nancy: [1.2, -0.4],
       };
 
       function el(name, attrs, text) {
@@ -202,8 +204,8 @@
       }
 
       const compass = el("g", { "font-family": "Georgia, serif", "font-size": "3.2", fill: "#3a2418" });
-      compass.appendChild(el("text", { x: 96, y: 3.2, "text-anchor": "end", "font-weight": "700" }, "N  cliffs"));
-      compass.appendChild(el("text", { x: 96, y: 102.4, "text-anchor": "end", "font-weight": "700" }, "S  Bixby →"));
+      compass.appendChild(el("text", { x: 96, y: 3.2, "text-anchor": "end", "font-weight": "700" }, "N · cliffs beyond"));
+      compass.appendChild(el("text", { x: 96, y: 102.4, "text-anchor": "end", "font-weight": "700" }, "S · Bixby 38 mi"));
       svg.appendChild(compass);
 
       const routes = el("g", {});
@@ -244,23 +246,19 @@
 
       const tbody = document.querySelector("#gazetteer tbody");
       const film = {
-        mountain_road: "Northern granite rim; last Graboid stampedes over the edge.",
-        radio: "Phone poles toward Bixby. The line dies when the road crew does.",
-        edgar: "Electrical pylon. Edgar climbed it and died of thirst.",
-        ranch: "Old Fred’s garden and sheep. First massacre.",
-        rhonda: "Seismograph camp. Readings are not earthquakes.",
+        radio: "Telephone poles along Main Street. The line dies when the road crew does.",
+        rhonda: "Seismograph camp at the town edge. Readings are not earthquakes.",
         burt: "Hilltop compound. Basement breach; gun-wall kill; bombs.",
         store: "Chang’s Market: store, tavern, post office, siege hub. Walter dies here.",
         bar: "Melvin’s mobile home and rusted Quonset, across the street from Chang’s.",
-        clinic: "Jim & Megan’s half-built house. Buried station wagon.",
+        clinic: "Jim & Megan’s half-built house on the Bixby road. Buried station wagon.",
         nancy: "Nancy and Mindy. Rooftop jump.",
         fuel: "Pumps and tin sheds. Fuel for the Cat.",
-        water: "Tallest structure in town.",
-        school: "Horse corral. Val and Earl borrow the horses here.",
-        trailer: "Nestor’s fenced trailer. Pulled through the floor.",
-        workshop: "Garbage dump / salvage.",
-        caterpillar: "Junkyard. The Caterpillar and earth-mover trailer.",
-        aqueduct: "Concrete culvert. First full Graboid rams the wall and dies.",
+        water: "Tallest structure in town, beside Chang’s.",
+        school: "The set’s horse corral. Val and Earl borrow the horses here.",
+        trailer: "Nestor’s fenced trailer at the north end. Pulled through the floor.",
+        workshop: "Garbage dump over the old company foundations.",
+        caterpillar: "Junkyard. The Caterpillar, its trailer, and a concrete pad.",
         highway: "Only paved road south. Rockslide seals the valley.",
       };
       for (const n of DATA.nodes) {

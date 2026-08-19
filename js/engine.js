@@ -1447,7 +1447,7 @@ const TremorsEngine = (() => {
         this.unsafe.add(c.location);
         return;
       }
-      if (this.solidRockKnown && (c.location === "aqueduct" || c.location === "mountain_road")) {
+      if (this.solidRockKnown && (DATA.solidRockNodes || []).includes(c.location)) {
         this.note("Solid rock. The Graboid shears off.");
         return;
       }
@@ -1525,7 +1525,7 @@ const TremorsEngine = (() => {
         } else if (v === best) tops.push(n.id);
       }
       if (this.solidRockKnown) {
-        const filtered = tops.filter((id) => id !== "aqueduct" && id !== "mountain_road");
+        const filtered = tops.filter((id) => !(DATA.solidRockNodes || []).includes(id));
         if (filtered.length) return filtered[Math.floor(this.rng() * filtered.length)];
       }
       return tops[Math.floor(this.rng() * tops.length)];
@@ -1626,7 +1626,7 @@ const TremorsEngine = (() => {
       const baited = Boolean(node);
       if (baited) this.baitNode = null;
       else node = this.loudestNodeInSector(g.sector);
-      if (!baited && this.solidRockKnown && (node === "aqueduct" || node === "mountain_road")) {
+      if (!baited && this.solidRockKnown && (DATA.solidRockNodes || []).includes(node)) {
         this.note(`${g.id} tries to surface on solid rock and shears away.`);
         g.hunt = 2;
         return;
@@ -1785,14 +1785,14 @@ const TremorsEngine = (() => {
         case 4:
           if (band === "frenzy") {
             this.aggression += 1;
-            this.tremors.ranch += 1;
+            this.tremors.school += 1;
             this.noiseLimit = Math.max(4, DATA.startingNoiseLimit - this.aggression);
           }
           if (band === "disturbed") this.quietMoves = Math.max(0, this.quietMoves - 1);
           break;
         case 5:
           if (band === "disturbed") this.desperation += 1;
-          if (band === "frenzy") this.unsafe.add("edgar");
+          if (band === "frenzy") this.unsafe.add("radio");
           else this.note("Clue: Graboids cannot climb. Towers are grab-safe.");
           break;
         case 6:
@@ -1942,7 +1942,7 @@ const TremorsEngine = (() => {
           }
           break;
         case 23:
-          this.blockRoute("school", "trailer");
+          this.blockRoute("school", "caterpillar");
           if (band !== "quiet") this.blockRoute("workshop", "highway");
           if (band === "frenzy") {
             const g = this.graboids.find((x) => x.sector === "E") || this.graboids[0];
@@ -2002,7 +2002,7 @@ const TremorsEngine = (() => {
           if (band === "frenzy") this.loaderDamaged = true;
           break;
         case 29:
-          this.blockRoute("highway", "aqueduct");
+          this.blockRoute("highway", "clinic");
           if (band !== "quiet") this.blockRoute("highway", "caterpillar");
           if (band === "frenzy") this.urgentEssentials = true;
           break;

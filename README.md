@@ -12,7 +12,7 @@ Open `index.html` in a browser, or:
 python -m http.server 8000
 ```
 
-Then go to `http://localhost:8000/`. Printable board: `http://localhost:8000/print/map.html` (landscape letter / A4).
+Then go to `http://localhost:8000/`. Printable **town** board: `http://localhost:8000/print/map.html` (landscape letter / A4), also `print/perfection-map.pdf`.
 
 You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Every action is at least 1 Noise unless Rhonda hasn't moved this turn or you spend a Quiet Move token. Graboids surface on Hunt 2 and chase the nearest character. First catch is Threatened; the same worm catching again is Grabbed. Search fills a shared item supply; two items can be rigged into a Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, or Field Generator.
 
@@ -25,4 +25,4 @@ node js/simulate.js 20
 
 ## Status
 
-Phase 1 (Perfection, 12-round calamity clock) is playable with the unpublished ruleset: Quiet ≤8 / Disturbed 9–14 / Frenzy 15+, Evacuate from round 8+. Phase 2 (valley fold-out) is specified in the design conversation, not built.
+Phase 1 is **the town of Perfection** (14 nodes, 12-round calamity clock) with the unpublished ruleset: Quiet ≤8 / Disturbed 9–14 / Frenzy 15+, Evacuate from round 8+. Valley landmarks (cliffs, Edgar’s pylon, Old Fred’s, the aqueduct, pole-vault rocks) are reserved for Phase 2 and are not on this board.

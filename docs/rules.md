@@ -24,19 +24,21 @@ Each character has two passive abilities and **one Signature Moment** (once per 
 
 ## Map
 
-**Node-and-route map**, not hexes. Eighteen named locations in five underground **sectors** (A north, B centre, C west, D east, E south). Names follow the 1990 film (see `docs/film-geography.md`); the board compresses the film's southern Bixby-road locations into a ring around town.
+**Node-and-route map**, not hexes. **Phase 1 is the town only**: fourteen locations in five underground **sectors**, laid out on the film's north–south Main Street (Nestor at the north end, Chang's on the west side with the water tower beside it). Names follow the 1990 film (see `docs/film-geography.md`). Outlying film locations (Edgar's pylon, Old Fred's ranch) arrive as calamity news, not map spaces; the valley itself is the Phase 2 fold-out.
 
 - Graboid **tokens** occupy a **sector**.
 - When a Graboid **surfaces**, a **model** is placed on a **node**.
-- Routes can be blocked by calamities. Buildings protect until Compromised or Unsafe. Towers cannot be grabbed. Solid Rock (Aqueduct / North Cliffs) can be revealed by an objective.
+- Routes can be blocked by calamities. Buildings protect until Compromised or Unsafe. Towers cannot be grabbed. Solid Rock (the Junkyard pad and the Water Tower footing) can be revealed by an objective.
 
 | Sector | Nodes |
 | --- | --- |
-| A north | North Cliffs, Telephone Line, Edgar's Pylon, Old Fred's Ranch |
-| B centre | Chang's Market, Melvin's Place, Jim & Megan's, Horse Corral |
+| A north street | Telephone Line, Nestor's Trailer, Melvin's Place |
+| B market block | Chang's Market, Horse Corral |
 | C west | Burt & Heather's, Gas Pumps, Water Tower |
-| D east | Rhonda's Camp, Nancy's House, Nestor's Trailer |
-| E south | Garbage Dump, Junkyard (Caterpillar), Concrete Aqueduct, Bixby Road |
+| D east | Rhonda's Camp, Nancy's House, Jim & Megan's |
+| E south yard | Garbage Dump, Junkyard (Caterpillar), Bixby Road |
+
+Printable copy: `print/map.html` (landscape letter / A4), also `print/perfection-map.pdf`.
 
 ## Turn structure (Phase 1, 12 rounds)
 
@@ -141,7 +143,7 @@ Tripwire Bait is the signature play: it turns the Hunt rule into a tool.
 
 ## Phase 2 (not fully built)
 
-The conversation's second board is the valley fold-out: sand 0 / dirt 1 / rocks 2 / road 2 / vehicle 4, extraction on high ground, loader as lifeboat. **Evacuate** is only legal from **round 8+**, with essentials done and nobody grabbed or dead. This prototype stops at a successful Evacuate from town.
+The conversation's second board is the valley fold-out: sand 0 / dirt 1 / rocks 2 / road 2 / vehicle 4, extraction on high ground, loader as lifeboat. Its landmarks are already researched and reserved: the **North Cliffs**, **Edgar's Pylon**, **Old Fred's Ranch**, the **Concrete Aqueduct**, and the pole-vault rocks (see `docs/film-geography.md`). **Evacuate** is only legal from **round 8+**, with essentials done and nobody grabbed or dead. This prototype stops at a successful Evacuate from town.
 
 ## What the prototype is for
 

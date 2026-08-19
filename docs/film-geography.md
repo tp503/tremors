@@ -2,7 +2,7 @@
 
 Research notes for the prototype map. **Primary source is Tremors (1990).** Later films and the TV series rebuilt the town on other lots; they are marked when used. Production facts come from Stampede Entertainment (S. S. Wilson / Brent Maddock FAQ) and production designer Ivo Cristante.
 
-This is **not** a claim that the current node map matches the film. Several prototype nodes are composites or inventions. See [Prototype vs film](#prototype-vs-film) at the end.
+Phase 1 is a **town-only** board of 14 nodes, laid out on the film set's north–south Main Street. Valley landmarks are researched here and reserved for Phase 2; they are not on the playable map. See [Board mapping](#board-mapping) for how the live nodes line up.
 
 ## Valley shape (the box canyon)
 
@@ -99,14 +99,14 @@ These are the “islands” the movie is built around. Wilson’s origin note: s
 
 | Place | What it is | Major movie events |
 | --- | --- | --- |
-| **Concrete aqueduct / culvert** | Hard-walled irrigation ditch. | First time the full Graboid is seen. It chases Val and Earl off the horses and **rams the concrete**, killing itself. Rhonda walks up on the aftermath and reads **three more** on her seismographs. Prototype node `aqueduct` is this scene. |
+| **Concrete aqueduct / culvert** | Hard-walled irrigation ditch. | First time the full Graboid is seen. It chases Val and Earl off the horses and **rams the concrete**, killing itself. Rhonda walks up on the aftermath and reads **three more** on her seismographs. Reserved for Phase 2. |
 | **Pole-vault boulder field** | Cluster of rocks. Most were **fake** (chicken-wire / stucco) so the gaps matched the stunt. | Overnight trap: Val, Earl, Rhonda realize the worms hunt **vibration**. They find discarded poles and vault rock-to-rock to Rhonda’s truck. This is the film’s premise made literal. |
 | **Rhonda’s truck / seismograph stations** | Truck plus geophones scattered valley-wide. | Escape vehicle after the vault. Later unused as a jeep-trail taxi (FAQ: that would end the movie). |
 | **Open desert between town and mountains** | Soft ground. | Survivors try the **Cat + trailer**. Graboids **cooperate** and dig a pit trap; the loader drops in. Stuntwoman sprained an ankle jumping into the bucket. |
 | **Second boulder refuge** | After the Cat dies. | Earl’s plan: homemade **pipe bombs**. One Graboid swallows and dies. The last **spits a bomb back** and wrecks the stockpile. |
 | **North cliffs / climax wall** | End of the box canyon. Fake rock face built for the Sierra Nevada backdrop. | Val uses the last bomb as a noisemaker and **stampedes** the last Graboid over/through the cliff. It cannot stop because it is in pain (Wilson: echolocation normally would have “seen” the drop). |
 | **Mountain jeep trails** | Barely passable paths in the east/west granite. | Discussed, never used. Graboids cannot follow onto rock. |
-| **“Radio tower”** | **Not in T-1 as a manned landmark.** Edgar’s death is an **electrical pylon**. A radio appears as the rooftop set and as Burt’s comms. | Prototype `radio` node is a composite of Edgar’s pole + “get the radio working.” |
+| **“Radio tower”** | **Not in T-1 as a manned landmark.** Edgar’s death is an **electrical pylon**. A radio appears as the rooftop set and as Burt’s comms. | Phase 1 `radio` is the telephone line / “get the radio working.” Edgar’s pylon is off-board until Phase 2. |
 
 ---
 
@@ -129,36 +129,46 @@ These are the “islands” the movie is built around. Wilson’s origin note: s
 
 ## Board mapping
 
-The board was corrected against this research **without changing the graph**: every node id, route, sector, and stat is unchanged from the simulated build, so the ~44% turtle win rate still applies. Only names, notes, and card text moved. Two deliberate compressions remain and are listed after the table.
+Phase 1 is **Perfection town only**: 14 nodes. Valley landmarks are reserved for a later fold-out and are **not** on this board. Remaining node **ids** are kept (engine and objectives still key on them); streets were rewired to the film set.
 
-| Node id | Board name | Film location | Key scene |
-| --- | --- | --- | --- |
-| `store` | Chang’s Market | Chang’s Market (store, tavern, post office) | Siege hub; Walter names the Graboids and dies through the floor |
-| `bar` | Melvin’s Place | Melvin’s mobile home + Quonset, across the street | Fake-Graboid prank; rooftop night |
-| `clinic` | Jim & Megan’s | The doctor’s half-built house | Edgar’s autopsy; buried station wagon |
-| `school` | Horse Corral | The set’s horse corral | Val and Earl borrow the horses; barbed wire |
-| `nancy` | Nancy’s House | Nancy and Mindy’s house | Mindy on the roof |
-| `trailer` | Nestor’s Trailer | Nestor’s fenced trailer | Pulled through the floor standing in a spare tire |
-| `rhonda` | Rhonda’s Camp | Her seismograph stations (mobile) | The readings that predict the worms |
-| `burt` | Burt & Heather’s | Hilltop compound | Basement breach; the gun-wall kill; bomb factory |
-| `ranch` | Old Fred’s Ranch | Old Fred’s garden and sheep pens | First massacre; the severed head |
-| `edgar` | Edgar’s Pylon | The electrical tower | First body; dehydration |
-| `radio` | Telephone Line | The phone poles toward Bixby | Phones die; the town is cut off |
-| `water` | Water Tower | The water tower | Tallest structure in town |
-| `fuel` | Gas Pumps | Pumps and tin sheds | Fuel for the Cat |
-| `workshop` | Garbage Dump | The set’s garbage dump | Salvage; ringing metal |
-| `caterpillar` | Junkyard (Caterpillar) | Junkyard where the Cat sits | The loader escape; pit trap |
-| `aqueduct` | Concrete Aqueduct | The culvert | First full Graboid dies against the wall |
-| `highway` | Bixby Road | The one paved road south | Road crew; rockslide seals the valley |
-| `mountain_road` | North Cliffs | The northern rim and jeep trails | The last Graboid stampedes over the edge |
+| Node id | Board name | Sector | Film location | Key scene |
+| --- | --- | --- | --- | --- |
+| `radio` | Telephone Line | A | Phone poles on Main Street / toward Bixby | Phones die; the town is cut off |
+| `trailer` | Nestor’s Trailer | A | Nestor’s fenced trailer, north of Chang’s | Pulled through the floor standing in a spare tire |
+| `bar` | Melvin’s Place | A | Melvin’s mobile home + Quonset, across the street | Fake-Graboid prank; rooftop night |
+| `rhonda` | Rhonda’s Camp | D | Seismograph camp at the east edge of town | The readings that predict the worms |
+| `water` | Water Tower | C | Water tower beside Chang’s | Tallest structure in town |
+| `store` | Chang’s Market | B | Chang’s Market (store, tavern, post office) | Siege hub; Walter names the Graboids and dies through the floor |
+| `nancy` | Nancy’s House | D | Nancy and Mindy’s house | Mindy on the roof |
+| `burt` | Burt & Heather’s | C | Hilltop compound west of town | Basement breach; the gun-wall kill; bomb factory |
+| `fuel` | Gas Pumps | C | Pumps and tin sheds | Fuel for the Cat |
+| `school` | Horse Corral | B | The set’s horse corral, south of the market | Val and Earl borrow the horses; barbed wire |
+| `clinic` | Jim & Megan’s | D | The doctor’s half-built house on the Bixby road | Edgar’s autopsy; buried station wagon |
+| `workshop` | Garbage Dump | E | The set’s garbage dump | Salvage; ringing metal; company foundations |
+| `caterpillar` | Junkyard (Caterpillar) | E | Junkyard where the Cat sits | The loader escape; pit trap |
+| `highway` | Bixby Road | E | The one paved road south | Road crew; rockslide seals the valley |
 
-Known compressions (accepted to preserve the simulated graph):
+Solid rock (no surface / catch once revealed): Water Tower footing and Junkyard pad (`water`, `caterpillar`).
 
-- **Compass folding.** The film puts Edgar, Old Fred, and Jim & Megan **south** on the Bixby road; the board rings them around town (A and B sectors). The victim trail is preserved as places, not bearings.
-- **Adjacency licence.** The water tower stands beside Chang’s in the film but lives in sector C; Nestor is north of Chang’s in the film but lives in sector D. Moving either would change sector noise pools and hunt behaviour, which the simulations were calibrated on.
-- The `radio` node keeps its tower type (climbable, ungrabbable) — the film equivalent of being treed on a pole is Edgar’s fate.
+**Rewired vs the old hybrid board:** Nestor is north of Chang’s, Melvin across the street, water tower beside Chang’s, Burt west, dump and Cat south, Jim & Megan’s on the Bixby road. Valley ids `mountain_road`, `edgar`, `ranch`, and `aqueduct` were cut. Edgar and Old Fred still arrive as calamity news, not map spaces.
 
-Phase 2 of the design conversation (fold-out valley: dirt vs rock vs road vs vehicle noise) is the pole-vault rocks, Cat run, Burt’s hill, aqueduct, and north cliffs. Those are the film’s actual second board.
+Remaining compressions:
+
+- Burt’s compound is a few miles out in the film; on this board it is the west-hill node so Phase 1 still has a walkable arsenal.
+- Rhonda’s seismographs are valley-wide in the film; her camp sits on the east edge of town so Search still has a home.
+- The `radio` node keeps its tower type (climbable, ungrabbable). The film equivalent of being treed on a pole is Edgar’s fate, which is off-board.
+
+## Phase 2 (not on this board)
+
+| Landmark | Film source |
+| --- | --- |
+| North Cliffs | Graboid breakout and the later cliff-edge stand |
+| Edgar’s Pylon | First kill; pylon with hanging sheep |
+| Old Fred’s Ranch | Fred, the horse, and the barn |
+| Concrete Aqueduct | Storm drain / first full Graboid dies against the wall |
+| Pole-vault rocks | Overnight vibration trap; vault to Rhonda’s truck |
+
+Phase 2 of the design conversation (fold-out valley: dirt vs rock vs road vs vehicle noise) is that second board.
 
 ## Sources
 
