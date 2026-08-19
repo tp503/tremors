@@ -24,11 +24,19 @@ Each character has two passive abilities and **one Signature Moment** (once per 
 
 ## Map
 
-**Node-and-route map**, not hexes. Eighteen named locations in five underground **sectors** (A north, B centre, C west, D east, E south).
+**Node-and-route map**, not hexes. Eighteen named locations in five underground **sectors** (A north, B centre, C west, D east, E south). Names follow the 1990 film (see `docs/film-geography.md`); the board compresses the film's southern Bixby-road locations into a ring around town.
 
 - Graboid **tokens** occupy a **sector**.
 - When a Graboid **surfaces**, a **model** is placed on a **node**.
-- Routes can be blocked by calamities. Buildings protect until Compromised or Unsafe. Towers cannot be grabbed. Solid Rock (Aqueduct / Mountain Road) can be revealed by an objective.
+- Routes can be blocked by calamities. Buildings protect until Compromised or Unsafe. Towers cannot be grabbed. Solid Rock (Aqueduct / North Cliffs) can be revealed by an objective.
+
+| Sector | Nodes |
+| --- | --- |
+| A north | North Cliffs, Telephone Line, Edgar's Pylon, Old Fred's Ranch |
+| B centre | Chang's Market, Melvin's Place, Jim & Megan's, Horse Corral |
+| C west | Burt & Heather's, Gas Pumps, Water Tower |
+| D east | Rhonda's Camp, Nancy's House, Nestor's Trailer |
+| E south | Garbage Dump, Junkyard (Caterpillar), Concrete Aqueduct, Bixby Road |
 
 ## Turn structure (Phase 1, 12 rounds)
 

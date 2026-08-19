@@ -127,27 +127,36 @@ These are the “islands” the movie is built around. Wilson’s origin note: s
 
 ---
 
-## Prototype vs film
+## Board mapping
 
-| Prototype node | Film status |
-| --- | --- |
-| `store` Walter’s Store | Chang’s Market. Correct hub. The game also has a separate `bar`; in T-1 that **is** Chang’s. |
-| `edgar` Edgar’s Tower | Electrical **pylon**, out of town to the south, not a town tower. |
-| `radio` Radio Tower | Composite / invention. Useful for the “phones/radio die” objective. |
-| `nancy` Nancy’s House | Accurate. |
-| `trailer` Nestor’s Trailer | Accurate, and should sit **north of Chang’s on the same street**. |
-| `burt` Burt & Heather’s | Accurate as a **hill node off the street**, not downtown. |
-| `ranch` Miguel’s Ranch | T-1 only implies missing cattle; Miguel is in town. Ranch is later-canon. |
-| `rhonda` Rhonda’s Camp | She is mobile; seismographs are valley-wide. A camp node is fair. |
-| `clinic` | **Not a building.** Jim and Megan’s unfinished house is **south, on the way to Bixby**. |
-| `school` Schoolyard | **Not in T-1.** Stampede joked kids would bus to Bixby. |
-| `fuel` Fuel Depot | Not a named T-1 set. Fuel is implied at the junkyard / trucks. |
-| `water` Water Tower | Accurate; should sit **beside Chang’s**, not out on the west compound. |
-| `workshop` | Composite of odd-job / dump. Fine as a node, not a movie building. |
-| `caterpillar` Caterpillar Yard | Accurate **junkyard / dump** function. |
-| `aqueduct` | Accurate **valley** landmark, not a town block. |
-| `highway` | Accurate: the **blocked south road** to Bixby, not a north mountain road. |
-| `mountain_road` | Jeep-trail / high ground. Film discusses it; they never take it. |
+The board was corrected against this research **without changing the graph**: every node id, route, sector, and stat is unchanged from the simulated build, so the ~44% turtle win rate still applies. Only names, notes, and card text moved. Two deliberate compressions remain and are listed after the table.
+
+| Node id | Board name | Film location | Key scene |
+| --- | --- | --- | --- |
+| `store` | Chang’s Market | Chang’s Market (store, tavern, post office) | Siege hub; Walter names the Graboids and dies through the floor |
+| `bar` | Melvin’s Place | Melvin’s mobile home + Quonset, across the street | Fake-Graboid prank; rooftop night |
+| `clinic` | Jim & Megan’s | The doctor’s half-built house | Edgar’s autopsy; buried station wagon |
+| `school` | Horse Corral | The set’s horse corral | Val and Earl borrow the horses; barbed wire |
+| `nancy` | Nancy’s House | Nancy and Mindy’s house | Mindy on the roof |
+| `trailer` | Nestor’s Trailer | Nestor’s fenced trailer | Pulled through the floor standing in a spare tire |
+| `rhonda` | Rhonda’s Camp | Her seismograph stations (mobile) | The readings that predict the worms |
+| `burt` | Burt & Heather’s | Hilltop compound | Basement breach; the gun-wall kill; bomb factory |
+| `ranch` | Old Fred’s Ranch | Old Fred’s garden and sheep pens | First massacre; the severed head |
+| `edgar` | Edgar’s Pylon | The electrical tower | First body; dehydration |
+| `radio` | Telephone Line | The phone poles toward Bixby | Phones die; the town is cut off |
+| `water` | Water Tower | The water tower | Tallest structure in town |
+| `fuel` | Gas Pumps | Pumps and tin sheds | Fuel for the Cat |
+| `workshop` | Garbage Dump | The set’s garbage dump | Salvage; ringing metal |
+| `caterpillar` | Junkyard (Caterpillar) | Junkyard where the Cat sits | The loader escape; pit trap |
+| `aqueduct` | Concrete Aqueduct | The culvert | First full Graboid dies against the wall |
+| `highway` | Bixby Road | The one paved road south | Road crew; rockslide seals the valley |
+| `mountain_road` | North Cliffs | The northern rim and jeep trails | The last Graboid stampedes over the edge |
+
+Known compressions (accepted to preserve the simulated graph):
+
+- **Compass folding.** The film puts Edgar, Old Fred, and Jim & Megan **south** on the Bixby road; the board rings them around town (A and B sectors). The victim trail is preserved as places, not bearings.
+- **Adjacency licence.** The water tower stands beside Chang’s in the film but lives in sector C; Nestor is north of Chang’s in the film but lives in sector D. Moving either would change sector noise pools and hunt behaviour, which the simulations were calibrated on.
+- The `radio` node keeps its tower type (climbable, ungrabbable) — the film equivalent of being treed on a pole is Edgar’s fate.
 
 Phase 2 of the design conversation (fold-out valley: dirt vs rock vs road vs vehicle noise) is the pole-vault rocks, Cat run, Burt’s hill, aqueduct, and north cliffs. Those are the film’s actual second board.
 
