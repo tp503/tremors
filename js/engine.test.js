@@ -36,7 +36,8 @@ test("noiseBand thresholds", () => {
 
 test("map is connected from store to highway", () => {
   const n = neighbors("store", new Set());
-  assert.ok(n.includes("bar"));
+  assert.ok(n.includes("water"));
+  assert.ok(n.includes("workshop"));
   assert.ok(n.length >= 3);
 });
 
@@ -455,6 +456,23 @@ test("DATA has 14 town nodes, 30 calamities, 4 characters", () => {
   assert.equal(DATA.characters.length, 4);
 });
 
+test("town lots sit on the CaciqueCaribe map", () => {
+  const by = Object.fromEntries(DATA.nodes.map((n) => [n.id, n]));
+  assert.equal(by.trailer.sector, "A");
+  assert.equal(by.nancy.sector, "A");
+  assert.equal(by.bar.sector, "D");
+  assert.ok(by.store.x < 50, "Chang's is west of Main St");
+  assert.ok(by.water.x < 50, "water tower is west of Main St");
+  assert.ok(by.trailer.x < 50, "Nestor is west of Main St");
+  assert.ok(by.nancy.x > 50, "Nancy is east of Main St");
+  assert.ok(by.workshop.x > 50, "junkyard is east of Main St");
+  assert.ok(by.bar.x > 50, "Melvin is east of Main St");
+  assert.ok(by.water.y > by.store.y, "water tower is south of Chang's");
+  assert.ok(by.trailer.y < by.store.y, "Nestor is north of Chang's");
+  assert.ok(by.bar.y > by.workshop.y, "Melvin is south of the junkyard lot");
+  assert.equal((DATA.streets || []).length, 2);
+});
+
 test("every route endpoint and solid rock node exists", () => {
   const ids = new Set(DATA.nodes.map((n) => n.id));
   for (const [a, b] of DATA.routes) {
@@ -531,4 +549,4 @@ test("work on a 0-printed objective still makes 1 noise unless Don't Move", () =
 });
 
 console.log(`\n${passed} engine tests passed.`);
-assert.equal(passed, 45, `expected 45 tests, got ${passed}`);
+assert.equal(passed, 46, `expected 46 tests, got ${passed}`);

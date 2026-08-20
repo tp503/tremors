@@ -131,12 +131,12 @@
     <article class="sheet">
       <p class="kicker">Phase 1 · the town of Perfection</p>
       <h2>Perfection, Nevada — Main Street</h2>
-      <p style="margin:0 0 8px;font-size:12px;">Town only. Main Street runs north–south: Nestor at the north end, Chang’s on the west side with the water tower beside it, the yard and the Bixby Road to the south. The valley (cliffs, Edgar’s pylon, Old Fred’s, the aqueduct, the pole-vault rocks) is the Phase 2 fold-out.</p>
+      <p style="margin:0 0 8px;font-size:12px;">Lots follow CaciqueCaribe’s 2016 Perfection map: Main St north–south, Talcum Ln across, Chang’s west of the street. Burt, Rhonda, and Jim sit off the town lots. The valley is Phase 2.</p>
       <div class="layout">
         <svg id="board" viewBox="-4 -4 108 108" role="img" aria-label="Printable town map of Perfection"></svg>
         <aside class="legend">
           <h3>What this is</h3>
-          <p>The playable Phase 1 board: fourteen town nodes. Outlying film locations arrive as calamity news (the dead sheep, Edgar) instead of map spaces, and return as terrain in Phase 2.</p>
+          <p>Fourteen nodes. Town lots A–L are the 1990 set. Burt’s hill, Rhonda’s camp, and Jim & Megan’s house are walkable satellites the town map omits. Edgar and Old Fred arrive as calamity news.</p>
           <h3>Sectors (underground)</h3>
           <p><span class="swatch" style="background:#d9c08a"></span>A North Range<br>
              <span class="swatch" style="background:#c9b07a"></span>B Town Centre<br>
@@ -180,20 +180,20 @@
       const byId = Object.fromEntries(DATA.nodes.map((n) => [n.id, n]));
 
       const labelNudge = {
-        store: [-1.2, -0.4],
-        water: [-2.4, 0],
-        school: [0.8, 0.4],
-        clinic: [2.0, 0.2],
-        fuel: [-1.6, 0.4],
-        workshop: [-1.6, 0.4],
-        caterpillar: [2.4, 0.4],
-        highway: [0, 1.2],
+        store: [-2.0, -0.2],
+        water: [-2.6, 0.2],
+        school: [0, 0.6],
+        clinic: [2.2, 0.4],
+        fuel: [-2.4, 0.6],
+        workshop: [2.0, -0.2],
+        caterpillar: [2.6, 0.2],
+        highway: [0, 1.4],
         radio: [0, -0.2],
-        trailer: [-1.6, -0.2],
-        bar: [1.6, -0.2],
-        rhonda: [1.6, 0],
-        burt: [-0.8, 0.4],
-        nancy: [1.2, -0.4],
+        trailer: [-2.0, -0.2],
+        bar: [2.2, 0.4],
+        rhonda: [1.8, 0],
+        burt: [-0.6, 0.4],
+        nancy: [2.0, -0.4],
       };
 
       function el(name, attrs, text) {
@@ -207,6 +207,17 @@
       compass.appendChild(el("text", { x: 96, y: 3.2, "text-anchor": "end", "font-weight": "700" }, "N · cliffs beyond"));
       compass.appendChild(el("text", { x: 96, y: 102.4, "text-anchor": "end", "font-weight": "700" }, "S · Bixby 38 mi"));
       svg.appendChild(compass);
+
+      const streets = el("g", {});
+      for (const s of DATA.streets || []) {
+        streets.appendChild(el("line", {
+          x1: s.x1, y1: s.y1, x2: s.x2, y2: s.y2,
+          stroke: "#c4a06a", "stroke-width": "2.6", "stroke-linecap": "round", opacity: "0.7",
+        }));
+      }
+      streets.appendChild(el("text", { x: 52.4, y: 11, "font-size": "2.3", fill: "#6a4a28" }, "Main St"));
+      streets.appendChild(el("text", { x: 77, y: 34.4, "text-anchor": "end", "font-size": "2.3", fill: "#6a4a28" }, "Talcum Ln"));
+      svg.appendChild(streets);
 
       const routes = el("g", {});
       for (const [a, b] of DATA.routes) {
@@ -246,20 +257,20 @@
 
       const tbody = document.querySelector("#gazetteer tbody");
       const film = {
-        radio: "Telephone poles along Main Street. The line dies when the road crew does.",
-        rhonda: "Seismograph camp at the town edge. Readings are not earthquakes.",
-        burt: "Hilltop compound. Basement breach; gun-wall kill; bombs.",
-        store: "Chang’s Market: store, tavern, post office, siege hub. Walter dies here.",
-        bar: "Melvin’s mobile home and rusted Quonset, across the street from Chang’s.",
-        clinic: "Jim & Megan’s half-built house on the Bixby road. Buried station wagon.",
-        nancy: "Nancy and Mindy. Rooftop jump.",
-        fuel: "Pumps and tin sheds. Fuel for the Cat.",
-        water: "Tallest structure in town, beside Chang’s.",
-        school: "The set’s horse corral. Val and Earl borrow the horses here.",
-        trailer: "Nestor’s fenced trailer at the north end. Pulled through the floor.",
-        workshop: "Garbage dump over the old company foundations.",
-        caterpillar: "Junkyard. The Caterpillar, its trailer, and a concrete pad.",
-        highway: "Only paved road south. Rockslide seals the valley.",
+        radio: "Poles on Main St. The line dies when the road crew does.",
+        rhonda: "Off the town lots, east. Seismograph camp; readings are not earthquakes.",
+        burt: "Off the town lots, west. Hilltop compound. Basement breach; gun-wall kill; bombs.",
+        store: "Map B. Chang’s Market west of Main St. Store, tavern, post office, siege hub. Walter dies here.",
+        bar: "Map I+H. Melvin’s trailer south of the Quonset, SE of Main St. Play shack C is across the street.",
+        clinic: "Off the town lots. Jim & Megan’s half-built house on the Bixby road.",
+        nancy: "Map F. Nancy and Mindy, NE of Main St, north of Talcum Ln. Cottage E behind it. Rooftop jump.",
+        fuel: "Map L. Walter’s trailer south of the water tower; pumps and tin sheds on the same pad.",
+        water: "Map A. Immediately south of Chang’s, west of Main St.",
+        school: "South of the town lots on Main St. Val and Earl’s trailers (J, K) are the SW lots just north.",
+        trailer: "Map D. Nestor’s fenced trailer, NW, west of Main St. Pulled through the floor.",
+        workshop: "Map G. Fenced junkyard east of Main St, south of Talcum Ln.",
+        caterpillar: "CAT + earth-mover trailer parked east of the Quonset.",
+        highway: "South end of Main St. Perfection sign, then Bixby. Rockslide seals the valley.",
       };
       for (const n of DATA.nodes) {
         const tr = document.createElement("tr");

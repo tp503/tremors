@@ -37,6 +37,35 @@
     const ns = "http://www.w3.org/2000/svg";
     svg.replaceChildren();
 
+    const streets = document.createElementNS(ns, "g");
+    for (const s of DATA.streets || []) {
+      const road = document.createElementNS(ns, "line");
+      road.setAttribute("x1", s.x1);
+      road.setAttribute("y1", s.y1);
+      road.setAttribute("x2", s.x2);
+      road.setAttribute("y2", s.y2);
+      road.setAttribute("stroke", "#c4a06a");
+      road.setAttribute("stroke-width", "2.4");
+      road.setAttribute("stroke-linecap", "round");
+      road.setAttribute("opacity", "0.55");
+      streets.appendChild(road);
+      const label = document.createElementNS(ns, "text");
+      if (s.id === "main") {
+        label.setAttribute("x", s.x1 + 2.2);
+        label.setAttribute("y", 12);
+      } else {
+        label.setAttribute("x", s.x2 - 1);
+        label.setAttribute("y", s.y1 - 1.2);
+        label.setAttribute("text-anchor", "end");
+      }
+      label.setAttribute("fill", "#6a4a28");
+      label.setAttribute("font-size", "2.1");
+      label.setAttribute("font-family", "Georgia, serif");
+      label.textContent = s.name;
+      streets.appendChild(label);
+    }
+    svg.appendChild(streets);
+
     const routes = document.createElementNS(ns, "g");
     for (const [a, b] of DATA.routes) {
       const na = DATA.nodes.find((n) => n.id === a);

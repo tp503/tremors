@@ -24,7 +24,7 @@ Each character has two passive abilities and **one Signature Moment** (once per 
 
 ## Map
 
-**Node-and-route map**, not hexes. **Phase 1 is the town only**: fourteen locations in five underground **sectors**, laid out on the film's north–south Main Street (Nestor at the north end, Chang's on the west side with the water tower beside it). Names follow the 1990 film (see `docs/film-geography.md`). Outlying film locations (Edgar's pylon, Old Fred's ranch) arrive as calamity news, not map spaces; the valley itself is the Phase 2 fold-out.
+**Node-and-route map**, not hexes. **Phase 1 is the town only**: fourteen locations in five underground **sectors**. Town lots follow [CaciqueCaribe's 2016 Perfection map](https://www.deviantart.com/caciquecaribe/art/Tremors-Fans-Perfection-Nevada-Location-Map-1-0-593836343): **Main St** north–south, **Talcum Ln** east–west, Chang's on the west sidewalk. Burt, Rhonda, and Jim & Megan sit off those lots so the arsenal, seismograph, and medical objectives still have homes. Names follow the 1990 film (see `docs/film-geography.md`). Edgar and Old Fred arrive as calamity news; the valley is the Phase 2 fold-out.
 
 - Graboid **tokens** occupy a **sector**.
 - When a Graboid **surfaces**, a **model** is placed on a **node**.
@@ -32,11 +32,11 @@ Each character has two passive abilities and **one Signature Moment** (once per 
 
 | Sector | Nodes |
 | --- | --- |
-| A north street | Telephone Line, Nestor's Trailer, Melvin's Place |
+| A north of Talcum | Telephone Line, Nestor's Trailer, Nancy's House |
 | B market block | Chang's Market, Horse Corral |
-| C west | Burt & Heather's, Gas Pumps, Water Tower |
-| D east | Rhonda's Camp, Nancy's House, Jim & Megan's |
-| E south yard | Garbage Dump, Junkyard (Caterpillar), Bixby Road |
+| C west | Burt & Heather's, Water Tower, Chang's Trailer |
+| D east / south-east | Rhonda's Camp, Melvin's Place, Jim & Megan's |
+| E south yard | Junkyard, Caterpillar, Bixby Road |
 
 Printable copy: `print/map.html` (landscape letter / A4), also `print/perfection-map.pdf`.
 

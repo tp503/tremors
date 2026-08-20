@@ -41,25 +41,30 @@ const TREMORS_DATA = {
     { id: "field_gen", name: "Field Generator", parts: ["parts", "fuel_can"], text: "Clear Power Failure and Darkness. Dump 2 lingering noise here." },
   ],
 
-  /* Phase 1 board: the town of Perfection only. Main Street runs north-south;
-     Chang's is on the west side, Nestor toward the north (film set layout).
-     Valley landmarks (North Cliffs, Edgar's Pylon, Old Fred's Ranch, the
-     Concrete Aqueduct, pole-vault rocks) are reserved for the Phase 2 fold-out. */
+  /* Phase 1 board: Perfection town lots from CaciqueCaribe's 2016 location map
+     (Main St N-S, Talcum Ln E-W, Chang's west of Main St) plus the three
+     walkable satellites the town map omits (Burt west, Rhonda east, Jim south).
+     Valley landmarks stay Phase 2. Letters A–L are that map's clockwise key. */
+  streets: [
+    { id: "main", name: "Main St", x1: 50, y1: 2, x2: 50, y2: 94 },
+    { id: "talcum", name: "Talcum Ln", x1: 30, y1: 36, x2: 78, y2: 36 },
+  ],
+
   nodes: [
-    { id: "radio", name: "Telephone Line", sector: "A", x: 50, y: 6, type: "tower", search: 2, noiseMod: 1, defence: 1, note: "The poles march along Main Street and out toward Bixby. The line is dead." },
-    { id: "trailer", name: "Nestor's Trailer", sector: "A", x: 36, y: 16, type: "building", search: 2, noiseMod: 1, defence: 0, note: "Corrugated fence, spare tire in the yard. Looks like shelter. It is not." },
-    { id: "bar", name: "Melvin's Place", sector: "A", x: 64, y: 18, type: "building", search: 2, noiseMod: 1, defence: 1, note: "Mobile home, astroturf porch, rusted Quonset. Parents in Vegas." },
-    { id: "rhonda", name: "Rhonda's Camp", sector: "D", x: 86, y: 26, type: "open", search: 4, noiseMod: 0, defence: 0, note: "Seismograph and field notes, pitched at the edge of town." },
-    { id: "water", name: "Water Tower", sector: "C", x: 26, y: 28, type: "tower", search: 1, noiseMod: 1, defence: 1, note: "Tallest thing in Perfection, right beside Chang's." },
-    { id: "store", name: "Chang's Market", sector: "B", x: 44, y: 33, type: "building", search: 3, noiseMod: 1, defence: 2, note: "Store, tavern, post office, command post. Walter runs it all." },
-    { id: "nancy", name: "Nancy's House", sector: "D", x: 66, y: 36, type: "building", search: 2, noiseMod: 0, defence: 1, note: "Mindy's home ground." },
-    { id: "burt", name: "Burt & Heather's", sector: "C", x: 10, y: 42, type: "building", search: 4, noiseMod: 1, defence: 3, note: "Hilltop compound west of town. Arsenal, tumbler, and a lot of opinions." },
-    { id: "fuel", name: "Gas Pumps", sector: "C", x: 26, y: 48, type: "metal", search: 2, noiseMod: 2, defence: 0, note: "Pumps and tin sheds. Metal, fumes, and bad acoustics." },
-    { id: "school", name: "Horse Corral", sector: "B", x: 50, y: 50, type: "open", search: 1, noiseMod: 0, defence: 0, note: "Open ground and skittish horses between town and the yard." },
-    { id: "clinic", name: "Jim & Megan's", sector: "D", x: 74, y: 54, type: "building", search: 3, noiseMod: 0, defence: 2, note: "The doctor's half-built house on the Bixby road. Lumber, cinder block, a station wagon." },
-    { id: "workshop", name: "Garbage Dump", sector: "E", x: 36, y: 64, type: "metal", search: 3, noiseMod: 2, defence: 1, note: "Rusting machines, salvage, and the old company foundations." },
-    { id: "caterpillar", name: "Junkyard (Caterpillar)", sector: "E", x: 58, y: 68, type: "metal", search: 2, noiseMod: 2, defence: 1, note: "Thirty tons of possible lifeboat on a concrete pad." },
-    { id: "highway", name: "Bixby Road", sector: "E", x: 50, y: 86, type: "road", search: 1, noiseMod: 2, defence: 0, note: "The only paved way out. 38 miles south. Probably blocked." },
+    { id: "radio", name: "Telephone Line", sector: "A", x: 50, y: 6, type: "tower", search: 2, noiseMod: 1, defence: 1, note: "Poles on Main St heading out of town. The line is dead." },
+    { id: "trailer", name: "Nestor's Trailer", sector: "A", x: 36, y: 16, type: "building", search: 2, noiseMod: 1, defence: 0, note: "Map D. NW lot, west of Main St, corrugated fence and a spare tire." },
+    { id: "nancy", name: "Nancy's House", sector: "A", x: 66, y: 18, type: "building", search: 2, noiseMod: 0, defence: 1, note: "Map F. NE of Main St, north of Talcum Ln. Dilapidated cottage E sits behind it." },
+    { id: "store", name: "Chang's Market", sector: "B", x: 38, y: 30, type: "building", search: 3, noiseMod: 1, defence: 2, note: "Map B. 60x30 store, tavern, post office. West of Main St; porch faces the street." },
+    { id: "rhonda", name: "Rhonda's Camp", sector: "D", x: 90, y: 28, type: "open", search: 4, noiseMod: 0, defence: 0, note: "Not on the town lots. Seismograph pitched east of Perfection." },
+    { id: "water", name: "Water Tower", sector: "C", x: 36, y: 42, type: "tower", search: 1, noiseMod: 1, defence: 1, note: "Map A. Immediately south of Chang's, west of Main St. Tallest thing in town." },
+    { id: "workshop", name: "Junkyard", sector: "E", x: 66, y: 44, type: "metal", search: 3, noiseMod: 2, defence: 1, note: "Map G. East of Main St, south of Talcum Ln. Empty fenced lot, dirt track, salvage." },
+    { id: "burt", name: "Burt & Heather's", sector: "C", x: 8, y: 40, type: "building", search: 4, noiseMod: 1, defence: 3, note: "Not on the town lots. Hilltop compound west of Perfection." },
+    { id: "fuel", name: "Chang's Trailer", sector: "C", x: 34, y: 52, type: "metal", search: 2, noiseMod: 2, defence: 0, note: "Map L. Walter's lot south of the water tower; pumps and tin sheds on the same pad." },
+    { id: "bar", name: "Melvin's Place", sector: "D", x: 66, y: 58, type: "building", search: 2, noiseMod: 1, defence: 1, note: "Map I + H. Trailer south of the rusted Quonset, SE of Main St. Play shack C is across the street between Chang's and Nestor." },
+    { id: "caterpillar", name: "Caterpillar", sector: "E", x: 86, y: 54, type: "metal", search: 2, noiseMod: 2, defence: 1, note: "The CAT and earth-mover trailer parked east of the Quonset, off the junkyard lot." },
+    { id: "school", name: "Horse Corral", sector: "B", x: 50, y: 68, type: "open", search: 1, noiseMod: 0, defence: 0, note: "South of the town lots on Main St. Val and Earl's trailers (map J, K) sit on the SW lots just north of here." },
+    { id: "clinic", name: "Jim & Megan's", sector: "D", x: 74, y: 80, type: "building", search: 3, noiseMod: 0, defence: 2, note: "Not on the town lots. Half-built house on the Bixby road south of the sign." },
+    { id: "highway", name: "Bixby Road", sector: "E", x: 50, y: 90, type: "road", search: 1, noiseMod: 2, defence: 0, note: "South end of Main St. Perfection sign, then 38 miles to Bixby. Probably blocked." },
   ],
 
   /* Solid Rock: revealed by the safe-ground objective. Graboids cannot surface here. */
@@ -67,28 +72,30 @@ const TREMORS_DATA = {
 
   routes: [
     ["radio", "trailer"],
-    ["radio", "bar"],
-    ["trailer", "bar"],
+    ["radio", "nancy"],
     ["trailer", "store"],
-    ["bar", "store"],
-    ["bar", "nancy"],
-    ["bar", "rhonda"],
-    ["rhonda", "nancy"],
-    ["nancy", "clinic"],
+    ["trailer", "nancy"],
     ["store", "water"],
-    ["store", "fuel"],
+    ["store", "workshop"],
     ["store", "school"],
-    ["water", "burt"],
+    ["store", "nancy"],
     ["water", "fuel"],
-    ["burt", "fuel"],
-    ["school", "clinic"],
-    ["school", "workshop"],
-    ["school", "caterpillar"],
-    ["clinic", "highway"],
-    ["fuel", "workshop"],
+    ["water", "burt"],
+    ["fuel", "burt"],
+    ["fuel", "school"],
+    ["nancy", "workshop"],
+    ["nancy", "rhonda"],
+    ["workshop", "bar"],
     ["workshop", "caterpillar"],
-    ["workshop", "highway"],
+    ["workshop", "school"],
+    ["bar", "caterpillar"],
+    ["bar", "rhonda"],
+    ["school", "caterpillar"],
+    ["school", "highway"],
+    ["school", "clinic"],
+    ["highway", "clinic"],
     ["caterpillar", "highway"],
+    ["workshop", "highway"],
   ],
 
   sectors: {
@@ -391,7 +398,7 @@ const TREMORS_DATA = {
     { id: 8, act: 1, title: "THE FOUNDATION", flavour: "Being on top of something seemed like a good idea. Then the thing underneath started digging.",
       quiet: "Buildings remain safe.", disturbed: "Mark one occupied building Compromised.", frenzy: "An occupied building becomes Unsafe. Survivors there must leave next turn or be Exposed." },
     { id: 9, act: 1, title: "POWER FAILURE", flavour: "The lights flicker. Then everything goes dark. Somewhere nearby, something starts moving.",
-      quiet: "Disable one powered location (Chang's or the Gas Pumps).", disturbed: "Disable Chang's, the Gas Pumps, and the Telephone Line.", frenzy: "Darkness: all actions +1 Noise until someone Works at the Gas Pumps." },
+      quiet: "Disable one powered location (Chang's or Chang's Trailer).", disturbed: "Disable Chang's, Chang's Trailer, and the Telephone Line.", frenzy: "Darkness: all actions +1 Noise until someone Works at Chang's Trailer." },
     { id: 10, act: 1, title: "THE REFRIGERATOR", flavour: "Nobody notices the refrigerator until it starts running. Suddenly that hum sounds like a dinner bell.",
       quiet: "Chang's generates +1 Noise next round.", disturbed: "Chang's generates +2 Noise next round.", frenzy: "Nearest Graboid moves toward Chang's and gains +1 Hunt." },
     { id: 11, act: 2, title: "WHERE'S MINDY?", flavour: "Someone hears music. Someone else hears a pogo stick. Everyone else hears disaster.",

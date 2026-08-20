@@ -129,33 +129,35 @@ These are the “islands” the movie is built around. Wilson’s origin note: s
 
 ## Board mapping
 
-Phase 1 is **Perfection town only**: 14 nodes. Valley landmarks are reserved for a later fold-out and are **not** on this board. Remaining node **ids** are kept (engine and objectives still key on them); streets were rewired to the film set.
+Phase 1 is **Perfection town only**: 14 nodes. Town lots are seated on [CaciqueCaribe’s 2016 location map](https://www.deviantart.com/caciquecaribe/art/Tremors-Fans-Perfection-Nevada-Location-Map-1-0-593836343) (Main St N–S, Talcum Ln E–W, Chang’s west of Main St). Letters A–L in the notes are that map’s clockwise key. Valley landmarks are reserved for a later fold-out.
 
-| Node id | Board name | Sector | Film location | Key scene |
-| --- | --- | --- | --- | --- |
-| `radio` | Telephone Line | A | Phone poles on Main Street / toward Bixby | Phones die; the town is cut off |
-| `trailer` | Nestor’s Trailer | A | Nestor’s fenced trailer, north of Chang’s | Pulled through the floor standing in a spare tire |
-| `bar` | Melvin’s Place | A | Melvin’s mobile home + Quonset, across the street | Fake-Graboid prank; rooftop night |
-| `rhonda` | Rhonda’s Camp | D | Seismograph camp at the east edge of town | The readings that predict the worms |
-| `water` | Water Tower | C | Water tower beside Chang’s | Tallest structure in town |
-| `store` | Chang’s Market | B | Chang’s Market (store, tavern, post office) | Siege hub; Walter names the Graboids and dies through the floor |
-| `nancy` | Nancy’s House | D | Nancy and Mindy’s house | Mindy on the roof |
-| `burt` | Burt & Heather’s | C | Hilltop compound west of town | Basement breach; the gun-wall kill; bomb factory |
-| `fuel` | Gas Pumps | C | Pumps and tin sheds | Fuel for the Cat |
-| `school` | Horse Corral | B | The set’s horse corral, south of the market | Val and Earl borrow the horses; barbed wire |
-| `clinic` | Jim & Megan’s | D | The doctor’s half-built house on the Bixby road | Edgar’s autopsy; buried station wagon |
-| `workshop` | Garbage Dump | E | The set’s garbage dump | Salvage; ringing metal; company foundations |
-| `caterpillar` | Junkyard (Caterpillar) | E | Junkyard where the Cat sits | The loader escape; pit trap |
-| `highway` | Bixby Road | E | The one paved road south | Road crew; rockslide seals the valley |
+| Node id | Board name | Map | Sector | Film location | Key scene |
+| --- | --- | --- | --- | --- | --- |
+| `radio` | Telephone Line | Main St poles | A | Phone poles on Main Street | Phones die; the town is cut off |
+| `trailer` | Nestor’s Trailer | D | A | NW lot, west of Main St | Pulled through the floor standing in a spare tire |
+| `nancy` | Nancy’s House | F | A | NE of Main St, north of Talcum Ln (cottage E behind it) | Mindy on the roof |
+| `store` | Chang’s Market | B | B | West of Main St; porch on the street | Siege hub; Walter names the Graboids and dies through the floor |
+| `water` | Water Tower | A | C | Immediately south of Chang’s | Tallest structure in town |
+| `workshop` | Junkyard | G | E | East of Main St, south of Talcum Ln | Salvage lot; dirt track |
+| `fuel` | Chang’s Trailer | L | C | Walter’s lot south of the water tower | Pumps / tin sheds on the same pad |
+| `bar` | Melvin’s Place | I + H | D | Trailer south of the Quonset, SE of Main St (play shack C is across the street) | Fake-Graboid prank; rooftop night |
+| `caterpillar` | Caterpillar | CAT | E | Loader and earth-mover trailer east of the Quonset | The loader escape |
+| `school` | Horse Corral | south of J, K | B | South of the town lots on Main St (Val and Earl’s trailers are the SW lots) | Borrow the horses; barbed wire |
+| `highway` | Bixby Road | south sign | E | South end of Main St | Road crew; rockslide seals the valley |
+| `burt` | Burt & Heather’s | off-map west | C | Hilltop compound west of town | Basement breach; the gun-wall kill; bomb factory |
+| `rhonda` | Rhonda’s Camp | off-map east | D | Seismograph camp east of town | The readings that predict the worms |
+| `clinic` | Jim & Megan’s | off-map south | D | Half-built house on the Bixby road | Edgar’s autopsy; buried station wagon |
 
-Solid rock (no surface / catch once revealed): Water Tower footing and Junkyard pad (`water`, `caterpillar`).
+Solid rock (no surface / catch once revealed): Water Tower footing and Caterpillar pad (`water`, `caterpillar`).
 
-**Rewired vs the old hybrid board:** Nestor is north of Chang’s, Melvin across the street, water tower beside Chang’s, Burt west, dump and Cat south, Jim & Megan’s on the Bixby road. Valley ids `mountain_road`, `edgar`, `ranch`, and `aqueduct` were cut. Edgar and Old Fred still arrive as calamity news, not map spaces.
+Buildings on that map that are **not** their own nodes: Melvin’s play shack **C** (on the Nestor–Chang’s walk), abandoned cottage **E** (behind Nancy), Val and Earl’s trailers **J** and **K** (SW lots; they start the game at Chang’s).
+
+**Not on the town lots, still walkable:** Burt, Rhonda, and Jim & Megan — the same three the DeviantArt map left off, kept so Phase 1 still has an arsenal, a seismograph, and a medical kit. Edgar and Old Fred remain calamity news.
 
 Remaining compressions:
 
-- Burt’s compound is a few miles out in the film; on this board it is the west-hill node so Phase 1 still has a walkable arsenal.
-- Rhonda’s seismographs are valley-wide in the film; her camp sits on the east edge of town so Search still has a home.
+- Burt’s compound is a few miles out in the film; on this board it is the west-hill satellite.
+- Rhonda’s seismographs are valley-wide in the film; her camp sits east of the lots so Search still has a home.
 - The `radio` node keeps its tower type (climbable, ungrabbable). The film equivalent of being treed on a pole is Edgar’s fate, which is off-board.
 
 ## Phase 2 (not on this board)
@@ -177,6 +179,7 @@ Phase 2 of the design conversation (fold-out valley: dirt vs rock vs road vs veh
 - Horror Film Wiki / Tremors Wiki — Edgar, Old Fred, Wallace house, aqueduct, pole vault, Cat pit.
 - IMSDb *Tremors* script excerpts — Edgar → Fred garden → Wallace house (wallboard) geography in scene headers.
 - The Miniatures Page, “Perfection, Nevada For 15mm” — street-side inventory from repeated film stills plus the same FAQ (Chang’s west, Nestor north, Melvin/Quonset, dump/Cat).
+- CaciqueCaribe, “Tremors Fans - Perfection Nevada Location Map 1.0” — lot plan used for Phase 1 node seats (Main St, Talcum Ln, A–L). https://www.deviantart.com/caciquecaribe/art/Tremors-Fans-Perfection-Nevada-Location-Map-1-0-593836343
 - GNDN, “Tremors: Map of Perfection Found!” — AAA 1987 Cedar Grove map under Val’s wall map.
 - Ars Technica, Tremors 30th — population and siege summary.
 
