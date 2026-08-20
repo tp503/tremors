@@ -51,8 +51,8 @@
       streets.appendChild(road);
       const label = document.createElementNS(ns, "text");
       if (s.id === "main") {
-        label.setAttribute("x", s.x1 + 2.2);
-        label.setAttribute("y", 12);
+        label.setAttribute("x", s.x1 + 2.4);
+        label.setAttribute("y", 24);
       } else {
         label.setAttribute("x", s.x2 - 1);
         label.setAttribute("y", s.y1 - 1.2);
