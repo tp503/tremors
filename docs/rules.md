@@ -1,6 +1,6 @@
 # Tremors: Perfection — Prototype Rules
 
-Compiled from the design conversation (noise as a shared resource, two-phase escape, calamity clock, condition tracks rather than hit points, and fully cooperative play). This is a **playable Phase 1 prototype**, not a finished published game.
+Compiled from the design conversation (noise as a shared resource, two-phase escape, calamity clock, condition tracks rather than hit points, and fully cooperative play). This is a **playable Phase 1 prototype**, not a finished published game. Dense table copy: `print/rules.html` (also `print/perfection-rules.pdf`).
 
 ## Win and lose
 
