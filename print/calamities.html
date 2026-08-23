@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tremors: Perfection — calamity cards</title>
+    <link rel="stylesheet" href="./cards.css" />
+  </head>
+  <body>
+    <div class="toolbar no-print">
+      <div>
+        <h1>Tremors: Perfection — calamity cards</h1>
+        <p>30 cards · poker size · 3×3 per letter page · cut on dashed lines.</p>
+      </div>
+      <div>
+        <a href="./objectives.html">Objective deck</a>
+        <a href="./rules.html">Rules</a>
+        <a href="./map.html">Map</a>
+        <a href="../index.html">Back to game</a>
+        <button type="button" onclick="window.print()">Print calamities</button>
+      </div>
+    </div>
+
+    <p class="deck-intro no-print">
+      Reveal on rounds <b>4, 7, 9, 11, 12</b>. Stack by act for playtest pacing (Act I through 10, Act II 11–25, Act III 26–30). Resolve the band from that round’s noise total: <b>Quiet 0–8</b> · <b>Disturbed 9–14</b> · <b>Frenzy 15+</b>.
+    </p>
+
+    <div id="deck"></div>
+
+    <script src="../js/data.js"></script>
+    <script>
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function calamityCard(c) {
+        return `
+          <article class="card">
+            <div class="card-head">
+              <span class="badge calamity">Act ${c.act} · #${c.id}</span>
+              <span class="stats">Calamity</span>
+            </div>
+            <h2>${esc(c.title)}</h2>
+            <p class="flavour">${esc(c.flavour)}</p>
+            <div class="body">
+              <p class="band"><b>Quiet (0–8)</b> ${esc(c.quiet)}</p>
+              <p class="band"><b>Disturbed (9–14)</b> ${esc(c.disturbed)}</p>
+              <p class="band"><b>Frenzy (15+)</b> ${esc(c.frenzy)}</p>
+            </div>
+          </article>`;
+      }
+
+      function instructionCard() {
+        return `
+          <article class="card instruction">
+            <div class="card-head">
+              <span class="badge calamity">Calamity</span>
+              <span class="stats">30 cards</span>
+            </div>
+            <h2>Deck setup</h2>
+            <ul>
+              <li>Draw on rounds <b>4, 7, 9, 11, 12</b> only.</li>
+              <li>Playtest stack: Acts I → II → III (cards 1–10, 11–25, 26–30).</li>
+              <li>After characters act, sum round noise and pick a band.</li>
+              <li><b>Quiet 0–8</b> · <b>Disturbed 9–14</b> · <b>Frenzy 15+</b>.</li>
+              <li>Rhonda may peek and keep or bury the next card (Seismologist).</li>
+            </ul>
+            <p>Card 30 on round 12 ends Phase 1 if Essentials are unfinished.</p>
+          </article>`;
+      }
+
+      const cards = [
+        instructionCard(),
+        ...TREMORS_DATA.calamities.map(calamityCard),
+      ];
+
+      const perPage = 9;
+      const deck = document.getElementById("deck");
+      for (let i = 0; i < cards.length; i += perPage) {
+        const sheet = document.createElement("section");
+        sheet.className = "sheet" + (i > 0 ? " page-break" : "");
+        const grid = document.createElement("div");
+        grid.className = "card-grid";
+        grid.innerHTML = cards.slice(i, i + perPage).join("");
+        sheet.appendChild(grid);
+        deck.appendChild(sheet);
+      }
+    </script>
+  </body>
+</html>

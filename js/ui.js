@@ -6,6 +6,7 @@
   const actionList = document.getElementById("actionList");
   const party = document.getElementById("party");
   const graboidsEl = document.getElementById("graboids");
+  const supplyEl = document.getElementById("supply");
   const objectivesEl = document.getElementById("objectives");
   const logEl = document.getElementById("log");
   const turnTitle = document.getElementById("turnTitle");
@@ -35,6 +36,35 @@
     const blocked = new Set(state.blocked);
     const ns = "http://www.w3.org/2000/svg";
     svg.replaceChildren();
+
+    const streets = document.createElementNS(ns, "g");
+    for (const s of DATA.streets || []) {
+      const road = document.createElementNS(ns, "line");
+      road.setAttribute("x1", s.x1);
+      road.setAttribute("y1", s.y1);
+      road.setAttribute("x2", s.x2);
+      road.setAttribute("y2", s.y2);
+      road.setAttribute("stroke", "#c4a06a");
+      road.setAttribute("stroke-width", "2.4");
+      road.setAttribute("stroke-linecap", "round");
+      road.setAttribute("opacity", "0.55");
+      streets.appendChild(road);
+      const label = document.createElementNS(ns, "text");
+      if (s.id === "main") {
+        label.setAttribute("x", s.x1 + 2.4);
+        label.setAttribute("y", 24);
+      } else {
+        label.setAttribute("x", s.x2 - 1);
+        label.setAttribute("y", s.y1 - 1.2);
+        label.setAttribute("text-anchor", "end");
+      }
+      label.setAttribute("fill", "#6a4a28");
+      label.setAttribute("font-size", "2.1");
+      label.setAttribute("font-family", "Georgia, serif");
+      label.textContent = s.name;
+      streets.appendChild(label);
+    }
+    svg.appendChild(streets);
 
     const routes = document.createElementNS(ns, "g");
     for (const [a, b] of DATA.routes) {
@@ -195,6 +225,41 @@
     document.getElementById("resAgg").textContent = state.aggression;
   }
 
+  function renderSupply(state) {
+    supplyEl.replaceChildren();
+    if (!(state.stash || []).length) {
+      const empty = document.createElement("p");
+      empty.className = "caption";
+      empty.textContent = `Empty. ${state.itemDeckLeft || 0} cards left in the search deck.`;
+      supplyEl.appendChild(empty);
+      return;
+    }
+    const counts = {};
+    for (const id of state.stash) counts[id] = (counts[id] || 0) + 1;
+    for (const [id, n] of Object.entries(counts)) {
+      const item = DATA.items.find((x) => x.id === id);
+      const row = document.createElement("div");
+      row.className = "supply-row";
+      row.innerHTML = `<b>${n}× ${item ? item.name : id}</b><div>${item ? item.text : ""}</div>`;
+      supplyEl.appendChild(row);
+    }
+    const rigs = DATA.rigs.filter((r) => {
+      const need = {};
+      for (const p of r.parts || []) need[p] = (need[p] || 0) + 1;
+      return Object.entries(need).every(([id, n]) => (counts[id] || 0) >= n);
+    });
+    if (rigs.length) {
+      const hint = document.createElement("p");
+      hint.className = "caption";
+      hint.textContent = "Ready to rig: " + rigs.map((r) => r.name).join(", ");
+      supplyEl.appendChild(hint);
+    }
+    const deck = document.createElement("p");
+    deck.className = "caption";
+    deck.textContent = `${state.itemDeckLeft || 0} cards left in the search deck.`;
+    supplyEl.appendChild(deck);
+  }
+
   function renderParty(state) {
     party.replaceChildren();
     for (const c of state.characters) {
@@ -307,10 +372,14 @@
       drawMap(game.getState());
       return;
     }
-    if (a.needsTarget === "adjacent") {
+    if (a.needsTarget === "adjacent" || a.needsTarget === "here_or_adjacent") {
       const adj = TremorsEngine.neighbors(c.location, new Set(state.blocked));
-      pendingAction = { type: a.type, targets: adj };
-      mapHint.textContent = "Click an adjacent node for the diversion.";
+      const targets = a.needsTarget === "here_or_adjacent" ? [c.location, ...adj] : adj;
+      pendingAction = { type: a.type, item: a.item, rig: a.rig, targets };
+      mapHint.textContent =
+        a.needsTarget === "here_or_adjacent"
+          ? "Click this node or an adjacent one."
+          : "Click an adjacent node.";
       drawMap(game.getState());
       return;
     }
@@ -430,6 +499,7 @@
     renderMeters(state);
     drawMap(state);
     renderParty(state);
+    renderSupply(state);
     renderGraboids(state);
     renderObjectives(state);
     renderLog(state);

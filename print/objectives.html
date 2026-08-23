@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tremors: Perfection — objective cards</title>
+    <link rel="stylesheet" href="./cards.css" />
+  </head>
+  <body>
+    <div class="toolbar no-print">
+      <div>
+        <h1>Tremors: Perfection — objective cards</h1>
+        <p>17 cards (6 Essential, 7 Optional, 4 Character). Poker size · 3×3 per letter page · cut on dashed lines.</p>
+      </div>
+      <div>
+        <a href="./calamities.html">Calamity deck</a>
+        <a href="./rules.html">Rules</a>
+        <a href="./map.html">Map</a>
+        <a href="../index.html">Back to game</a>
+        <button type="button" onclick="window.print()">Print objectives</button>
+      </div>
+    </div>
+
+    <p class="deck-intro no-print">
+      Setup draw: <b>3 Essential</b>, <b>2 Optional</b>, <b>1 Character</b>. Work on the printed location. Every Work action is at least 1 Noise unless Rhonda’s Don’t Move or a Quiet Move token applies.
+    </p>
+
+    <div id="deck"></div>
+
+    <script src="../js/data.js"></script>
+    <script>
+      const nodeName = Object.fromEntries(TREMORS_DATA.nodes.map((n) => [n.id, n.name]));
+      const charName = Object.fromEntries(TREMORS_DATA.characters.map((c) => [c.id, c.name]));
+
+      function esc(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function objectiveCard(obj, kind) {
+        const where = nodeName[obj.location] || obj.location;
+        const who = obj.character ? ` · ${charName[obj.character] || obj.character}` : "";
+        return `
+          <article class="card">
+            <div class="card-head">
+              <span class="badge ${kind}">${kind}</span>
+              <span class="stats">Work ${obj.work} · Noise ${obj.noise}</span>
+            </div>
+            <h2>${esc(obj.name)}</h2>
+            <p class="where">${esc(where)}${esc(who)}</p>
+            <p class="flavour">${esc(obj.flavour)}</p>
+            <div class="body">
+              <p class="outcome"><b>Pass</b> ${esc(obj.pass)}</p>
+              <p class="outcome"><b>Fail</b> ${esc(obj.fail)}</p>
+            </div>
+          </article>`;
+      }
+
+      function instructionCard() {
+        return `
+          <article class="card instruction">
+            <div class="card-head">
+              <span class="badge essential">Objectives</span>
+              <span class="stats">Phase 1</span>
+            </div>
+            <h2>Deck setup</h2>
+            <ul>
+              <li>Shuffle each pile separately.</li>
+              <li>Draw <b>3 Essential</b>, <b>2 Optional</b>, <b>1 Character</b>.</li>
+              <li>Work on the listed node. Tick 1 work per Work action.</li>
+              <li>Failure changes the board; it is not an instant loss.</li>
+              <li>Finish all Essentials before Evacuate (round 8+).</li>
+            </ul>
+            <p>Essential work is usually 2. Optional / character cards are usually work 1.</p>
+          </article>`;
+      }
+
+      const cards = [
+        instructionCard(),
+        ...TREMORS_DATA.objectives.essential.map((o) => objectiveCard(o, "essential")),
+        ...TREMORS_DATA.objectives.optional.map((o) => objectiveCard(o, "optional")),
+        ...TREMORS_DATA.objectives.character.map((o) => objectiveCard(o, "character")),
+      ];
+
+      const perPage = 9;
+      const deck = document.getElementById("deck");
+      for (let i = 0; i < cards.length; i += perPage) {
+        const sheet = document.createElement("section");
+        sheet.className = "sheet" + (i > 0 ? " page-break" : "");
+        const grid = document.createElement("div");
+        grid.className = "card-grid";
+        grid.innerHTML = cards.slice(i, i + perPage).join("");
+        sheet.appendChild(grid);
+        deck.appendChild(sheet);
+      }
+    </script>
+  </body>
+</html>
