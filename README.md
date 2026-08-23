@@ -2,7 +2,7 @@
 
 Cooperative board-game prototype based on the 1990 film. One table, one death, everyone loses.
 
-This repository is the dedicated home for the game. The design started as a [ChatGPT conversation](https://chatgpt.com/share/6a848aab-4a20-83eb-a0a1-aeb7af2477d3); the full thread is archived in [`docs/design-conversation.md`](docs/design-conversation.md). The prior Cloud Agent thread (chase, pacing, items) is archived in [`docs/prior-agent-conversation.md`](docs/prior-agent-conversation.md). Film geography for Perfection and the valley: [`docs/film-geography.md`](docs/film-geography.md). Compiled rules: [`docs/rules.md`](docs/rules.md).
+This repository is the dedicated home for the game. The design started as a [ChatGPT conversation](https://chatgpt.com/share/6a848aab-4a20-83eb-a0a1-aeb7af2477d3); the full thread is archived in [`docs/design-conversation.md`](docs/design-conversation.md). The prior Cloud Agent thread (chase, pacing, items) is archived in [`docs/prior-agent-conversation.md`](docs/prior-agent-conversation.md). Film geography for Perfection and the valley: [`docs/film-geography.md`](docs/film-geography.md). Screenplay quotes reference (Wilson & Maddock draft): [`docs/movie-script-quotes.md`](docs/movie-script-quotes.md). Compiled rules: [`docs/rules.md`](docs/rules.md).
 
 ## Play
 
