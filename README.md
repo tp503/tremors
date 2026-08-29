@@ -27,4 +27,4 @@ node js/simulate.js 20
 
 ## Status
 
-Phase 1 is **the town of Perfection** (14 nodes, 12-round calamity clock) with the unpublished ruleset: Quiet ≤8 / Disturbed 9–14 / Frenzy 15+, Evacuate from round 8+. Valley landmarks (cliffs, Edgar’s pylon, Old Fred’s, the aqueduct, pole-vault rocks) are reserved for Phase 2 and are not on this board.
+Phase 2 is the **full Perfection Valley** board (32 nodes, 14-round calamity clock) with the unpublished ruleset: Quiet ≤8 / Disturbed 9–14 / Frenzy 15+, Evacuate from round 10+. Blueprint graph: `docs/valley-network-blueprint.png` (regenerate with `python scripts/valley_to_js.py`).

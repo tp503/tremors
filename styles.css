@@ -261,8 +261,8 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
 .log .round-tag { color: #8a6a44; font-size: 11px; margin-right: 6px; }
 
 .node-hit { cursor: pointer; }
-.node-label { font-size: 2.4px; font-weight: 700; fill: #1c140c; pointer-events: none; }
-.node-sub { font-size: 1.8px; fill: #3a2c20; pointer-events: none; }
+.node-label { font-size: 2px; font-weight: 700; fill: #1c140c; pointer-events: none; }
+.node-sub { font-size: 1.5px; fill: #3a2c20; pointer-events: none; }
 
 .modal {
   position: fixed;
