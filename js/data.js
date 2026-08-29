@@ -1,10 +1,16 @@
 /* Tremors: Perfection — static game data compiled from the design conversation. */
 
+const _valleyBoard =
+  typeof VALLEY_BOARD !== "undefined"
+    ? VALLEY_BOARD
+    : require("./valley-board.js").VALLEY_BOARD;
+
 const TREMORS_DATA = {
-  calamityRounds: [4, 7, 9, 11, 12],
-  maxRound: 12,
-  startingRescueTokens: 3,
-  startingMedicalKits: 2,
+  calamityRounds: [4, 7, 10, 12, 14],
+  maxRound: 14,
+  evacuateFromRound: 10,
+  startingRescueTokens: 4,
+  startingMedicalKits: 3,
   startingNoiseLimit: 6,
   huntSurface: 2,
 
@@ -41,70 +47,12 @@ const TREMORS_DATA = {
     { id: "field_gen", name: "Field Generator", parts: ["parts", "fuel_can"], text: "Clear Power Failure and Darkness. Dump 2 lingering noise here." },
   ],
 
-  /* Phase 1 board: Perfection town lots from CaciqueCaribe's 2016 location map
-     (Main St N-S, Talcum Ln E-W, Chang's west of Main St) plus the three
-     walkable satellites the town map omits (Burt west, Rhonda east, Jim south).
-     Valley landmarks stay Phase 2. Letters A–L are that map's clockwise key. */
-  streets: [
-    { id: "main", name: "Main St", x1: 50, y1: 2, x2: 50, y2: 94 },
-    { id: "talcum", name: "Talcum Ln", x1: 30, y1: 36, x2: 78, y2: 36 },
-  ],
-
-  nodes: [
-    { id: "radio", name: "Telephone Line", sector: "A", x: 50, y: 6, type: "tower", search: 2, noiseMod: 1, defence: 1, note: "Poles on Main St heading out of town. The line is dead." },
-    { id: "trailer", name: "Nestor's Trailer", sector: "A", x: 36, y: 16, type: "building", search: 2, noiseMod: 1, defence: 0, note: "Map D. NW lot, west of Main St, corrugated fence and a spare tire." },
-    { id: "nancy", name: "Nancy's House", sector: "A", x: 66, y: 18, type: "building", search: 2, noiseMod: 0, defence: 1, note: "Map F. NE of Main St, north of Talcum Ln. Dilapidated cottage E sits behind it." },
-    { id: "store", name: "Chang's Market", sector: "B", x: 38, y: 30, type: "building", search: 3, noiseMod: 1, defence: 2, note: "Map B. 60x30 store, tavern, post office. West of Main St; porch faces the street." },
-    { id: "rhonda", name: "Rhonda's Camp", sector: "D", x: 90, y: 28, type: "open", search: 4, noiseMod: 0, defence: 0, note: "Not on the town lots. Seismograph pitched east of Perfection." },
-    { id: "water", name: "Water Tower", sector: "C", x: 36, y: 42, type: "tower", search: 1, noiseMod: 1, defence: 1, note: "Map A. Immediately south of Chang's, west of Main St. Tallest thing in town." },
-    { id: "workshop", name: "Junkyard", sector: "E", x: 66, y: 44, type: "metal", search: 3, noiseMod: 2, defence: 1, note: "Map G. East of Main St, south of Talcum Ln. Empty fenced lot, dirt track, salvage." },
-    { id: "burt", name: "Burt & Heather's", sector: "C", x: 8, y: 40, type: "building", search: 4, noiseMod: 1, defence: 3, note: "Not on the town lots. Hilltop compound west of Perfection." },
-    { id: "fuel", name: "Chang's Trailer", sector: "C", x: 34, y: 52, type: "metal", search: 2, noiseMod: 2, defence: 0, note: "Map L. Walter's lot south of the water tower; pumps and tin sheds on the same pad." },
-    { id: "bar", name: "Melvin's Place", sector: "D", x: 66, y: 58, type: "building", search: 2, noiseMod: 1, defence: 1, note: "Map I + H. Trailer south of the rusted Quonset, SE of Main St. Play shack C is across the street between Chang's and Nestor." },
-    { id: "caterpillar", name: "Caterpillar", sector: "E", x: 86, y: 54, type: "metal", search: 2, noiseMod: 2, defence: 1, note: "The CAT and earth-mover trailer parked east of the Quonset, off the junkyard lot." },
-    { id: "school", name: "Horse Corral", sector: "B", x: 50, y: 68, type: "open", search: 1, noiseMod: 0, defence: 0, note: "South of the town lots on Main St. Val and Earl's trailers (map J, K) sit on the SW lots just north of here." },
-    { id: "clinic", name: "Jim & Megan's", sector: "D", x: 74, y: 80, type: "building", search: 3, noiseMod: 0, defence: 2, note: "Not on the town lots. Half-built house on the Bixby road south of the sign." },
-    { id: "highway", name: "Bixby Road", sector: "E", x: 50, y: 90, type: "road", search: 1, noiseMod: 2, defence: 0, note: "South end of Main St. Perfection sign, then 38 miles to Bixby. Probably blocked." },
-  ],
-
-  /* Solid Rock: revealed by the safe-ground objective. Graboids cannot surface here. */
-  solidRockNodes: ["caterpillar", "water"],
-
-  routes: [
-    ["radio", "trailer"],
-    ["radio", "nancy"],
-    ["trailer", "store"],
-    ["trailer", "nancy"],
-    ["store", "water"],
-    ["store", "workshop"],
-    ["store", "school"],
-    ["store", "nancy"],
-    ["water", "fuel"],
-    ["water", "burt"],
-    ["fuel", "burt"],
-    ["fuel", "school"],
-    ["nancy", "workshop"],
-    ["nancy", "rhonda"],
-    ["workshop", "bar"],
-    ["workshop", "caterpillar"],
-    ["workshop", "school"],
-    ["bar", "caterpillar"],
-    ["bar", "rhonda"],
-    ["school", "caterpillar"],
-    ["school", "highway"],
-    ["school", "clinic"],
-    ["highway", "clinic"],
-    ["caterpillar", "highway"],
-    ["workshop", "highway"],
-  ],
-
-  sectors: {
-    A: { name: "North Range", adjacent: ["B", "C", "D"] },
-    B: { name: "Town Centre", adjacent: ["A", "C", "D", "E"] },
-    C: { name: "West Compound", adjacent: ["A", "B", "E"] },
-    D: { name: "East Flats", adjacent: ["A", "B", "E"] },
-    E: { name: "South Yard", adjacent: ["B", "C", "D"] },
-  },
+  /* 32-node Perfection Valley board — generated in js/valley-board.js from scripts/valley_network.py */
+  streets: _valleyBoard.streets,
+  nodes: _valleyBoard.nodes,
+  solidRockNodes: _valleyBoard.solidRockNodes,
+  routes: _valleyBoard.routes,
+  sectors: _valleyBoard.sectors,
 
   equipment: [
     { id: "rifle", name: "Rifle", kind: "weapon", heavy: true, text: "Fight with Combat +1. Heavy: +2 Noise." },
@@ -225,7 +173,7 @@ const TREMORS_DATA = {
         location: "rhonda",
         work: 2,
         noise: 0,
-        flavour: "The readings are wrong for earthquakes. That is the point.",
+        flavour: "Horse Path 2 — the readings are wrong for earthquakes. That is the point.",
         pass: "Learn a Graboid rule: they always investigate the greatest noise in their sector.",
         fail: "Blind Hunting: surfaced Graboids pick randomly among noisy nodes.",
       },
@@ -246,7 +194,7 @@ const TREMORS_DATA = {
         work: 2,
         noise: 0,
         flavour: "Dig through the dump to the old mining company foundations. Concrete and rock — Graboids cannot get purchase.",
-        pass: "The Junkyard pad and the Water Tower footing count as Solid Rock (Graboids cannot surface there).",
+        pass: "Boulder paths, towers, and the junkyard foundations count as Solid Rock (Graboids cannot surface there).",
         fail: "Safe terrain stays hidden until someone stands on it.",
       },
       {
@@ -307,7 +255,7 @@ const TREMORS_DATA = {
         location: "school",
         work: 1,
         noise: 1,
-        flavour: "The corral horses are quieter than any truck — until they spook.",
+        flavour: "Horse Path 1 — the corral horses are quieter than any truck, until they spook.",
         pass: "Gain 2 Quiet Movement tokens (a Move with 0 Noise).",
         fail: "Horses are gone.",
       },

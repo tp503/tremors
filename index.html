@@ -12,14 +12,14 @@
         <div>
           <p class="kicker">Fully cooperative · one death ends the game</p>
           <h1>Tremors: Perfection</h1>
-          <p class="tag">Phase 1 prototype. Noise is shared. The thing under the town is listening.</p>
+          <p class="tag">32-node Perfection Valley prototype. Noise is shared. The thing under the town is listening.</p>
         </div>
         <div>
           <button id="helpBtn" type="button">How to play</button>
           <a href="./print/map.html" style="display:inline-block;margin-left:8px;padding:8px 12px;border:1px solid #5a4030;background:linear-gradient(#f0dcb4,#d7b888);color:#1c140c;text-decoration:none;border-radius:4px;">Print map</a>
           <a href="./print/rules.html" style="display:inline-block;margin-left:8px;padding:8px 12px;border:1px solid #5a4030;background:linear-gradient(#f0dcb4,#d7b888);color:#1c140c;text-decoration:none;border-radius:4px;">Print rules</a>
           <a href="./print/objectives.html" style="display:inline-block;margin-left:8px;padding:8px 12px;border:1px solid #5a4030;background:linear-gradient(#f0dcb4,#d7b888);color:#1c140c;text-decoration:none;border-radius:4px;">Print objectives</a>
-          <a href="./print/calamities.html" style="display:inline-block;margin-left:8px;padding:8px 12px;border:1px solid #5a4030;background:linear-gradient(#f0dcb4,#d7b888);color:#1c140c;text-decoration:none;border-radius:4px;">Print calamities</a>
+          <a href="./docs/Perfection_Valley_Full_Board_Map.png" style="display:inline-block;margin-left:8px;padding:8px 12px;border:1px solid #5a4030;background:linear-gradient(#f0dcb4,#d7b888);color:#1c140c;text-decoration:none;border-radius:4px;">Valley map</a>
         </div>
       </header>
 
@@ -103,13 +103,14 @@
           <li>Grabbed keeps 1 action (Struggle). Rescue or Struggle pulls one node clear. 3 Rescue tokens for the game.</li>
           <li>Search: d6 + Search + node.search ≥ 9 (the target rises by 1 after each find at that node). Draws from a 16-card item deck into a shared supply.</li>
           <li>Items are minor alone. Combine two: Pipe Bomb, Tripwire Bait (next surface at a node you pick, no ambush), Fire Bomb, Line Rescue, Field Generator.</li>
-          <li>Evacuate only from round 8+, essentials done, nobody grabbed or dead. Calamities on rounds 4, 7, 9, 11, 12.</li>
-          <li>Finish every Essential objective and Evacuate, or still be alive with them done when round 12 ends.</li>
+          <li>Evacuate only from round 10+, essentials done, nobody grabbed or dead. Calamities on rounds 4, 7, 10, 12, 14.</li>
+          <li>Finish every Essential objective and Evacuate, or still be alive with them done when round 14 ends.</li>
         </ul>
         <button id="helpClose" type="button">Close</button>
       </div>
     </div>
 
+    <script src="./js/valley-board.js"></script>
     <script src="./js/data.js"></script>
     <script src="./js/engine.js"></script>
     <script src="./js/ui.js"></script>

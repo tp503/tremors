@@ -14,6 +14,8 @@ python -m http.server 8000
 
 Then go to `http://localhost:8000/`. Printable **town** board: `http://localhost:8000/print/map.html` (landscape letter / A4), also `print/perfection-map.pdf`. Playtest rules (two letter pages): `http://localhost:8000/print/rules.html`, also `print/perfection-rules.pdf`. **Objective cards** (17 + setup): `print/objectives.html`, also `print/perfection-objectives.pdf`. **Calamity deck** (30 + setup): `print/calamities.html`, also `print/perfection-calamities.pdf`.
 
+**Phase 2 valley blueprint** (32-node network graph, design reference): `docs/valley-network-blueprint.png`. **Full tactical board map** (300 DPI, terrain + fault lines): `docs/Perfection_Valley_Full_Board_Map.png`. Regenerate with `pip install -r scripts/requirements.txt && python scripts/valley_thematic_map.py` (simple graph: `python scripts/valley_network.py`; engine data: `python scripts/valley_to_js.py`).
+
 You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Every action is at least 1 Noise unless Rhonda hasn't moved this turn or you spend a Quiet Move token. Graboids surface on Hunt 2 and chase the nearest character. First catch is Threatened; the same worm catching again is Grabbed. Search fills a shared item supply; two items can be rigged into a Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, or Field Generator.
 
 ## Tests
@@ -25,4 +27,4 @@ node js/simulate.js 20
 
 ## Status
 
-Phase 1 is **the town of Perfection** (14 nodes, 12-round calamity clock) with the unpublished ruleset: Quiet ≤8 / Disturbed 9–14 / Frenzy 15+, Evacuate from round 8+. Valley landmarks (cliffs, Edgar’s pylon, Old Fred’s, the aqueduct, pole-vault rocks) are reserved for Phase 2 and are not on this board.
+Phase 2 is the **full Perfection Valley** board (32 nodes, 14-round calamity clock) with the unpublished ruleset: Quiet ≤8 / Disturbed 9–14 / Frenzy 15+, Evacuate from round 10+. Blueprint graph: `docs/valley-network-blueprint.png` (regenerate with `python scripts/valley_to_js.py`).

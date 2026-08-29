@@ -543,7 +543,7 @@ const TremorsEngine = (() => {
         essentials.every((o) => o.status === "passed") &&
         !this.gameOver
       ) {
-        acts.push({ type: "evacuate", label: "Evacuate Perfection (round 8+, essentials done)" });
+        acts.push({ type: "evacuate", label: `Evacuate Perfection (round ${DATA.evacuateFromRound || 8}+, essentials done)` });
       }
       acts.push({ type: "endTurn", label: "End turn" });
       return acts;
@@ -856,7 +856,7 @@ const TremorsEngine = (() => {
         case "road_blocked":
           this.aggression += 1;
           this.unsafe.add("highway");
-          this.blockRoute("highway", "workshop");
+          this.blockRoute("highway", "cliff_approach");
           this.noiseLimit = Math.max(4, this.noiseLimit - 1);
           break;
         case "radio_working":
@@ -1371,7 +1371,7 @@ const TremorsEngine = (() => {
     }
 
     doEvacuate() {
-      if (this.round < 8) return { ok: false, error: "Cannot evacuate before round 8." };
+      if (this.round < (DATA.evacuateFromRound || 8)) return { ok: false, error: `Cannot evacuate before round ${DATA.evacuateFromRound || 8}.` };
       const essentials = this.objectives.filter((o) => o.kind === "essential");
       if (!essentials.every((o) => o.status === "passed")) return { ok: false, error: "Essentials unfinished." };
       if (this.characters.some((c) => c.health === "dead" || c.grabbed)) {
@@ -1761,8 +1761,8 @@ const TremorsEngine = (() => {
       };
       switch (card.id) {
         case 1:
-          this.blockRoute("highway", "workshop");
-          if (band !== "quiet") this.blockRoute("highway", "caterpillar");
+          this.blockRoute("highway", "cliff_approach");
+          if (band !== "quiet") this.blockRoute("cat_path", "main_north");
           if (band === "frenzy") {
             const road = this.objectives.find((o) => o.id === "road_blocked" && o.status === "active");
             if (road) this.note("Find Another Way Out is now the only option. Finish Safe Ground or the radio.");
@@ -1942,8 +1942,8 @@ const TremorsEngine = (() => {
           }
           break;
         case 23:
-          this.blockRoute("school", "caterpillar");
-          if (band !== "quiet") this.blockRoute("workshop", "highway");
+          this.blockRoute("school", "rhonda");
+          if (band !== "quiet") this.blockRoute("main_north", "cat_path");
           if (band === "frenzy") {
             const g = this.graboids.find((x) => x.sector === "E") || this.graboids[0];
             g.sector = "E";
@@ -2002,8 +2002,8 @@ const TremorsEngine = (() => {
           if (band === "frenzy") this.loaderDamaged = true;
           break;
         case 29:
-          this.blockRoute("highway", "clinic");
-          if (band !== "quiet") this.blockRoute("highway", "caterpillar");
+          this.blockRoute("highway", "cliff_approach");
+          if (band !== "quiet") this.blockRoute("cat_path", "main_north");
           if (band === "frenzy") this.urgentEssentials = true;
           break;
         case 30:

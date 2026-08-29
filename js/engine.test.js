@@ -1,5 +1,6 @@
 const assert = require("assert");
-const { Game, noiseBand, neighbors, DATA } = require("./engine.js");
+require("./valley-board.js");
+const { Game, noiseBand, neighbors, DATA, shortestPath } = require("./engine.js");
 
 function draft(game) {
   const ids = game.burtDraft.slice(0, 2).map((e) => e.id);
@@ -34,11 +35,12 @@ test("noiseBand thresholds", () => {
   assert.equal(noiseBand(15), "frenzy");
 });
 
-test("map is connected from store to highway", () => {
+test("map is connected from store to cliff exit", () => {
   const n = neighbors("store", new Set());
   assert.ok(n.includes("water"));
-  assert.ok(n.includes("workshop"));
-  assert.ok(n.length >= 3);
+  assert.ok(n.includes("main_central"));
+  const path = shortestPath("store", "highway", new Set());
+  assert.ok(path && path.length > 2);
 });
 
 test("careful move makes 1 noise", () => {
@@ -85,10 +87,10 @@ test("graboid surfaces at the loudest node in its sector", () => {
   graboid.hunt = 2;
   graboid.surfaced = false;
   g.locationNoise.store = 1;
-  g.locationNoise.school = 6;
+  g.locationNoise.main_central = 6;
   g.surface(graboid);
   assert.equal(graboid.surfaced, true);
-  assert.equal(graboid.node, "school");
+  assert.equal(graboid.node, "main_central");
 });
 
 test("tied noise uses rng rather than a fixed node", () => {
@@ -98,11 +100,11 @@ test("tied noise uses rng rather than a fixed node", () => {
     const graboid = g.graboids[0];
     graboid.sector = "B";
     g.locationNoise.store = 4;
-    g.locationNoise.school = 4;
+    g.locationNoise.main_central = 4;
     g.surface(graboid);
   }
-  assert.ok(["store", "school"].includes(a.graboids[0].node));
-  assert.ok(["store", "school"].includes(b.graboids[0].node));
+  assert.ok(["store", "main_central"].includes(a.graboids[0].node));
+  assert.ok(["store", "main_central"].includes(b.graboids[0].node));
 });
 
 test("first catch is Threatened", () => {
@@ -222,9 +224,9 @@ test("rescue pulls one node clear and spends a token", () => {
   assert.notEqual(val.location, "store");
 });
 
-test("cannot evacuate before round 8", () => {
+test("cannot evacuate before round 10", () => {
   const g = fresh(4);
-  g.round = 7;
+  g.round = 9;
   g.objectives.forEach((o) => {
     if (o.kind === "essential") {
       o.status = "passed";
@@ -236,9 +238,9 @@ test("cannot evacuate before round 8", () => {
   assert.equal(g.gameOver, null);
 });
 
-test("completing essentials allows evacuate from round 8", () => {
+test("completing essentials allows evacuate from round 10", () => {
   const g = fresh(4);
-  g.round = 8;
+  g.round = 10;
   g.objectives.forEach((o) => {
     if (o.kind === "essential") {
       o.status = "passed";
@@ -450,27 +452,20 @@ test("calamity 30 frenzy fails unfinished essentials and can end the game", () =
   assert.equal(g.gameOver, "loss");
 });
 
-test("DATA has 14 town nodes, 30 calamities, 4 characters", () => {
-  assert.equal(DATA.nodes.length, 14);
+test("DATA has 32 valley nodes, 30 calamities, 4 characters", () => {
+  assert.equal(DATA.nodes.length, 32);
   assert.equal(DATA.calamities.length, 30);
   assert.equal(DATA.characters.length, 4);
 });
 
-test("town lots sit on the CaciqueCaribe map", () => {
+test("valley board matches blueprint graph", () => {
+  assert.equal(DATA.routes.length, 40);
   const by = Object.fromEntries(DATA.nodes.map((n) => [n.id, n]));
-  assert.equal(by.trailer.sector, "A");
-  assert.equal(by.nancy.sector, "A");
-  assert.equal(by.bar.sector, "D");
-  assert.ok(by.store.x < 50, "Chang's is west of Main St");
-  assert.ok(by.water.x < 50, "water tower is west of Main St");
-  assert.ok(by.trailer.x < 50, "Nestor is west of Main St");
-  assert.ok(by.nancy.x > 50, "Nancy is east of Main St");
-  assert.ok(by.workshop.x > 50, "junkyard is east of Main St");
-  assert.ok(by.bar.x > 50, "Melvin is east of Main St");
-  assert.ok(by.water.y > by.store.y, "water tower is south of Chang's");
-  assert.ok(by.trailer.y < by.store.y, "Nestor is north of Chang's");
-  assert.ok(by.bar.y > by.workshop.y, "Melvin is south of the junkyard lot");
-  assert.equal((DATA.streets || []).length, 2);
+  assert.equal(by.radio.name, "Roadworks / Tel Cut");
+  assert.equal(by.rhonda.sector, "C");
+  assert.equal(by.highway.name, "Cliff Edge");
+  assert.ok(by.store.x < by.main_central.x, "Chang's sits west of Main St");
+  assert.ok(by.burt.x < by.burt_gate.x, "armory is west of the gate");
 });
 
 test("every route endpoint and solid rock node exists", () => {
@@ -482,7 +477,7 @@ test("every route endpoint and solid rock node exists", () => {
   for (const s of DATA.solidRockNodes) assert.ok(ids.has(s), `solid rock ${s}`);
 });
 
-test("all objective locations exist on the town board", () => {
+test("all objective locations exist on the valley board", () => {
   const ids = new Set(DATA.nodes.map((n) => n.id));
   const all = [...DATA.objectives.essential, ...DATA.objectives.optional, ...DATA.objectives.character];
   for (const o of all) assert.ok(ids.has(o.location), `${o.id} at ${o.location}`);
@@ -497,7 +492,7 @@ test("solid rock prevents surfacing once revealed", () => {
   DATA.nodes.filter((n) => n.sector === "C").forEach((n) => {
     g.locationNoise[n.id] = 0;
   });
-  g.locationNoise.water = 5;
+  g.locationNoise.rhonda = 5;
   g.surface(graboid);
   assert.equal(graboid.surfaced, false);
   assert.equal(graboid.hunt, 2);
@@ -524,12 +519,12 @@ test("surfaced graboid steps toward the nearest character", () => {
   const before = graboid.node;
   g.moveGraboidTowardNoise(graboid);
   assert.notEqual(graboid.node, before);
-  const path = require("./engine.js").shortestPath;
+  const path = shortestPath;
   assert.ok(path(before, "store", new Set()).includes(graboid.node));
 });
 
-test("calamity rounds are 4, 7, 9, 11, 12", () => {
-  assert.deepEqual(DATA.calamityRounds, [4, 7, 9, 11, 12]);
+test("calamity rounds are 4, 7, 10, 12, 14", () => {
+  assert.deepEqual(DATA.calamityRounds, [4, 7, 10, 12, 14]);
 });
 
 test("turn order is Val then Earl then Rhonda then Burt", () => {
