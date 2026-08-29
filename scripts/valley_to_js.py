@@ -10,7 +10,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from valley_network import edges, nodes_data  # noqa: E402
+from valley_network import edges, fault_lines, nodes_data  # noqa: E402
 
 # Blueprint Nxx -> engine slug (legacy ids kept where they match gameplay)
 SLUG = {
@@ -143,6 +143,7 @@ def main() -> None:
         nodes.append(node)
 
     routes = sorted({tuple(sorted((SLUG[a], SLUG[b]))) for a, b in edges})
+    faults = sorted({tuple(sorted((SLUG[a], SLUG[b]))) for a, b in fault_lines})
 
     solid = [n["id"] for n in nodes if n.get("boulder") or n["id"] in ("water", "edgar", "workshop")]
 
@@ -157,6 +158,7 @@ def main() -> None:
     board = {
         "nodes": nodes,
         "routes": routes,
+        "faultLines": faults,
         "streets": streets,
         "solidRockNodes": solid,
         "sectors": {

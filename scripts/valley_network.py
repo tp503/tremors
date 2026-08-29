@@ -59,6 +59,19 @@ edges = [
     ("N27", "N28"), ("N28", "N29"), ("N30", "N31"), ("N31", "N32"),
 ]
 
+# Graboid-only subterranean fault channels (not walkable surface routes)
+fault_lines = [("N04", "N26"), ("N09", "N27"), ("N22", "N31")]
+
+node_shapes = {
+    "Fortified Hub": "s",
+    "Safe High Ground": "^",
+    "Safe Boulders": "h",
+    "Micro-Safe Roof": "s",
+    "Exposed Dirt": "o",
+    "Search Hub": "D",
+    "Hazard / Trap": "*",
+}
+
 category_colors = {
     "Fortified Hub": "#1f77b4",
     "Safe High Ground": "#2ca02c",
