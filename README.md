@@ -18,6 +18,8 @@ Then go to `http://localhost:8000/`. Printable **town** board: `http://localhost
 
 You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Every action is at least 1 Noise unless Rhonda hasn't moved this turn or you spend a Quiet Move token. Graboids surface on Hunt 2 and chase the nearest character. First catch is Threatened; the same worm catching again is Grabbed. Search fills a shared item supply; two items can be rigged into a Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, or Field Generator.
 
+**Full playtest pack** (one printable document: valley map + key, rules, setup, example turn, test protocol, all card decks): `print/playtest-pack.html`, also `print/perfection-playtest-pack.pdf`.
+
 ## Tests
 
 ```bash
