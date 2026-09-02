@@ -2,6 +2,8 @@
 
 Compiled from the design conversation (noise as a shared resource, two-phase escape, calamity clock, condition tracks rather than hit points, and fully cooperative play). This is a **playable Phase 1 prototype**, not a finished published game. Dense table copy: `print/rules.html` (also `print/perfection-rules.pdf`).
 
+**Valley target (32-node map, merged Gemini + prototype):** see `docs/rules-valley.md` and `docs/valley-engine-checklist.md`.
+
 ## Win and lose
 
 - **Everyone escapes alive = win.**
