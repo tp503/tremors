@@ -1,6 +1,8 @@
 # Tremors: Perfection — Prototype Rules
 
-Compiled from the design conversation (noise as a shared resource, two-phase escape, calamity clock, condition tracks rather than hit points, and fully cooperative play). This is a **playable Phase 1 prototype**, not a finished published game.
+Compiled from the design conversation (noise as a shared resource, two-phase escape, calamity clock, condition tracks rather than hit points, and fully cooperative play). This is a **playable Phase 1 prototype**, not a finished published game. Dense table copy: `print/rules.html` (also `print/perfection-rules.pdf`).
+
+**Valley target (32-node map, merged Gemini + prototype):** see `docs/rules-valley.md` and `docs/valley-engine-checklist.md`.
 
 ## Win and lose
 
@@ -24,11 +26,21 @@ Each character has two passive abilities and **one Signature Moment** (once per 
 
 ## Map
 
-**Node-and-route map**, not hexes. Eighteen named locations in five underground **sectors** (A north, B centre, C west, D east, E south).
+**Node-and-route map**, not hexes. **Phase 1 is the town only**: fourteen locations in five underground **sectors**. Town lots follow [CaciqueCaribe's 2016 Perfection map](https://www.deviantart.com/caciquecaribe/art/Tremors-Fans-Perfection-Nevada-Location-Map-1-0-593836343): **Main St** north–south, **Talcum Ln** east–west, Chang's on the west sidewalk. Burt, Rhonda, and Jim & Megan sit off those lots so the arsenal, seismograph, and medical objectives still have homes. Names follow the 1990 film (see `docs/film-geography.md`). Edgar and Old Fred arrive as calamity news; the valley is the Phase 2 fold-out.
 
 - Graboid **tokens** occupy a **sector**.
 - When a Graboid **surfaces**, a **model** is placed on a **node**.
-- Routes can be blocked by calamities. Buildings protect until Compromised or Unsafe. Towers cannot be grabbed. Solid Rock (Aqueduct / Mountain Road) can be revealed by an objective.
+- Routes can be blocked by calamities. Buildings protect until Compromised or Unsafe. Towers cannot be grabbed. Solid Rock (the Junkyard pad and the Water Tower footing) can be revealed by an objective.
+
+| Sector | Nodes |
+| --- | --- |
+| A north of Talcum | Telephone Line, Nestor's Trailer, Nancy's House |
+| B market block | Chang's Market, Horse Corral |
+| C west | Burt & Heather's, Water Tower, Chang's Trailer |
+| D east / south-east | Rhonda's Camp, Melvin's Place, Jim & Megan's |
+| E south yard | Junkyard, Caterpillar, Bixby Road |
+
+Printable copy: `print/map.html` (landscape letter / A4), also `print/perfection-map.pdf`.
 
 ## Turn structure (Phase 1, 12 rounds)
 
@@ -98,13 +110,42 @@ Drawn each game: **3 Essential**, **2 Optional**, **1 Character** (prototype cou
 
 Work them on-site. Failure is not "lose immediately" — it changes the board (blocked routes, extra aggression, scattered starting positions, damaged loader).
 
+## Search and items
+
+Search is the item economy. Roll **d6 + Search + the node's Search rating** against **9**, then **+1 per prior find at that node**. Success draws from a **16-card deck** (two each of eight items) into a **shared team supply**.
+
+Items are minor alone (each use is an action and the 1-noise floor):
+
+| Item | Solo use |
+| --- | --- |
+| Tin Cans | +2 Noise diversion on an adjacent node |
+| Fishing Line | Reveal Graboids in your sector |
+| Pipe | Next Fight +1 Combat |
+| Black Powder | Next Fight +2 Combat, +2 Noise now |
+| Fuel Can | +1 Fuel |
+| Rope | Pull a Pinned/Threatened teammate here or adjacent one node clear |
+| Radio Parts | +1 Work on the radio or loader objective here |
+| Walkie-Talkies | Next character gains +1 action |
+
+Five **Rig** recipes spend two specific items as one action:
+
+| Rig | Parts | Effect |
+| --- | --- | --- |
+| Pipe Bomb | Pipe + Powder | 1 wound at range, no fight roll |
+| Tripwire Bait | Cans + Line | Next Graboid surfaces at a node you choose, **no ambush** |
+| Fire Bomb | Fuel + Powder | Force a surfaced worm here to dive at Hunt 1 |
+| Line Rescue | Rope + Walkies | Pull a Grabbed teammate from an adjacent node onto yours |
+| Field Generator | Parts + Fuel | Clear Power Failure / Darkness; dump 2 lingering noise |
+
+Tripwire Bait is the signature play: it turns the Hunt rule into a tool.
+
 ## Calamity deck
 
 30 cards in three acts. Not fully shuffled: Act I on round 4, Act II on 7 and 9, Act III on 11, **Get Out of Perfection** on 12. Noise chooses which text on the card fires.
 
 ## Phase 2 (not fully built)
 
-The conversation's second board is the valley fold-out: sand 0 / dirt 1 / rocks 2 / road 2 / vehicle 4, extraction on high ground, loader as lifeboat. **Evacuate** is only legal from **round 8+**, with essentials done and nobody grabbed or dead. This prototype stops at a successful Evacuate from town. Shared **rigs** (Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, Field Generator) come from Search.
+The conversation's second board is the valley fold-out: sand 0 / dirt 1 / rocks 2 / road 2 / vehicle 4, extraction on high ground, loader as lifeboat. Its landmarks are already researched and reserved: the **North Cliffs**, **Edgar's Pylon**, **Old Fred's Ranch**, the **Concrete Aqueduct**, and the pole-vault rocks (see `docs/film-geography.md`). **Evacuate** is only legal from **round 8+**, with essentials done and nobody grabbed or dead. This prototype stops at a successful Evacuate from town.
 
 ## What the prototype is for
 

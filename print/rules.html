@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tremors: Perfection — playtest rules</title>
+    <style>
+      :root {
+        --ink: #1a120c;
+        --rule: #8a6a44;
+        --blood: #7a1c14;
+        --wash: #f3e6c8;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: #2a2218;
+        color: var(--ink);
+        font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+      }
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 18px;
+        background: #1c140c;
+        color: #f0dcb4;
+      }
+      .toolbar h1 { font-size: 16px; margin: 0; }
+      .toolbar p { margin: 0; font-size: 12px; color: #d4b888; }
+      .toolbar a, .toolbar button {
+        font-family: inherit;
+        color: #1c140c;
+        background: linear-gradient(#f0dcb4, #d7b888);
+        border: 1px solid #5a4030;
+        padding: 7px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .sheet {
+        width: 8.5in;
+        margin: 12px auto;
+        background: #fbf6e8;
+        padding: 0.28in 0.3in 0.22in;
+        box-shadow: 0 8px 24px #0008;
+      }
+      header.banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+        border-bottom: 2px solid var(--ink);
+        padding-bottom: 3px;
+        margin-bottom: 6px;
+      }
+      header.banner h1 {
+        margin: 0;
+        font-size: 15px;
+        letter-spacing: 0.04em;
+      }
+      header.banner p {
+        margin: 0;
+        font-size: 8.5px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--blood);
+      }
+      .lede {
+        margin: 0 0 6px;
+        font-size: 8.6px;
+        line-height: 1.25;
+      }
+      .cols {
+        columns: 2;
+        column-gap: 12px;
+        column-rule: 1px solid #c9b08a;
+      }
+      h2 {
+        break-after: avoid;
+        font-size: 9.2px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--blood);
+        margin: 7px 0 2px;
+        border-bottom: 1px solid var(--rule);
+        padding: 0 0 1px;
+      }
+      h2:first-child { margin-top: 0; }
+      p, li { font-size: 8.4px; line-height: 1.22; margin: 0 0 3px; }
+      ul { margin: 0 0 3px; padding-left: 12px; }
+      b { font-weight: 700; }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 7.7px;
+        line-height: 1.18;
+        margin: 0 0 4px;
+        break-inside: avoid;
+      }
+      th, td {
+        border: 1px solid var(--rule);
+        padding: 1px 4px;
+        vertical-align: top;
+        text-align: left;
+      }
+      th { background: var(--wash); font-weight: 700; }
+      .tiny { font-size: 7.5px; line-height: 1.18; margin: 0 0 3px; }
+      .kicker {
+        font-size: 7.4px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--blood);
+        margin: 0 0 2px;
+      }
+      @media print {
+        html, body { background: #fff; }
+        .toolbar { display: none; }
+        .sheet {
+          width: auto;
+          margin: 0;
+          padding: 0;
+          box-shadow: none;
+          background: #fff;
+        }
+        @page { size: letter portrait; margin: 0.32in; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar no-print">
+      <div>
+        <h1>Tremors: Perfection — playtest rules</h1>
+        <p>Phase 1 prototype. Two letter pages. Print → Save as PDF if you want a file.</p>
+      </div>
+      <div>
+        <a href="./map.html">Print map</a>
+        <a href="./objectives.html">Objectives</a>
+        <a href="./calamities.html">Calamities</a>
+        <a href="../index.html">Back to game</a>
+        <button type="button" onclick="window.print()">Print rules</button>
+      </div>
+    </div>
+
+    <article class="sheet">
+      <header class="banner">
+        <h1>Tremors: Perfection — Playtest Rules</h1>
+        <p>Phase 1 · town only · one death ends it</p>
+      </header>
+      <p class="lede"><b>Co-op, solo-friendly.</b> Run Val → Earl → Rhonda → Burt. Complete the drawn Essentials, then <b>Evacuate from round 8+</b> (or still have them done when round 12 ends). Anyone Dragged or bled out from Critical = table loss. Prototype, not a published game. Pair with the printable map.</p>
+
+      <div class="cols">
+        <h2>Setup</h2>
+        <p>12 rounds. Calamity on <b>4 / 7 / 9 / 11 / 12</b>. Start with <b>3 Rescue</b>, <b>2 Medkits</b>. Draw <b>3 Essential, 2 Optional, 1 Character</b> objective. Burt drafts <b>2 of 3</b> kit cards. Three Graboids start underground at Hunt 1 in different sectors. Starts: Val &amp; Earl at Chang’s, Rhonda at her camp, Burt at the compound.</p>
+
+        <h2>Turn</h2>
+        <p>Each character: <b>2 actions</b> (1 if Injured, Grabbed, or Pinned; 0 if Critical). Grabbed’s action is Struggle. Pinned characters cannot move until helped up.</p>
+        <p><b>Every action is at least 1 Noise</b> unless Rhonda took no Move this turn (Don’t Move) or you spend a Quiet Move token (0 Noise).</p>
+        <table>
+          <thead><tr><th>Action</th><th>N</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Move carefully</td><td>+1</td><td>1 node. Ignores Shaken extra.</td></tr>
+            <tr><td>Move</td><td>+1</td><td>Up to Movement. Shaken: +1.</td></tr>
+            <tr><td>Run</td><td>+2</td><td>Farther, louder. Shaken: +1.</td></tr>
+            <tr><td>Fast (Val)</td><td>+2</td><td>Move +1 space.</td></tr>
+            <tr><td>Quiet Move token</td><td>0</td><td>Spend a token.</td></tr>
+            <tr><td>Search</td><td>+1</td><td>d6 + Search + node S vs 9, then +1 per prior find here. Draw to shared supply.</td></tr>
+            <tr><td>Work objective</td><td>max(1, printed)</td><td>Must be on its node. Tick 1 work.</td></tr>
+            <tr><td>Diversion</td><td>+3</td><td>Dump noise on an adjacent node.</td></tr>
+            <tr><td>Fight</td><td>+3</td><td>Same node, surfaced worm. d6 + Combat ≥ 8 = 1 wound. Heavy guns extra N. Miss: it attacks you.</td></tr>
+            <tr><td>Rescue</td><td>+2</td><td>Spend 1 Rescue token. Pull one node clear.</td></tr>
+            <tr><td>Struggle</td><td>+1</td><td>Grabbed only. Pull one node clear.</td></tr>
+            <tr><td>Use item / rig</td><td>floor 1</td><td>See items. Rigs spend two parts, one action.</td></tr>
+            <tr><td>Aid / unpin</td><td>+1</td><td>Share node. Aid spends a Medkit (Crit→Inj or Inj→Healthy).</td></tr>
+            <tr><td>Stay quiet</td><td>+1</td><td>Dump leftover actions.</td></tr>
+            <tr><td>Evacuate</td><td>—</td><td>Round 8+. All Essentials done. Nobody Grabbed or dead.</td></tr>
+          </tbody>
+        </table>
+        <p>Signature Moments: once per game, listed on the character.</p>
+
+        <h2>End of round</h2>
+        <ol>
+          <li>Sum <b>Noise this round</b> → Graboid response. Surfaced worms chase the nearest character (1 step; Frenzy/Stampede: 2).</li>
+          <li>If the round is 4, 7, 9, 11, or 12: draw a Calamity. Band by that same total: Quiet 0–8 / Disturbed 9–14 / Frenzy 15+.</li>
+          <li>Critical timers tick (2 rounds → dead). Location noise <b>decays by 1</b>. Round noise resets. A surfaced Graboid that catches nobody for <b>2 rounds</b> submerges at Hunt 1.</li>
+        </ol>
+
+        <h2>Noise &amp; Hunt</h2>
+        <p>Noise is <b>shared</b> and also sits on the node where it happened. After characters act:</p>
+        <table>
+          <thead><tr><th>Round total</th><th>Response</th></tr></thead>
+          <tbody>
+            <tr><td>0–8 Quiet</td><td>No extra move. Hunt still ticks.</td></tr>
+            <tr><td>9–11 Movement</td><td>Underground worms shift toward prey / loudest noise.</td></tr>
+            <tr><td>12–14 Hunting</td><td>Move, and +1 Hunt.</td></tr>
+            <tr><td>15–19 Feeding Frenzy</td><td>Activate twice (or extra Hunt).</td></tr>
+            <tr><td>20+ Stampede</td><td>A new Graboid enters; all hunt hard.</td></tr>
+          </tbody>
+        </table>
+        <p>Each Graboid phase, an <b>underground</b> worm in a sector gains Hunt from that sector’s lingering noise: <b>+1</b> (0–4), <b>+2</b> (5–7), <b>+3</b> (8+), plus Aggression. <b>Hunt 2 = Surface</b> at the <b>loudest node in that sector</b> (ties random). Tripwire Bait overrides the node and skips the ambush.</p>
+        <p>Kill a surfaced Graboid with <b>2 wounds</b> → immediately <b>+6 Noise</b>.</p>
+
+        <h2>The model</h2>
+        <p>Token = sector (underground). Model = node (surfaced). Sharing its node:</p>
+        <ol>
+          <li><b>Threatened</b> — first catch by <i>that</i> worm. Still mobile. Leave.</li>
+          <li><b>Grabbed</b> — the same worm again. 1 action (Struggle). Rescue/Struggle pulls one node clear and breaks the grip.</li>
+          <li><b>Dragged</b> — catch while Grabbed. Dead. Everyone loses.</li>
+        </ol>
+        <p>If it attacks (you walk onto it, miss a Fight, or it bursts under you and buildings/towers don’t save you), d6:</p>
+        <table>
+          <thead><tr><th>d6</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>1–2</td><td>Miss — Shaken.</td></tr>
+            <tr><td>3</td><td>Knockdown — Injured, Shaken.</td></tr>
+            <tr><td>4</td><td>Pinned — Injured; cannot move until helped.</td></tr>
+            <tr><td>5–6</td><td>Grabbed (if already Threatened by it: this is the second catch).</td></tr>
+          </tbody>
+        </table>
+        <p>Already Grabbed + catch = Dragged, no roll. Burt may burn one equipment once per round to cancel an attack at his node (<b>Prepared for Anything</b>).</p>
+        <p>Health: <b>Healthy → Injured → Critical (2 rounds) → Dead</b>. Val goes Critical after the second serious hit. Shaken: +1 Noise on ordinary Move/Run (not careful). Medkit at the node: Crit→Injured or Injured→Healthy.</p>
+
+        <h2>Terrain</h2>
+        <p><b>Building</b> — first Graboid test Compromises it (holds once); later Unsafe. <b>Tower</b> — cannot be grabbed; open ground below becomes Unsafe. <b>Metal</b> — louder (printed N). <b>Open / road</b> — exposed. <b>Solid Rock</b> (Water Tower footing + Caterpillar pad) — revealed by Find the Safe Ground; no surface/catch there. Blocked routes cannot be walked.</p>
+
+        <h2>Map (Phase 1 town)</h2>
+        <p>14 nodes. Main St N–S, Talcum Ln E–W, Chang’s west of Main St. Burt / Rhonda / Jim sit off the lots.</p>
+        <table>
+          <thead><tr><th>S</th><th>Nodes</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td>Telephone Line, Nestor’s Trailer, Nancy’s House</td></tr>
+            <tr><td>B</td><td>Chang’s Market, Horse Corral</td></tr>
+            <tr><td>C</td><td>Burt &amp; Heather’s, Water Tower, Chang’s Trailer</td></tr>
+            <tr><td>D</td><td>Rhonda’s Camp, Melvin’s Place, Jim &amp; Megan’s</td></tr>
+            <tr><td>E</td><td>Junkyard, Caterpillar, Bixby Road</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Characters</h2>
+        <p class="tiny">Stats are Movement / Nerve / Search / Combat. Turn order Val → Earl → Rhonda → Burt.</p>
+        <table>
+          <thead><tr><th></th><th>M/N/S/C</th><th>Passives / weakness</th><th>Signature (1×)</th></tr></thead>
+          <tbody>
+            <tr><td><b>Val</b><br>Chang’s</td><td>4/3/3/3</td><td>Fast (+1 space, +1 N). Luck: 1 reroll/round (fail: +1 N). Don’t Wait Around: start Unsafe/Threatened → +1 Move. Fragile: second hit → Critical. Injured: −1 Move.</td><td><b>Run!</b> Move 4 nodes now, ignore extra terrain. Become Shaken.</td></tr>
+            <tr><td><b>Earl</b><br>Chang’s</td><td>3/5/2/3</td><td>Knows When to Run: 1/round after another’s Noise, move 1 toward them free. Keep Moving: action, clear Shaken here. Together: share a node → both +1 Nerve; if one is Injured, Earl is Shaken.</td><td><b>Let’s Get the Hell Out</b> — all here may move 1 with no extra N.</td></tr>
+            <tr><td><b>Rhonda</b><br>camp</td><td>3/3/5/2</td><td>Seismologist: on a noise threshold, peek next Calamity (keep or bury). I Know Where It Is: action, reveal a Graboid in your node/sector. Don’t Move: no Move this turn → next action 0 N. Combat 2. Injured: cannot bury.</td><td><b>They’re Under Us</b> — reveal all in your sector; move one underground worm to an adjacent sector.</td></tr>
+            <tr><td><b>Burt</b><br>house</td><td>2/4/3/5</td><td>Prepared: 1/round, spend kit to cancel an attack/breach here. Big Guns: may use heavy; Fight extra +2 N. Weakness: +1 N using equipment. Injured: Fight −1.</td><td><b>Gun Collection</b> — Fight Combat +3, no ammo cost, +5 N.</td></tr>
+          </tbody>
+        </table>
+        <p class="tiny">Burt kit (draft 2): Rifle (Fight +1, heavy +2 N) · Shotgun (same node Fight +2, heavy) · Explosives (can wound, +5 N) · Ammo (reroll one Fight) · Binoculars (Hunt in adjacent sectors) · Improvised Weapon (anyone may Fight, no bonus).</p>
+
+        <h2>Objectives</h2>
+        <p>Work on-site. Failure changes the board; it is not an instant loss. Prototype draw: 3 / 2 / 1 from these lists.</p>
+        <p class="kicker">Essential — work 2</p>
+        <table>
+          <thead><tr><th>Name</th><th>Where</th><th>N</th><th>Pass / fail</th></tr></thead>
+          <tbody>
+            <tr><td>The Road Is Blocked</td><td>Bixby Road</td><td>1</td><td>Intel / highway Danger Zone, Aggression +1</td></tr>
+            <tr><td>Get the Radio Working</td><td>Telephone Line</td><td>2</td><td>+1 Rescue / Desperation +1 and +1 every 2 rounds</td></tr>
+            <tr><td>Find Rhonda’s Seismograph</td><td>Rhonda’s Camp</td><td>0</td><td>Learn loudest-node Hunt / blind hunting</td></tr>
+            <tr><td>Secure a Heavy Vehicle</td><td>Caterpillar</td><td>3</td><td>Loader ready / starts damaged</td></tr>
+            <tr><td>Find the Safe Ground</td><td>Junkyard</td><td>0</td><td>Solid Rock on Cat pad + Water Tower / stays hidden</td></tr>
+            <tr><td>Meeting Point</td><td>Chang’s</td><td>1</td><td>Assembly / survivors scatter if forced out</td></tr>
+          </tbody>
+        </table>
+        <p class="kicker">Optional</p>
+        <table>
+          <thead><tr><th>Name</th><th>Where</th><th>W/N</th><th>Pass</th></tr></thead>
+          <tbody>
+            <tr><td>Raid Chang’s</td><td>Chang’s</td><td>1/1</td><td>Medkit + Distraction</td></tr>
+            <tr><td>Burt’s Arsenal</td><td>Burt’s</td><td>1/4</td><td>Explosives + Ammo (fail: Burt stuck here)</td></tr>
+            <tr><td>Gather Fuel</td><td>Chang’s Trailer</td><td>1/2</td><td>+3 Fuel</td></tr>
+            <tr><td>Medical Supplies</td><td>Jim &amp; Megan’s</td><td>1/1</td><td>+2 Medkits</td></tr>
+            <tr><td>Save the Horses</td><td>Horse Corral</td><td>1/1</td><td>+2 Quiet Move tokens</td></tr>
+            <tr><td>Salvage the Trailer</td><td>Nestor’s</td><td>1/2</td><td>Loader carries everyone</td></tr>
+            <tr><td>The Basement</td><td>Burt’s</td><td>2/2</td><td>Heavy kit (fail: building inaccessible)</td></tr>
+          </tbody>
+        </table>
+        <p class="tiny">Character (1): Burt—Prepared (arsenal card) · Rhonda—readings (reveal two Hunt/sectors) · Val &amp; Earl—get Melvin (Distraction) · Nancy—Where’s Mindy? (+1 Quiet Move).</p>
+
+        <h2>Search, items, rigs</h2>
+        <p>16-card deck, two of each. Shared supply. Use is an action (1-N floor unless Don’t Move / Quiet token).</p>
+        <table>
+          <thead><tr><th>Item</th><th>Solo</th></tr></thead>
+          <tbody>
+            <tr><td>Tin Cans</td><td>+2 N on an adjacent node</td></tr>
+            <tr><td>Fishing Line</td><td>Reveal every Graboid in your sector</td></tr>
+            <tr><td>Pipe</td><td>Next Fight +1 Combat</td></tr>
+            <tr><td>Black Powder</td><td>Next Fight +2 Combat; +2 N now</td></tr>
+            <tr><td>Fuel Can</td><td>+1 Fuel</td></tr>
+            <tr><td>Rope</td><td>Pull Pinned/Threatened here or adjacent 1 clear (not Grabbed)</td></tr>
+            <tr><td>Radio Parts</td><td>+1 Work on radio or loader here</td></tr>
+            <tr><td>Walkie-Talkies</td><td>Next character in order +1 action</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead><tr><th>Rig</th><th>Parts</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td>Pipe Bomb</td><td>Pipe + Powder</td><td>1 wound here or adjacent, no Fight roll, +4 N</td></tr>
+            <tr><td>Tripwire Bait</td><td>Cans + Line</td><td>Next surface at a node you choose, no ambush</td></tr>
+            <tr><td>Fire Bomb</td><td>Fuel + Powder</td><td>Force a surfaced worm here to dive at Hunt 1, +5 N</td></tr>
+            <tr><td>Line Rescue</td><td>Rope + Walkies</td><td>Pull Grabbed/Threatened from adjacent onto yours</td></tr>
+            <tr><td>Field Generator</td><td>Parts + Fuel</td><td>Clear Power Failure / Darkness; dump 2 lingering N here</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Calamity</h2>
+        <p>30 cards, three acts, <b>not fully shuffled</b>: Act I on 4, Act II on 7 and 9, Act III on 11, <b>Get Out of Perfection</b> on 12. The round’s noise band picks Quiet / Disturbed / Frenzy text. Edgar and Old Fred are flavour, not map spaces. Round 12 unfinished Essentials can end the game.</p>
+        <p class="tiny">Printable map: print/map.html · Objective cards: print/objectives.html · Calamity deck: print/calamities.html · Valley fold-out is not in this prototype.</p>
+      </div>
+    </article>
+  </body>
+</html>

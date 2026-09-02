@@ -36,7 +36,8 @@ test("noiseBand thresholds", () => {
 
 test("map is connected from store to highway", () => {
   const n = neighbors("store", new Set());
-  assert.ok(n.includes("bar"));
+  assert.ok(n.includes("water"));
+  assert.ok(n.includes("workshop"));
   assert.ok(n.length >= 3);
 });
 
@@ -84,12 +85,10 @@ test("graboid surfaces at the loudest node in its sector", () => {
   graboid.hunt = 2;
   graboid.surfaced = false;
   g.locationNoise.store = 1;
-  g.locationNoise.bar = 1;
-  g.locationNoise.clinic = 6;
-  g.locationNoise.school = 2;
+  g.locationNoise.school = 6;
   g.surface(graboid);
   assert.equal(graboid.surfaced, true);
-  assert.equal(graboid.node, "clinic");
+  assert.equal(graboid.node, "school");
 });
 
 test("tied noise uses rng rather than a fixed node", () => {
@@ -99,13 +98,11 @@ test("tied noise uses rng rather than a fixed node", () => {
     const graboid = g.graboids[0];
     graboid.sector = "B";
     g.locationNoise.store = 4;
-    g.locationNoise.bar = 4;
-    g.locationNoise.clinic = 0;
-    g.locationNoise.school = 0;
+    g.locationNoise.school = 4;
     g.surface(graboid);
   }
-  assert.ok(["store", "bar"].includes(a.graboids[0].node));
-  assert.ok(["store", "bar"].includes(b.graboids[0].node));
+  assert.ok(["store", "school"].includes(a.graboids[0].node));
+  assert.ok(["store", "school"].includes(b.graboids[0].node));
 });
 
 test("first catch is Threatened", () => {
@@ -169,7 +166,7 @@ test("miss 2 rounds submerges at Hunt 1", () => {
   const g = fresh(8);
   const graboid = g.graboids[0];
   graboid.surfaced = true;
-  graboid.node = "mountain_road";
+  graboid.node = "radio";
   graboid.hunt = 3;
   graboid.caughtThisRound = false;
   g.characters.forEach((c) => {
@@ -301,22 +298,35 @@ test("search succeeds on d6 + Search + node.search >= 9", () => {
   g.refreshTurn();
   rhonda.location = "radio";
   g.rng = () => 0.99;
-  const before = g.stash.length + g.medicalKits + g.quietMoves + g.distractions;
+  const before = g.stash.length;
   g.act("rhonda", { type: "search" });
-  const after = g.stash.length + g.medicalKits + g.quietMoves + g.distractions;
-  assert.ok(after >= before);
+  assert.ok(g.stash.length >= before);
 });
 
-test("search finds go to the shared stash or shared tokens", () => {
+test("search draws from the 16-card item deck into the shared supply", () => {
   const g = fresh(10);
   g.turnIndex = 2;
   g.refreshTurn();
   g.char("rhonda").location = "radio";
-  const rolls = [0.99, 0.01, 0.01];
-  let i = 0;
-  g.rng = () => rolls[Math.min(i++, rolls.length - 1)];
+  g.rng = () => 0.99;
+  const deckBefore = g.itemDeck.length;
   g.act("rhonda", { type: "search" });
-  assert.ok(g.stash.length >= 1);
+  assert.equal(g.itemDeck.length, deckBefore - 1);
+  assert.equal(g.stash.length, 1);
+  assert.ok(DATA.items.some((it) => it.id === g.stash[0]));
+});
+
+test("each successful search at a node raises the next target by 1", () => {
+  const g = fresh(10);
+  g.turnIndex = 2;
+  g.refreshTurn();
+  g.char("rhonda").location = "radio";
+  g.rng = () => 0.99;
+  g.act("rhonda", { type: "search" });
+  assert.equal(g.searchWear.radio, 1);
+  g.char("rhonda").actions = 2;
+  g.act("rhonda", { type: "search" });
+  assert.equal(g.searchWear.radio, 2);
 });
 
 test("rigs include Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, Field Generator", () => {
@@ -324,18 +334,111 @@ test("rigs include Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, Field Gener
   assert.deepEqual(names, ["Pipe Bomb", "Tripwire Bait", "Fire Bomb", "Line Rescue", "Field Generator"]);
 });
 
-test("pipe bomb wounds a surfaced graboid", () => {
+test("item deck is two copies of eight thematic cards", () => {
+  assert.equal(DATA.items.length, 8);
+  const g = fresh(3);
+  assert.equal(g.itemDeck.length, 16);
+});
+
+test("pipe bomb wounds a surfaced graboid and spends Pipe + Powder", () => {
   const g = fresh(12);
-  g.stash.push("pipe_bomb");
+  g.stash.push("pipe", "powder");
   const graboid = g.graboids[0];
   graboid.surfaced = true;
   graboid.node = g.char("val").location;
   graboid.wounds = 0;
   const res = g.act("val", { type: "rig", rig: "pipe_bomb" });
   assert.equal(res.ok, true, res.error);
+  assert.equal(g.stash.includes("pipe"), false);
+  assert.equal(g.stash.includes("powder"), false);
   const still = g.graboids.find((x) => x.id === graboid.id);
   if (still) assert.equal(still.wounds, 1);
-  else assert.equal(g.stash.includes("pipe_bomb"), false);
+});
+
+test("tin cans dump +2 noise on an adjacent node", () => {
+  const g = fresh(4);
+  g.stash.push("cans");
+  const adj = neighbors(g.char("val").location, g.blocked)[0];
+  const before = g.locationNoise[adj] || 0;
+  const res = g.act("val", { type: "useItem", item: "cans", target: adj });
+  assert.equal(res.ok, true, res.error);
+  assert.ok((g.locationNoise[adj] || 0) >= before + 2);
+  assert.equal(g.stash.includes("cans"), false);
+});
+
+test("walkie-talkies give the next character +1 action", () => {
+  const g = fresh(5);
+  g.stash.push("walkies");
+  g.act("val", { type: "useItem", item: "walkies" });
+  g.act("val", { type: "endTurn" });
+  assert.equal(g.activeId(), "earl");
+  assert.equal(g.char("earl").actions, g.char("earl").maxActions);
+  assert.ok(g.char("earl").maxActions >= 3);
+});
+
+test("tripwire bait makes the next surface land on the chosen node with no ambush", () => {
+  const g = fresh(6);
+  g.stash.push("cans", "line");
+  const dest = neighbors(g.char("val").location, g.blocked)[0];
+  g.char("val").location = dest;
+  const res = g.act("val", { type: "rig", rig: "tripwire", target: dest });
+  assert.equal(res.ok, true, res.error);
+  const graboid = g.graboids[0];
+  g.surface(graboid);
+  assert.equal(graboid.node, dest);
+  assert.equal(graboid.surfaced, true);
+  assert.equal(g.char("val").grabbed, false);
+  assert.equal(g.char("val").threatened, false);
+});
+
+test("fire bomb forces a surfaced graboid to dive", () => {
+  const g = fresh(8);
+  g.stash.push("fuel_can", "powder");
+  const graboid = g.graboids[0];
+  graboid.surfaced = true;
+  graboid.node = g.char("val").location;
+  const res = g.act("val", { type: "rig", rig: "fire_bomb" });
+  assert.equal(res.ok, true, res.error);
+  assert.equal(graboid.surfaced, false);
+  assert.equal(graboid.hunt, 1);
+});
+
+test("line rescue pulls an adjacent grabbed teammate without sharing the kill node", () => {
+  const g = fresh(9);
+  g.stash.push("rope", "walkies");
+  const val = g.char("val");
+  const earl = g.char("earl");
+  const adj = neighbors(val.location, g.blocked)[0];
+  earl.location = adj;
+  earl.grabbed = true;
+  const res = g.act("val", { type: "rig", rig: "line_rescue", target: adj });
+  assert.equal(res.ok, true, res.error);
+  assert.equal(earl.location, val.location);
+  assert.equal(earl.grabbed, false);
+});
+
+test("field generator clears darkness and power failure", () => {
+  const g = fresh(11);
+  g.stash.push("parts", "fuel_can");
+  g.darkness = true;
+  g.poweredOff.add("store");
+  const res = g.act("val", { type: "rig", rig: "field_gen" });
+  assert.equal(res.ok, true, res.error);
+  assert.equal(g.darkness, false);
+  assert.equal(g.poweredOff.size, 0);
+});
+
+test("pipe fight bonus is consumed on the next fight", () => {
+  const g = fresh(13);
+  g.stash.push("pipe");
+  g.act("val", { type: "useItem", item: "pipe" });
+  assert.equal(g.fightBonus, 1);
+  const graboid = g.graboids[0];
+  graboid.surfaced = true;
+  graboid.node = g.char("val").location;
+  g.rng = () => 0.99;
+  g.act("val", { type: "fight" });
+  assert.equal(g.fightBonus, 0);
 });
 
 test("calamity 30 frenzy fails unfinished essentials and can end the game", () => {
@@ -347,10 +450,57 @@ test("calamity 30 frenzy fails unfinished essentials and can end the game", () =
   assert.equal(g.gameOver, "loss");
 });
 
-test("DATA has 18 nodes, 30 calamities, 4 characters", () => {
-  assert.equal(DATA.nodes.length, 18);
+test("DATA has 14 town nodes, 30 calamities, 4 characters", () => {
+  assert.equal(DATA.nodes.length, 14);
   assert.equal(DATA.calamities.length, 30);
   assert.equal(DATA.characters.length, 4);
+});
+
+test("town lots sit on the CaciqueCaribe map", () => {
+  const by = Object.fromEntries(DATA.nodes.map((n) => [n.id, n]));
+  assert.equal(by.trailer.sector, "A");
+  assert.equal(by.nancy.sector, "A");
+  assert.equal(by.bar.sector, "D");
+  assert.ok(by.store.x < 50, "Chang's is west of Main St");
+  assert.ok(by.water.x < 50, "water tower is west of Main St");
+  assert.ok(by.trailer.x < 50, "Nestor is west of Main St");
+  assert.ok(by.nancy.x > 50, "Nancy is east of Main St");
+  assert.ok(by.workshop.x > 50, "junkyard is east of Main St");
+  assert.ok(by.bar.x > 50, "Melvin is east of Main St");
+  assert.ok(by.water.y > by.store.y, "water tower is south of Chang's");
+  assert.ok(by.trailer.y < by.store.y, "Nestor is north of Chang's");
+  assert.ok(by.bar.y > by.workshop.y, "Melvin is south of the junkyard lot");
+  assert.equal((DATA.streets || []).length, 2);
+});
+
+test("every route endpoint and solid rock node exists", () => {
+  const ids = new Set(DATA.nodes.map((n) => n.id));
+  for (const [a, b] of DATA.routes) {
+    assert.ok(ids.has(a), `route endpoint ${a}`);
+    assert.ok(ids.has(b), `route endpoint ${b}`);
+  }
+  for (const s of DATA.solidRockNodes) assert.ok(ids.has(s), `solid rock ${s}`);
+});
+
+test("all objective locations exist on the town board", () => {
+  const ids = new Set(DATA.nodes.map((n) => n.id));
+  const all = [...DATA.objectives.essential, ...DATA.objectives.optional, ...DATA.objectives.character];
+  for (const o of all) assert.ok(ids.has(o.location), `${o.id} at ${o.location}`);
+});
+
+test("solid rock prevents surfacing once revealed", () => {
+  const g = fresh(15);
+  g.solidRockKnown = true;
+  const graboid = g.graboids[0];
+  graboid.sector = "C";
+  graboid.surfaced = false;
+  DATA.nodes.filter((n) => n.sector === "C").forEach((n) => {
+    g.locationNoise[n.id] = 0;
+  });
+  g.locationNoise.water = 5;
+  g.surface(graboid);
+  assert.equal(graboid.surfaced, false);
+  assert.equal(graboid.hunt, 2);
 });
 
 test("location noise decays by 1 each round", () => {
@@ -390,6 +540,7 @@ test("turn order is Val then Earl then Rhonda then Burt", () => {
 test("work on a 0-printed objective still makes 1 noise unless Don't Move", () => {
   const g = fresh(10);
   const obj = g.objectives.find((o) => o.kind === "essential");
+  obj.location = "school"; // neutral ground: no metal/noisy node modifier
   g.char("val").location = obj.location;
   obj.work = 2;
   obj.noise = 0;
@@ -398,4 +549,4 @@ test("work on a 0-printed objective still makes 1 noise unless Don't Move", () =
 });
 
 console.log(`\n${passed} engine tests passed.`);
-assert.equal(passed, 33, `expected 33 tests, got ${passed}`);
+assert.equal(passed, 46, `expected 46 tests, got ${passed}`);

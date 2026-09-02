@@ -1,0 +1,16 @@
+{
+  "name": "Tremors: Perfection",
+  "terminals": [
+    {
+      "name": "web",
+      "command": "python3 -m http.server 8000",
+      "description": "Static web server for the Tremors: Perfection prototype. Open the forwarded port 8000 and load / to play. Run the engine tests with `node js/engine.test.js`."
+    }
+  ],
+  "ports": [
+    {
+      "name": "web",
+      "port": 8000
+    }
+  ]
+}

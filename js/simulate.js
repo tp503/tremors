@@ -146,6 +146,19 @@ function turtleAct(game) {
     }
   }
 
+  const bomb = acts.find((a) => a.type === "rig" && a.rig === "pipe_bomb");
+  const fire = acts.find((a) => a.type === "rig" && a.rig === "fire_bomb");
+  const worms = [...graboidNodes(game)];
+  const adjWorm = worms.some((n) => n === c.location || neighbors(c.location, game.blocked).includes(n));
+  if (bomb && adjWorm) {
+    tryAct(game, id, bomb);
+    return;
+  }
+  if (fire && graboidNodes(game).has(c.location)) {
+    tryAct(game, id, fire);
+    return;
+  }
+
   const target = nearestEssential(game, c.location);
   if (target && target.location !== c.location && c.actions > 0 && game.noiseThisRound < 5) {
     const step = safestStep(game, c.location, target.location);
@@ -161,6 +174,21 @@ function turtleAct(game) {
         return;
       }
     }
+  }
+
+  const here = DATA.nodes.find((n) => n.id === c.location);
+  const essentialsLeft = game.objectives.some((o) => o.kind === "essential" && o.status === "active");
+  if (
+    !emergency &&
+    here &&
+    here.search >= 3 &&
+    game.noiseThisRound < 4 &&
+    game.itemDeck.length > 0 &&
+    acts.some((a) => a.type === "search") &&
+    (!essentialsLeft || (id === "rhonda" && here.search >= 4))
+  ) {
+    tryAct(game, id, { type: "search" });
+    return;
   }
 
   game.act(id, { type: "endTurn" });
