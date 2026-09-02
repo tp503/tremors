@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tremors: Perfection Valley — Playtest Pack</title>
+    <link rel="stylesheet" href="./cards.css" />
+    <style>
+      /* Pack-wide print styling. Black on white, letter/A4 portrait, dense but readable. */
+      :root {
+        --ink: #111;
+        --rule: #777;
+        --accent: #7a1c14;
+        --soft: #f2f2f2;
+      }
+      html, body { background: #fff; color: var(--ink); font-family: Georgia, "Times New Roman", serif; }
+      body { margin: 0; font-size: 9.6pt; line-height: 1.3; }
+      .toolbar { background: #222; color: #eee; }
+      .toolbar a, .toolbar button { background: #eee; color: #222; border-color: #999; }
+      .page {
+        width: 8.5in;
+        min-height: 10.6in;
+        margin: 10px auto;
+        padding: 0.45in 0.5in 0.4in;
+        background: #fff;
+        box-shadow: 0 0 0 1px #ccc;
+        break-after: page;
+        page-break-after: always;
+        position: relative;
+      }
+      .page .folio {
+        position: absolute;
+        left: 0.5in;
+        right: 0.5in;
+        bottom: 0.22in;
+        font-size: 7pt;
+        color: #666;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #bbb;
+        padding-top: 3px;
+      }
+      h1 { font-size: 20pt; margin: 0 0 4px; letter-spacing: 0.02em; }
+      h1 small { display: block; font-size: 9pt; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-top: 2px; font-weight: 400; }
+      h2 { font-size: 11.5pt; margin: 12px 0 4px; padding-bottom: 2px; border-bottom: 1.5px solid var(--ink); letter-spacing: 0.04em; text-transform: uppercase; break-after: avoid; }
+      h2:first-of-type { margin-top: 6px; }
+      h3 { font-size: 10pt; margin: 9px 0 3px; break-after: avoid; }
+      h3 .tag { font-size: 7pt; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-left: 6px; font-weight: 400; }
+      p, li { margin: 0 0 4px; }
+      ul, ol { margin: 0 0 5px; padding-left: 16px; }
+      b { font-weight: 700; }
+      .cols2 { columns: 2; column-gap: 0.28in; column-rule: 1px solid #ccc; }
+      .cols2 h2:first-child { margin-top: 0; }
+      .nobreak { break-inside: avoid; page-break-inside: avoid; }
+      table { width: 100%; border-collapse: collapse; font-size: 8.4pt; line-height: 1.22; margin: 3px 0 7px; break-inside: avoid; }
+      th, td { border: 1px solid var(--rule); padding: 2px 4px; vertical-align: top; text-align: left; }
+      th { background: var(--soft); font-weight: 700; }
+      table.tight td, table.tight th { padding: 1px 3px; font-size: 7.8pt; }
+      .kicker { font-size: 7.5pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin: 0 0 2px; }
+      .box { border: 1px solid var(--ink); padding: 6px 8px; margin: 6px 0; background: #fafafa; break-inside: avoid; }
+      .box.warn { border-color: var(--accent); }
+      .box h3 { margin-top: 0; }
+      .lede { font-size: 10.2pt; margin-bottom: 8px; }
+      .muted { color: #555; }
+      .toc { columns: 2; column-gap: 0.3in; font-size: 9pt; }
+      .toc ol { padding-left: 18px; }
+      .toc li { margin-bottom: 2px; }
+      .mapwrap { text-align: center; }
+      .mapwrap img { width: 7.4in; height: auto; border: 1px solid #999; }
+      .mapwrap p { font-size: 8pt; color: #555; margin-top: 4px; }
+      .swatch { display: inline-block; width: 12px; height: 12px; vertical-align: -2px; margin-right: 4px; border: 1px solid #333; }
+      .sw-circle { border-radius: 50%; }
+      .sw-tri { width: 0; height: 0; border: none; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 12px solid #2e8b57; }
+      .sw-diamond { transform: rotate(45deg) scale(0.8); }
+      .sw-hex { clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); border: none; }
+      .sw-star { clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); border: none; }
+      .sw-line { display: inline-block; width: 26px; border-top: 2px dotted #8b0000; vertical-align: 3px; margin-right: 4px; }
+      .sw-solid { display: inline-block; width: 26px; border-top: 2px solid #2b2b2b; vertical-align: 3px; margin-right: 4px; }
+      .example { border-left: 3px solid var(--accent); padding-left: 8px; margin: 6px 0; }
+      .example .act { font-size: 8.8pt; margin: 0 0 3px; }
+      .example .act b { color: var(--accent); }
+      .ledger { font-family: "Courier New", monospace; font-size: 8pt; background: var(--soft); padding: 4px 6px; margin: 4px 0 6px; white-space: pre-wrap; }
+      .log th, .log td { height: 0.28in; }
+      .log td.wide { width: 32%; }
+      .checkline { list-style: none; padding-left: 0; }
+      .checkline li::before { content: "☐ "; }
+      .sheetgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.15in; }
+      .charsheet { border: 1px solid var(--ink); padding: 6px 8px; font-size: 8.4pt; break-inside: avoid; min-height: 4.7in; }
+      .charsheet h3 { margin: 0 0 2px; font-size: 11pt; }
+      .charsheet .quote { font-style: italic; color: #444; margin: 0 0 4px; font-size: 8pt; }
+      .charsheet .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin: 4px 0; text-align: center; }
+      .charsheet .stats div { border: 1px solid var(--rule); padding: 2px; }
+      .charsheet .stats b { display: block; font-size: 12pt; }
+      .charsheet .stats span { font-size: 6.8pt; letter-spacing: 0.08em; text-transform: uppercase; }
+      .charsheet .track { margin-top: 5px; font-size: 7.6pt; }
+      .charsheet .track span { display: inline-block; border: 1px solid var(--ink); padding: 1px 5px; margin-right: 3px; }
+      /* card appendix overrides */
+      .cardpage { padding: 0.3in 0.35in; page: cards; }
+      .cardpage .card-grid { gap: 0.08in 0.12in; grid-auto-rows: 3.4in; }
+      .cardpage .card { height: 3.4in; }
+      .cardpage h1 { font-size: 15pt; margin-bottom: 2px; }
+      .cardpage h1 small { font-size: 8pt; }
+      .card { border: 1px dashed #888; }
+      .badge.item { color: #2f5a3a; }
+      .badge.rig { color: #3d5a80; }
+      .badge.kit { color: #7a1c14; }
+      .badge.behaviour { color: #4b2a7a; }
+      .card .rigparts { font-size: 7.4pt; letter-spacing: 0.06em; text-transform: uppercase; color: #333; margin: 0 0 4px; }
+      .card .copies { position: absolute; right: 8px; bottom: 6px; font-size: 7pt; color: #666; }
+      @media print {
+        html, body { background: #fff; }
+        .toolbar { display: none; }
+        .page { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; break-after: auto; page-break-after: auto; break-before: page; page-break-before: always; }
+        .page.cover { break-before: auto; page-break-before: auto; }
+        .page .folio { display: none; }
+        @page { size: letter portrait; margin: 0.45in 0.5in 0.5in; }
+        @page cards { size: letter portrait; margin: 0.28in 0.4in; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar no-print">
+      <div>
+        <h1 style="font-size:16px;margin:0">Tremors: Perfection Valley — Playtest Pack</h1>
+        <p>One document: map, key, rules, setup, example turn, test protocol, all card decks. Print → Save as PDF, or use <code>print/perfection-playtest-pack.pdf</code>.</p>
+      </div>
+      <div>
+        <a href="../index.html">Back to game</a>
+        <button type="button" onclick="window.print()">Print pack</button>
+      </div>
+    </div>
+
+    <!-- ============================ COVER ============================ -->
+    <section class="page cover">
+      <h1>Tremors: Perfection Valley<small>Playtest Pack · 32-node valley board · one death ends it</small></h1>
+      <p class="lede"><b>Cooperative, solo-friendly, 1–4 players, 60–90 minutes.</b> Run Val, Earl, Rhonda and Burt through fourteen rounds in Perfection. Every action makes noise. Noise brings the Graboids up. Finish the essential work, keep everyone alive, and get out.</p>
+
+      <div class="box">
+        <h3>What this pack is</h3>
+        <p>Everything currently designed for the game, consolidated for a physical playtest. The <b>Core rules</b> (Part 3) are the ruleset enforced by the digital prototype (<code>js/engine.js</code>) transplanted onto the 32-node valley board. The <b>Modules</b> (Part 4) are design proposals merged from the Gemini movement spec; they are untested and are what the playtest is meant to judge. Part 6 is the test protocol.</p>
+        <p class="muted">Source of truth for cards: <code>js/data.js</code>. Board: <code>scripts/valley_network.py</code>. Design docs: <code>docs/rules-valley.md</code>, <code>docs/valley-engine-checklist.md</code>. Pack version: <span id="version"></span>.</p>
+      </div>
+
+      <h2>Contents</h2>
+      <div class="toc">
+        <ol>
+          <li>The board — map, symbol and colour key, sectors, fault lines, gazetteer</li>
+          <li>Components and setup</li>
+          <li>Core rules</li>
+          <li>Optional modules and variants</li>
+          <li>Example turn</li>
+          <li>Playtest protocol</li>
+        </ol>
+        <p class="kicker">Appendices</p>
+        <ol type="A">
+          <li>Character sheets (4) and Burt's kit</li>
+          <li>Objective deck (17 + setup card)</li>
+          <li>Calamity deck (30 + setup card) and node translation table</li>
+          <li>Item deck (16), rig reference (5), Burt's kit cards (6)</li>
+          <li>Graboid Behaviour deck (12, Module M5)</li>
+          <li>Play aids — round log, Hunt and sector trackers, token list</li>
+        </ol>
+      </div>
+
+      <h2>Print guide</h2>
+      <table>
+        <thead><tr><th>Pages</th><th>Paper</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Cover, Parts 1–6</td><td>Plain, duplex</td><td>Rules text is two-column and reads front-to-back. Keep Part 3 and Appendix F at the table.</td></tr>
+          <tr><td>Map page (Part 1)</td><td>Single sheet, highest quality</td><td>Letter or A4. For a larger board print <code>docs/Perfection_Valley_Full_Board_Map.png</code> at 11×17 / A3 (it is 300 DPI at 18×22 in).</td></tr>
+          <tr><td>Appendices B–E</td><td>Card stock or plain + sleeves</td><td>Poker size, 3×3 per page, cut on dashed lines. Single-sided.</td></tr>
+          <tr><td>Appendix A, F</td><td>Plain</td><td>One character sheet per player. Print two copies of the round log.</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">Designed for US Letter; scales to A4 with "fit to page". Total: 31 pages including cards.</p>
+      <div class="folio"><span>Tremors: Perfection Valley — Playtest Pack</span><span>Cover</span></div>
+    </section>
+
+    <!-- ============================ PART 1: MAP ============================ -->
+    <section class="page">
+      <h1>1. The Board<small>Perfection Valley — 32 nodes, 40 routes, 3 fault lines</small></h1>
+      <div class="mapwrap">
+        <img src="./valley-map-print.png" alt="Perfection Valley tactical board map with node overlay" />
+        <p>North is up on the compass. Node IDs N01–N32 match the gazetteer on the next page. The dashed red box marks the town, drawn at an exaggerated scale so the lots are playable.</p>
+      </div>
+      <div class="folio"><span>Part 1 — The board</span><span>Map</span></div>
+    </section>
+
+    <section class="page">
+      <h2>Symbol and colour key</h2>
+      <table>
+        <thead><tr><th style="width:26%">Symbol</th><th style="width:18%">Terrain</th><th>Humans</th><th>Graboids</th></tr></thead>
+        <tbody>
+          <tr><td><span class="swatch sw-circle" style="background:#dc143c"></span>Red circle</td><td><b>Exposed Dirt</b></td><td>Open ground. Full risk. Roads marked N+ are loud (+1 Noise, see gazetteer).</td><td>Free travel. May surface and attack here.</td></tr>
+          <tr><td><span class="swatch" style="background:#00ced1"></span>Cyan square</td><td><b>Micro-Safe Roof</b></td><td>Trailer or small house. Holds 1–2 people. Protects once (Compromised), then Unsafe.</td><td>Cannot burst through the floor on the first try. Can undermine.</td></tr>
+          <tr><td><span class="swatch" style="background:#1e90ff"></span>Blue square</td><td><b>Fortified Hub</b></td><td>Big building. Any number of people. Search hub. Protects once (Core) or takes 3 Erosion (Module M3).</td><td>Structural attack only.</td></tr>
+          <tr><td><span class="swatch sw-hex" style="background:#708090"></span>Grey hexagon</td><td><b>Safe Boulders</b></td><td>Pole-vault rocks. Slow but safe: 1 node per step, cannot Run through.</td><td><b>Impassable.</b> Never surfaces here; a surfaced model cannot enter.</td></tr>
+          <tr><td><span class="swatch sw-tri"></span>Green triangle</td><td><b>Safe High Ground</b></td><td>Tower. One person per ladder step. Cannot be grabbed while up.</td><td><b>Impassable.</b> Open ground below becomes Unsafe when tested.</td></tr>
+          <tr><td><span class="swatch sw-diamond" style="background:#ff8c00"></span>Orange diamond</td><td><b>Search Hub</b></td><td>Objective and loot site. Search rating 2–4. Treated as Exposed Dirt for safety unless noted.</td><td>Free travel.</td></tr>
+          <tr><td><span class="swatch sw-star" style="background:#9400d3"></span>Purple star</td><td><b>Hazard / Trap</b></td><td>Cliff Edge. Bait ground for the stampede gambit. Loud (+1).</td><td>A Graboid that enters N32 falls. Remove it (Module M4).</td></tr>
+          <tr><td><span class="sw-solid"></span>Solid black line</td><td><b>Route</b></td><td>Walkable connection. One step per node.</td><td>Surfaced models move along routes too.</td></tr>
+          <tr><td><span class="sw-line"></span>Dotted red line</td><td><b>Fault line</b></td><td>Not walkable.</td><td>Underground shortcut (N04↔N26, N09↔N27, N22↔N31). Matters in Module M1.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="cols2">
+        <h3>Sectors <span class="tag">Core Graboid tracking</span></h3>
+        <p>Underground Graboids are tracked by <b>sector</b>, not node. A sector's noise is the sum of lingering noise on its nodes.</p>
+        <table class="tight" id="sectorTable"></table>
+        <h3>Fault lines</h3>
+        <p>N04 Canyon Rd South ↔ N26 West Flat East · N09 Canyon Rd Mid ↔ N27 West Flat Gate · N22 Bulldozer Site ↔ N31 Cliff Approach. In Core play these are cosmetic (sectors are already adjacent). In <b>Module M1</b> a Graboid may transit a fault line as one step.</p>
+        <h3>Solid Rock</h3>
+        <p>Boulder and tower nodes are always safe from surfacing. <b>Find the Safe Ground</b> (objective) additionally reveals the Junkyard foundations (N23) as Solid Rock.</p>
+        <h3>Loud ground</h3>
+        <p>Nodes marked <b>N+1</b> in the gazetteer add 1 Noise to any action there except a careful Move. Metal and the cliff road carry sound.</p>
+      </div>
+      <div class="folio"><span>Part 1 — The board</span><span>Key</span></div>
+    </section>
+
+    <section class="page">
+      <h2>Gazetteer</h2>
+      <p class="muted">S = Search rating (added to Search rolls). N+ = loud ground. Legacy ID is the name used inside the engine and on some calamity cards; see the translation table in Appendix C.</p>
+      <table class="tight" id="gazetteer"></table>
+      <div class="folio"><span>Part 1 — The board</span><span>Gazetteer</span></div>
+    </section>
+
+    <!-- ============================ PART 2: SETUP ============================ -->
+    <section class="page">
+      <h1>2. Components and Setup<small>Ten minutes from box to first turn</small></h1>
+      <div class="cols2">
+        <h2>Components</h2>
+        <ul>
+          <li><b>Board:</b> the map (Part 1).</li>
+          <li><b>4 character sheets</b> (Appendix A) and 4 standees or meeples.</li>
+          <li><b>Graboid pieces:</b> 4 underground tokens (one per worm, marked G1–G4) and 4 surfaced models.</li>
+          <li><b>Hunt tracker</b> (Appendix F): one row per Graboid, 0–3.</li>
+          <li><b>Noise:</b> about 40 small cubes for node noise, and a round-noise track 0–25 with a marker.</li>
+          <li><b>Tokens:</b> 4 Rescue, 3 Medkits, 2 Quiet Move (gained in play), Compromised / Unsafe markers (10), Blocked Route markers (6), Tremor markers (6), Wound markers (8), Erosion tokens (12, Module M3 only), Desperation and Aggression markers.</li>
+          <li><b>Condition markers</b> per character: Shaken, Injured, Critical (with 2-round timer), Pinned, Threatened (one colour per Graboid), Grabbed.</li>
+          <li><b>Decks:</b> Objectives (17), Calamities (30), Items (16), Rig reference (5), Burt's kit (6), Behaviour (12, Module M5).</li>
+          <li><b>Two d6.</b></li>
+          <li><b>Round log</b> (Appendix F) and a pencil.</li>
+        </ul>
+
+        <h2>Setup</h2>
+        <ol>
+          <li><b>Board.</b> Lay the map flat. Put the round marker on 1 and the round-noise marker on 0.</li>
+          <li><b>Characters.</b> Val and Earl start at <b>N14 Chang's Store</b>. Rhonda starts at <b>N07 Horse Path 2</b> (her seismograph stakes). Burt starts at <b>N29 Gummer Armory</b>. All Healthy, 2 actions each.</li>
+          <li><b>Burt's kit.</b> Shuffle the 6 kit cards, deal 3 face up, Burt keeps 2.</li>
+          <li><b>Shared supply.</b> 4 Rescue tokens, 3 Medkits. No items yet. Shuffle the item deck face down.</li>
+          <li><b>Objectives.</b> Shuffle the three piles separately. Draw <b>3 Essential, 2 Optional, 1 Character</b>. Lay them face up; mark their nodes with a small token.</li>
+          <li><b>Calamities.</b> Separate by act. Shuffle each. Stack Act I on top, then Act II, then Act III with <b>#30 Get Out of Perfection</b> at the very bottom.</li>
+          <li><b>Graboids.</b> Three underground tokens at <b>Hunt 1</b> in three different sectors: one in A, C or D; one in B or E; one anywhere else. Place them on the Hunt tracker, not the board — players know the sector, not the node. Fourth token and models to one side.</li>
+          <li><b>Modules.</b> Decide now which of Part 4 you are testing and write it on the round log.</li>
+        </ol>
+
+        <div class="box">
+          <h3>Turn order and pacing</h3>
+          <p>Val → Earl → Rhonda → Burt, every round. In a group game each player owns a character; solo, one player runs all four. Discuss openly — the game is fully cooperative and noise is a shared budget, so table talk is the point.</p>
+          <p><b>Target:</b> 14 rounds in 60–90 minutes. Rounds 1–3 should take under 5 minutes each.</p>
+        </div>
+      </div>
+      <div class="folio"><span>Part 2 — Components and setup</span><span></span></div>
+    </section>
+
+    <!-- ============================ PART 3: CORE RULES ============================ -->
+    <section class="page">
+      <h1>3. Core Rules<small>What the digital prototype enforces, on the valley board</small></h1>
+      <div class="cols2">
+        <h2>Win and lose</h2>
+        <p><b>Win:</b> every drawn Essential objective is complete and, from <b>round 10</b> onward, a player calls <b>Evacuate</b> with nobody Grabbed or dead. You also win if the Essentials are done when round 14 ends.</p>
+        <p><b>Lose:</b> any survivor is <b>Dragged</b> (caught while Grabbed) or bleeds out from <b>Critical</b>; or round 14 ends with an Essential unfinished or failed.</p>
+
+        <h2>The round</h2>
+        <ol>
+          <li><b>Survivor phase.</b> Val, Earl, Rhonda, Burt each take a turn.</li>
+          <li><b>Graboid phase.</b> Read the round-noise total → response band. Resolve each Graboid.</li>
+          <li><b>Calamity</b> on rounds <b>4, 7, 10, 12, 14</b>. Band from the same total.</li>
+          <li><b>Upkeep.</b> Critical timers −1. Every node's noise −1. Round noise to 0. Advance the round marker.</li>
+        </ol>
+
+        <h2>Actions</h2>
+        <p>Each character has <b>2 actions</b> (1 if Injured, Pinned or Grabbed; 0 if Critical). A Grabbed character's only action is <b>Struggle</b>. Unused actions are lost.</p>
+        <p><b>Every action costs at least 1 Noise</b>, placed on the node where it happens and added to the round total. Exceptions: Rhonda's <b>Don't Move</b>, and spending a <b>Quiet Move</b> token.</p>
+        <table class="tight">
+          <thead><tr><th>Action</th><th>Noise</th><th>Rule</th></tr></thead>
+          <tbody>
+            <tr><td>Move carefully</td><td>+1</td><td>1 node. Ignores loud ground and Shaken.</td></tr>
+            <tr><td>Move</td><td>+1</td><td>Up to Movement nodes along routes. Shaken: +1.</td></tr>
+            <tr><td>Run</td><td>+2</td><td>Up to Movement+1 nodes. Not through boulders. Shaken: +1.</td></tr>
+            <tr><td>Quiet Move</td><td>0</td><td>Spend a token. Move as above.</td></tr>
+            <tr><td>Search</td><td>+1</td><td>d6 + Search + node S ≥ 9 (+1 to the target per earlier success here). Success: draw an item to the shared supply.</td></tr>
+            <tr><td>Work</td><td>max(1, printed)</td><td>On the objective's node. Tick 1 Work. Complete at the printed Work.</td></tr>
+            <tr><td>Diversion</td><td>+3</td><td>Place all 3 on an adjacent node instead of your own.</td></tr>
+            <tr><td>Fight</td><td>+3 (+2 heavy)</td><td>Surfaced Graboid on your node. d6 + Combat ≥ 8 = 1 wound. On a miss, it attacks you.</td></tr>
+            <tr><td>Rescue</td><td>+2</td><td>Share the node. Spend a Rescue token. Pull them one node clear; grip broken. You become Shaken.</td></tr>
+            <tr><td>Struggle</td><td>+1</td><td>Grabbed only. Pull yourself one node clear; grip broken. Shaken.</td></tr>
+            <tr><td>Aid</td><td>+1</td><td>Share the node. Spend a Medkit: Critical→Injured or Injured→Healthy. Or help up a Pinned character (no Medkit).</td></tr>
+            <tr><td>Use item / Rig</td><td>floor 1</td><td>See Appendix D. A rig spends two specific items as one action.</td></tr>
+            <tr><td>Stay quiet</td><td>+1</td><td>End your turn. Remaining actions lost.</td></tr>
+            <tr><td>Evacuate</td><td>—</td><td>Round 10+. All Essentials passed. Nobody Grabbed or dead. Win.</td></tr>
+          </tbody>
+        </table>
+        <p><b>Loud ground.</b> On an N+1 node every action except a careful Move costs +1 Noise.</p>
+        <p><b>Blocked routes</b> cannot be walked. <b>Unsafe</b> nodes give no protection. <b>Inaccessible</b> nodes cannot be entered.</p>
+
+        <h2>Noise bands</h2>
+        <p>After the four turns, read the round total.</p>
+        <table class="tight">
+          <thead><tr><th>Total</th><th>Response</th><th>Graboid phase effect</th></tr></thead>
+          <tbody>
+            <tr><td>0–8</td><td><b>Quiet</b></td><td>No underground movement. Hunt still ticks.</td></tr>
+            <tr><td>9–11</td><td><b>Movement</b></td><td>Each underground worm shifts one sector toward the loudest sector.</td></tr>
+            <tr><td>12–14</td><td><b>Hunting</b></td><td>Movement, and every underground worm +1 Hunt before the tick.</td></tr>
+            <tr><td>15–19</td><td><b>Feeding Frenzy</b></td><td>Hunting, then every worm activates a second time.</td></tr>
+            <tr><td>20+</td><td><b>Stampede</b></td><td>Frenzy, and a fourth Graboid enters an empty sector at Hunt 1.</td></tr>
+          </tbody>
+        </table>
+        <p>Calamity severity uses the same total: <b>Quiet 0–8 · Disturbed 9–14 · Frenzy 15+</b>. A full careful round for four people is about 8, so Quiet means "do less".</p>
+      </div>
+      <div class="folio"><span>Part 3 — Core rules</span><span>Turn, actions, noise</span></div>
+    </section>
+
+    <section class="page">
+      <div class="cols2">
+        <h2>Graboid phase</h2>
+        <p>Resolve each Graboid in ID order. Underground tokens first use the band, then <b>tick Hunt</b>. Surfaced models <b>chase</b>.</p>
+        <h3>Underground token</h3>
+        <ol>
+          <li><b>Band movement</b> (Movement or higher): if the loudest sector on the board is adjacent, move there; otherwise move one sector toward it. Stay if you are already in it.</li>
+          <li><b>Hunting or higher:</b> +1 Hunt.</li>
+          <li><b>Hunt tick</b> from the sector's lingering noise: <b>0–4 → +1</b>, <b>5–7 → +2</b>, <b>8+ → +3</b>, plus the Aggression marker. Hunt caps at 3.</li>
+          <li><b>Hunt 2 or more → Surface.</b> Place the model on the <b>loudest node in that sector</b>. Ties: random (d6). Never on boulders, towers, or known Solid Rock — if the loudest legal node is none, pick the loudest legal one; if there is none, the worm stays down at Hunt 2.</li>
+        </ol>
+        <p><b>Surfacing ambush.</b> If anyone is on the burst node: on Exposed Dirt or a Search Hub, the most vulnerable person there (Grabbed, then Threatened, then Injured, then Healthy) is <b>caught</b> (see Encounter). In a building the walls hold once — mark it <b>Compromised</b>, everyone inside is Shaken. A Compromised building that is hit again becomes <b>Unsafe</b> and its occupants are caught. On a tower nobody is caught; the ground beneath becomes Unsafe.</p>
+        <p><b>Tripwire Bait</b> overrides the burst node and skips the ambush.</p>
+
+        <h3>Surfaced model</h3>
+        <ol>
+          <li><b>Chase:</b> move 1 node along routes toward the nearest living character (shortest path, not through boulders or towers, not along blocked routes). Frenzy and Stampede: it activates twice, so 2 nodes.</li>
+          <li><b>Catch:</b> after moving, every character on its node is caught.</li>
+          <li><b>Miss:</b> if it caught nobody this round, mark a miss. On the <b>second consecutive miss</b> it <b>submerges</b> in the sector it is in at <b>Hunt 1</b>. Threatened markers from that worm are removed.</li>
+        </ol>
+
+        <h2>Encounter</h2>
+        <p>Being <b>caught</b> by a worm escalates one step on that worm's track:</p>
+        <ol>
+          <li><b>Threatened</b> — first catch by <i>this</i> worm. You are Shaken. Still mobile. Leave.</li>
+          <li><b>Grabbed</b> — caught again by the <i>same</i> worm while Threatened. Injured, Pinned, 1 action (Struggle). Rescue or Struggle pulls you one node clear and breaks the grip.</li>
+          <li><b>Dragged</b> — caught while Grabbed. Dead. Everyone loses.</li>
+        </ol>
+        <p>A different worm catching you starts its own track: you are Threatened by it instead.</p>
+        <p><b>Attacks</b> happen when you walk onto a surfaced worm's node, miss a Fight, or Compromised/Unsafe cover fails. Roll d6:</p>
+        <table class="tight">
+          <thead><tr><th>d6</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>1–2</td><td>Miss. Shaken.</td></tr>
+            <tr><td>3</td><td>Knockdown. Injured, Shaken.</td></tr>
+            <tr><td>4</td><td>Pinned. Injured, Threatened. Cannot move until helped up (Aid) or pulled clear.</td></tr>
+            <tr><td>5–6</td><td>Grabbed.</td></tr>
+          </tbody>
+        </table>
+        <p>If already Threatened by that worm: 4+ is Grabbed. If already Grabbed: no roll, Dragged. <b>Burt's Prepared for Anything:</b> once per round, discard one kit card to cancel an attack or breach at his node.</p>
+
+        <h2>Health</h2>
+        <p><b>Healthy → Injured → Critical → Dead.</b> Injured: 1 action. Critical: 0 actions, a 2-round timer, then dead unless Aided with a Medkit. Val is Fragile: her second serious hit takes her straight to Critical. <b>Shaken</b> is separate: +1 Noise on any Move or Run that is not careful. Earl's Keep Moving clears Shaken from a friend.</p>
+
+        <h2>Killing a Graboid</h2>
+        <p><b>2 wounds</b>. It dies, the model is removed, and <b>+6 Noise</b> lands on that node immediately. Everyone Threatened or Grabbed by it is released. <b>Aggression +1</b> (all future Hunt ticks are one higher). The token returns underground in a random other sector at Hunt 0 later — the valley does not run out of worms.</p>
+      </div>
+      <div class="folio"><span>Part 3 — Core rules</span><span>Graboids and encounters</span></div>
+    </section>
+
+    <section class="page">
+      <div class="cols2">
+        <h2>Objectives</h2>
+        <p>Draw <b>3 Essential, 2 Optional, 1 Character</b> at setup. Work them <b>on the printed node</b>. Each Work action ticks 1; the card is passed at its Work value and its <b>Pass</b> text applies at once. A card <b>fails</b> only when a calamity or its own text says so (Urgent, No Signal, Perfection Falls); then its <b>Fail</b> text applies. Failure is never an instant loss — it changes the board.</p>
+        <p>Radio Parts count as +1 Work on the radio or loader objective at their node.</p>
+
+        <h2>Search and items</h2>
+        <p>Search: <b>d6 + Search + node S ≥ 9</b>. Each success at a node raises that node's target by 1 for the rest of the game. Val may reroll once per round (Luck); if the reroll also fails, +1 Noise. Success draws the top item card into the <b>shared supply</b>; anyone anywhere may use supply items on their turn.</p>
+        <p><b>Items</b> are minor alone. <b>Rigs</b> spend two named items in one action for a big effect. Both are listed on the cards in Appendix D. The signature play is <b>Tripwire Bait</b>: you choose where the next worm surfaces and it arrives with no ambush.</p>
+
+        <h2>Characters</h2>
+        <p>Stats are <b>Movement / Nerve / Search / Combat</b>. Each character has passives and one <b>Signature Moment</b> (once per game). Full text in Appendix A. Nerve is printed for future rules and is not used in Core.</p>
+        <table class="tight">
+          <thead><tr><th>Character</th><th>M/N/S/C</th><th>Start</th><th>Weakness</th></tr></thead>
+          <tbody id="charSummary"></tbody>
+        </table>
+        <p><b>Rhonda's Seismologist:</b> the first time the round total reaches the Noise Limit (starts 6, drops by 1 per Graboid killed, minimum 4) she may look at the top calamity and either leave it or bury it at the bottom. Once per round. She cannot bury while Injured.</p>
+        <p><b>Earl Knows When to Run:</b> once per round, after another character makes noise, Earl may move 1 node toward that node for free.</p>
+
+        <h2>Calamities</h2>
+        <p>Draw the top card on rounds <b>4, 7, 10, 12, 14</b>, after the Graboid phase. The stack is ordered by act, so round 4 is Act I, rounds 7 and 10 Act II, round 12 Act III and round 14 is <b>#30 Get Out of Perfection</b>. Read the paragraph matching the round's noise band. Cards name town locations; use the translation table in Appendix C for valley node IDs.</p>
+        <p><b>Desperation</b> and <b>Aggression</b> are markers some cards raise. Desperation is a story counter for now (it has no rule effect in Core). Aggression adds to every Hunt tick.</p>
+
+        <h2>Tremors</h2>
+        <p>Some cards place a <b>Tremor marker</b> on a node. Rhonda's <b>I Know Where It Is</b> lets her spend an action at that node or in its sector to reveal any Graboid there (sector, Hunt, or surfaced node). Tremors are information, not danger.</p>
+
+        <div class="box">
+          <h3>Rules of thumb for a first game</h3>
+          <ul>
+            <li>Under 9 total noise and the worms do not move sectors. Over 14 and everything comes up hungry.</li>
+            <li>A surfaced worm moves 1 node a round. Running 2 nodes away buys one round; running 3 buys two. Two misses and it goes down.</li>
+            <li>Never end a turn Threatened on the same node as the worm that threatened you.</li>
+            <li>Loud ground (N+1) doubles the cost of quiet work. The CAT and the junkyard are noisy by design.</li>
+            <li>Four Rescue tokens is the whole game. Spend them; do not hoard them.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="folio"><span>Part 3 — Core rules</span><span>Objectives, items, calamities</span></div>
+    </section>
+
+    <!-- ============================ PART 4: MODULES ============================ -->
+    <section class="page">
+      <h1>4. Optional Modules and Variants<small>Untested proposals from the merged valley spec — pick per session</small></h1>
+      <p class="lede">Each module replaces or adds a rule. Play Core first. Add one module per session unless the protocol says otherwise. Modules M1–M5 come from the Gemini movement spec; variants V1–V3 come from issues found in the digital prototype.</p>
+      <div class="cols2">
+        <h3>M1 — Node-tracked Vector Hunt <span class="tag">replaces sector tracking</span></h3>
+        <p>Underground tokens sit on a <b>node</b>, hidden under a face-down marker (players may peek only via Rhonda or items). Each Graboid phase:</p>
+        <ol>
+          <li><b>Vector Hunt</b> (Movement band or higher): move up to <b>3 nodes</b> along the shortest legal path toward the loudest node on the board. Legal: any route, plus <b>fault lines</b>; never boulders or towers.</li>
+          <li><b>Drift</b> (Quiet band): move 1 node continuing your last direction. If blocked, turn to the nearest legal node clockwise. After two consecutive Quiet rounds, drift toward the nearest human on Exposed Dirt instead.</li>
+          <li><b>Hunt tick</b> uses the noise on the token's node and its neighbours (sum), same thresholds as Core.</li>
+          <li><b>Surface</b> on the token's own node.</li>
+          <li><b>Ties:</b> continue straight → fewer hops → more humans → clockwise from north.</li>
+        </ol>
+        <p><i>Tests:</i> do players count hops and plan? Is the hidden token workable without an app?</p>
+
+        <h3>M2 — Noise spillover <span class="tag">adds</span></h3>
+        <p>When a single action puts <b>3 or more</b> Noise on a node (Run, Diversion, Fight, rigs), also place noise on neighbours: <b>−1 per hop</b> until 0. Spillover through boulder or tower nodes is blocked. The round total includes spillover cubes.</p>
+        <p><i>Tests:</i> does clustering feel dangerous? Is the cube count manageable?</p>
+
+        <h3>M3 — Erosion <span class="tag">replaces Compromised/Unsafe</span></h3>
+        <p>Buildings take <b>Erosion tokens</b> instead of a one-way Compromised flag. Each surfacing or attack under a Micro-Safe Roof or Fortified Hub adds <b>1 Erosion</b>; occupants roll the attack table at −1 (Roof) or are safe (Hub) while Erosion is below 3. At <b>3 Erosion</b> the building collapses: it becomes Exposed Dirt, everyone inside is Injured and caught. Rebuilding is not possible; Field Generator does not clear Erosion.</p>
+        <p><i>Tests:</i> is a siege in Chang's Store tense over several rounds, or just slow?</p>
+
+        <h3>M4 — Alternate win paths <span class="tag">adds</span></h3>
+        <p><b>Semi-Truck Escape.</b> Two new Key Items shuffle into the item deck: <b>Truck Battery</b> and <b>Starter Motor</b> (only drawn when searching at N22 or N23; redraw elsewhere). Carry both to <b>N04 Canyon Rd South</b> and spend <b>4 Work</b> there (printed noise 3). Then Evacuate is legal from round 8, with everyone at N04 or adjacent, even if an Optional is unfinished — Essentials are still required.</p>
+        <p><b>Bixby Cliff Trick.</b> A surfaced Graboid that chases onto <b>N32 Cliff Edge</b> falls and is removed permanently (no +6 Noise, no return). If every Graboid on the board is dead or fallen, and all survivors stand on Safe Boulders or Safe High Ground, you win immediately.</p>
+        <p><i>Tests:</i> does anyone attempt them? Do they make Burt and the CAT matter?</p>
+
+        <h3>M5 — Graboid Behaviour deck <span class="tag">adds</span></h3>
+        <p>Shuffle the 12 behaviour cards (Appendix E). Whenever the round total is <b>Disturbed or higher</b>, draw one after band movement and before Hunt ticks. Resolve the <b>Seismic</b> line first (a map mutation), then apply the <b>AI</b> line to every Graboid for this phase only. Discard after use.</p>
+        <p><i>Tests:</i> too much admin? Do the mutations create memorable moments or just confusion?</p>
+
+        <h3>V1 — Hunt cooling <span class="tag">variant</span></h3>
+        <p>A sector with <b>0</b> lingering noise gives <b>−1 Hunt</b> (minimum 0) instead of +1. This is what the design intended; the prototype currently ticks +1 in silence, which means all three worms surface at the end of round 1 regardless of play. <i>Test both.</i></p>
+
+        <h3>V2 — Building ambush <span class="tag">variant</span></h3>
+        <p>Surfacing under a building ignores cover: someone inside is caught immediately (the prototype does this). Core uses "walls hold once". <i>Test which reads better.</i></p>
+
+        <h3>V3 — Two-step chase <span class="tag">variant</span></h3>
+        <p>Surfaced models chase 2 nodes on Hunting and above, 3 on Frenzy. <i>Use if running away is too cheap.</i></p>
+      </div>
+      <div class="folio"><span>Part 4 — Modules and variants</span><span></span></div>
+    </section>
+
+    <!-- ============================ PART 5: EXAMPLE TURN ============================ -->
+    <section class="page">
+      <h1>5. Example Turn<small>Round 1 in full, then an encounter in round 6</small></h1>
+      <p class="lede">Core rules, no modules. Objectives drawn: <b>Get the Radio Working</b> (N02), <b>Secure a Heavy Vehicle</b> (N22), <b>Get Everyone to the Meeting Point</b> (N14); Optional <b>Gather Fuel</b> (N12) and <b>Save the Horses</b> (N06); Character <b>Rhonda — Something Doesn't Add Up</b> (N07). Burt drafted Shotgun and Binoculars. Graboids: G1 sector D, G2 sector E, G3 sector B, all Hunt 1.</p>
+
+      <div class="cols2">
+        <h2>Round 1 — survivor phase</h2>
+        <div class="example">
+          <p class="act"><b>Val (M4).</b> Move N14 → N18 → N21 Quonset (3 nodes, within Movement 4). +1 Noise at N21. Then <b>Search</b> at N21 (S3): d6 <b>4</b> + Search 3 + 3 = 10 ≥ 9. Success — draws <b>Radio Parts</b> into the supply. +1 at N21. <i>Val: 2 Noise.</i></p>
+          <p class="act"><b>Earl (M3).</b> Move N14 → N18 → N21 to join Val (+1 at N21). Search N21 (target now 10 after Val's find): d6 <b>3</b> + 2 + 3 = 8. Fail. +1 at N21. Earl and Val share a node, so both have +1 Nerve (no Core effect). <i>Earl: 2 Noise. N21 now holds 4.</i></p>
+          <p class="act"><b>Rhonda (M3).</b> Takes no Move, so <b>Don't Move</b> applies. <b>Work</b> on <i>Something Doesn't Add Up</i> at N07 (Work 1, printed noise 0 → floor 1 → Don't Move makes it 0). Complete: she reveals two worms — G1 is in D at Hunt 1, G3 is in B at Hunt 1. Second action: Search N07 (S1): d6 <b>2</b> + 5 + 1 = 8. Fail, +1 at N07. <i>Rhonda: 1 Noise.</i></p>
+          <p class="act"><b>Burt (M2).</b> Move N29 → N28 → N27 (+1 at N27). Move carefully N27 → N26 (+1 at N26). <i>Burt: 2 Noise.</i></p>
+        </div>
+        <div class="ledger">Round total  7  → QUIET (0–8)
+Node noise   N21:4  N07:1  N27:1  N26:1
+Sector noise A:0  B:4  C:3  D:0  E:0</div>
+
+        <h2>Round 1 — Graboid phase</h2>
+        <div class="example">
+          <p class="act"><b>G1 (D, Hunt 1).</b> Quiet band: no sector move. Tick: D has 0 noise → +1. <b>Hunt 2 → surfaces.</b> Loudest node in D: N05, N22, N23 all at 0 — tie, roll d6 → <b>N23 Junkyard</b>. Nobody there. Model placed. Junkyard is loud ground, so anyone who works near it later will be heard.</p>
+          <p class="act"><b>G2 (E, Hunt 1).</b> Tick +1 → <b>Hunt 2 → surfaces</b>. Sector E is N30, N31 (boulders — never) and N32 Cliff Edge. Model on <b>N32</b>. Nobody there.</p>
+          <p class="act"><b>G3 (B, Hunt 1).</b> Tick: B has 4 → +1 → <b>Hunt 2 → surfaces</b> at the loudest node in B: <b>N21 Quonset</b>, where Val and Earl are standing. It is a building: <b>the walls hold once</b>. Mark N21 <b>Compromised</b>. Val and Earl are <b>Shaken</b>, not caught.</p>
+          <p class="act">No calamity (round 1). Upkeep: node noise −1 (N21 → 3, the others → 0). Round noise → 0. Round marker → 2.</p>
+        </div>
+        <div class="box warn">
+          <h3>What the table just learned</h3>
+          <p>All three worms surfaced at the end of round 1 <b>however quietly the table played</b> — Core Hunt always ticks at least +1 from Hunt 1. This is the first thing the playtest should judge (Hypothesis H4, Variant V1). Also: Val and Earl are now in a Compromised building sharing a node with a Graboid. If they are still there when G3 activates at the end of round 2, the walls fail and they are caught.</p>
+        </div>
+
+        <h2>Round 2 — the decision</h2>
+        <p>Options on the table: <b>leave</b> (G3 chases 1 node per round, so a 2-node Move opens a gap; a Run opens more but costs +2 +1 Shaken); <b>Fight</b> (Earl: d6 + 3 ≥ 8 needs a 5+, and a miss means an attack roll); or hold and <b>search once more</b> for a second Radio Part before running. Burt is two rounds away. The group chooses to leave: Val Runs N21 → N18 → N14 Chang's Store (+2 +1 Shaken = 3 at N14) and Earl Moves N21 → N20 → N17 (+1 +1 Shaken = 2 at N17). G3 will step toward the nearest of them at the end of the round.</p>
+
+        <h2>Round 6 — an encounter</h2>
+        <div class="example">
+          <p class="act"><b>Situation.</b> Burt is on N17 Main St South heading for the CAT. G3 is surfaced on N18, adjacent. Burt has Shotgun and Binoculars, 2 actions, Healthy.</p>
+          <p class="act"><b>Burt, round 6.</b> He cannot Fight yet — the worm must share his node. He could retreat, but he wants the shot, so he <b>Stays quiet</b> (+1) and lets it come. In the Graboid phase G3 chases N18 → N17 and <b>catches Burt: Threatened by G3</b>, Shaken.</p>
+          <p class="act"><b>Round 7, Burt action 1: Fight.</b> Shotgun: Combat 5 + 2 = 7, d6 <b>3</b> → 10 ≥ 8. <b>1 wound.</b> Noise: 3 (Fight) + 2 (heavy) + 1 (Burt's weakness) = <b>+6</b> at N17. <b>Action 2:</b> Move N17 → N26 (+1 +1 Shaken).</p>
+          <p class="act"><b>Graboid phase.</b> Round total was 14 → Hunting. G3 chases 1 node: N17 → N26 and <b>catches Burt again — same worm, already Threatened → GRABBED.</b> Burt is Injured, Pinned, 1 action next round.</p>
+          <p class="act"><b>Round 8, Earl</b> (who Knew When to Run toward Burt's shotgun noise last round and is now on N17): Move N17 → N26 (+1). <b>Rescue:</b> spend a Rescue token (3 left), +2 Noise, pull Burt one node clear to N27. Grip broken; Earl is Shaken. <b>Burt (1 action):</b> Move carefully N27 → N28 Gummer Gate (+1). G3 caught nobody this round: miss 1 of 2.</p>
+        </div>
+        <p class="muted">If Earl had not arrived, Burt's one action would have been <b>Struggle</b> (+1, pull himself clear, Shaken) — which also breaks the grip. The difference is the Rescue token and who ends up standing next to the worm.</p>
+      </div>
+      <div class="folio"><span>Part 5 — Example turn</span><span></span></div>
+    </section>
+
+    <!-- ============================ PART 6: PROTOCOL ============================ -->
+    <section class="page">
+      <h1>6. Playtest Protocol<small>What we are trying to find out, and how to record it</small></h1>
+      <p class="lede">The prototype has been simulated (~700 bot games) but never played by people at a table. Bots do not bluff, coordinate, or get scared. This protocol is built to answer questions simulation cannot.</p>
+
+      <div class="cols2">
+        <h2>Aims</h2>
+        <ol>
+          <li>Does <b>noise as a shared budget</b> produce real table negotiation, or does one player quarterback?</li>
+          <li>Are the Graboids <b>unavoidable but controllable</b> — present every game, but shaped by what the players do?</li>
+          <li>Is the <b>14-round clock</b> felt? Do players know what round it is without looking?</li>
+          <li>Does the <b>32-node valley</b> add tactical texture (routes, boulders, towers) or only walking time?</li>
+          <li>Which of the <b>modules</b> earn their complexity?</li>
+        </ol>
+
+        <h2>Hypotheses to test</h2>
+        <table class="tight">
+          <thead><tr><th>#</th><th>Hypothesis</th><th>Evidence that supports / refutes</th></tr></thead>
+          <tbody>
+            <tr><td>H1</td><td>Human tables win 40–60% under Core.</td><td>Win rate over ≥4 games. Below 30% or above 70% means retune before testing modules.</td></tr>
+            <tr><td>H2</td><td>Players deliberately stay under 9 noise on some rounds and deliberately spend big on others.</td><td>Round log shows both bands. Table talk mentions the threshold.</td></tr>
+            <tr><td>H3</td><td>Every game has at least one Rescue or Struggle.</td><td>Log column. Zero grabs = worms not threatening enough.</td></tr>
+            <tr><td>H4</td><td>Round-1 mass surfacing (Core) feels wrong.</td><td>Immediate reaction; compare V1 session.</td></tr>
+            <tr><td>H5</td><td>Boulder paths and towers are used as intended routes at least once per game.</td><td>Track nodes visited. If never, the terrain is decoration.</td></tr>
+            <tr><td>H6</td><td>Sector tracking (Core) is easy but leads to worms piling onto one node under Movement+ bands.</td><td>Count rounds with 2+ worms in one sector or on one node.</td></tr>
+            <tr><td>H7</td><td>Fight is chosen at least once per game when Burt is present.</td><td>If never, loud play has no payoff.</td></tr>
+            <tr><td>H8</td><td>Act III calamities are reached in most games.</td><td>Games ending before round 12 mean the evacuate gate is too early or Essentials too cheap.</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Session plan</h2>
+        <table class="tight">
+          <thead><tr><th>Session</th><th>Rules</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td>A (×2)</td><td>Core only</td><td>Baseline. Learnability, pacing, H1–H4, H7, H8.</td></tr>
+            <tr><td>B</td><td>Core + V1</td><td>Does Hunt cooling restore the quiet/loud choice? Compare first-surface round with A.</td></tr>
+            <tr><td>C</td><td>Core + V1 + M1</td><td>Node-tracked worms. H5, H6. Time the Graboid phase.</td></tr>
+            <tr><td>D</td><td>C + M2 + M3</td><td>Spillover and erosion. Component load; siege feel.</td></tr>
+            <tr><td>E</td><td>D + M4</td><td>Do people go for the truck or the cliff? Does Burt matter more?</td></tr>
+            <tr><td>F</td><td>E + M5</td><td>Behaviour deck. Admin cost vs memorable moments.</td></tr>
+          </tbody>
+        </table>
+        <p>If a session is a clear failure (a rule cannot be applied at the table, or the game is decided by round 4), stop, note why, and replay the same configuration with the obvious fix before moving on.</p>
+
+        <h2>Roles at the table</h2>
+        <ul>
+          <li><b>Facilitator</b> reads rules, does not play, keeps the round log.</li>
+          <li><b>Players</b> think aloud. Ask "why that action?" only after the round.</li>
+          <li><b>Timer:</b> note the clock at the start of rounds 1, 4, 7, 10, 14.</li>
+        </ul>
+      </div>
+      <div class="folio"><span>Part 6 — Playtest protocol</span><span>Aims, hypotheses, sessions</span></div>
+    </section>
+
+    <section class="page">
+      <div class="cols2">
+        <h2>What to record every round</h2>
+        <p>Use the round log (Appendix F). Columns:</p>
+        <ul>
+          <li><b>Noise total</b> and <b>band</b>.</li>
+          <li><b>Loudest node</b> and whether it was deliberate (a diversion) or incidental.</li>
+          <li><b>Surfaces, catches, grabs, rescues, struggles, wounds, kills.</b></li>
+          <li><b>Objective progress</b> (Essentials done / 3).</li>
+          <li><b>Calamity</b> drawn and band.</li>
+          <li><b>Clock time</b> at round start.</li>
+          <li><b>One line of table talk</b> that captures the round.</li>
+        </ul>
+
+        <h2>Watch for during play</h2>
+        <h3>Noise economy</h3>
+        <ul class="checkline">
+          <li>Did anyone say "we're at N, that puts us over"?</li>
+          <li>Were Diversions or Tin Cans used to bait a surface on purpose?</li>
+          <li>Did loud ground (N+1) change route choices?</li>
+          <li>Was Rhonda's Don't Move used as the team's quiet worker?</li>
+        </ul>
+        <h3>Graboid behaviour</h3>
+        <ul class="checkline">
+          <li>Round of first surfacing. Round of first catch.</li>
+          <li>Did worms pile onto one sector or node? How often?</li>
+          <li>Did any worm submerge from two misses? Did players plan for that?</li>
+          <li>Was "chase 1 node per round" too slow to matter?</li>
+          <li>Did a tie for loudest node need a die roll? Did that feel arbitrary?</li>
+        </ul>
+        <h3>Encounter and rescue</h3>
+        <ul class="checkline">
+          <li>Was the Threatened → Grabbed → Dragged ladder understood after one explanation?</li>
+          <li>Did Rescue tokens run out? Were any left unused at the end?</li>
+          <li>Did buildings and towers get used as cover? Did "walls hold once" read clearly?</li>
+          <li>Did anyone Fight? Why or why not?</li>
+        </ul>
+        <h3>Objectives and clock</h3>
+        <ul class="checkline">
+          <li>Which Essential was finished first, and by what round?</li>
+          <li>Were Optional objectives ignored?</li>
+          <li>Did the group Evacuate as soon as round 10 allowed, or push for more?</li>
+          <li>Which calamity paragraph fired most — Quiet, Disturbed or Frenzy?</li>
+        </ul>
+        <h3>Board and components</h3>
+        <ul class="checkline">
+          <li>Nodes never visited. Routes never walked.</li>
+          <li>Was the map readable at arm's length? Which labels were misread?</li>
+          <li>How many noise cubes were on the board at the peak?</li>
+          <li>Which calamity texts needed the translation table, and did the translation make sense?</li>
+        </ul>
+
+        <h2>Known issues going in</h2>
+        <p>These are already suspected. Confirm or dismiss them rather than rediscovering them.</p>
+        <ol>
+          <li><b>Round-1 surfacing.</b> Core Hunt ticks +1 in silence; all three worms surface at once. Variant V1 is the intended fix.</li>
+          <li><b>Sector graph is almost complete.</b> Every sector touches nearly every other, so "move toward the loudest sector" converges everything in one round. Module M1 is the structural alternative; a sparser sector map is the cheap one.</li>
+          <li><b>Sector E is only the cliff.</b> A worm in E can surface only at N32. Decide whether that is a feature (stampede gambit) or a bug.</li>
+          <li><b>Objective placement.</b> <i>The Road Is Blocked</i> sits on N32 Cliff Edge because of a legacy ID; thematically it belongs at N02 Roadworks or N04. <i>Save the Horses</i> is at N06 Horse Path 1; <i>Meeting Point</i> at N14.</li>
+          <li><b>Calamity text</b> still names the 14-node town (Horse Corral, Telephone Line, Bixby Road). Translation table in Appendix C. Note any card that becomes nonsense on the valley.</li>
+          <li><b>Printed but unused stats:</b> Nerve, Defence, Binoculars. Decide whether to give them rules or strike them.</li>
+          <li><b>Fight economics.</b> Fight + kill can be 12+ Noise. Burt may never shoot. Module M4 is one answer.</li>
+          <li><b>Desperation</b> has no rule effect in Core. Either give it one (e.g. Desperation ≥ 3: Evacuate is forced at round 12) or remove it from the cards.</li>
+        </ol>
+
+        <h2>After each game — 10 minutes</h2>
+        <ol>
+          <li>Result and round. Win/loss reason in one sentence.</li>
+          <li>Each player: the most tense moment; the most boring stretch; one rule they misapplied.</li>
+          <li>Group: which single change would most improve the next game?</li>
+          <li>Facilitator: rules questions that had no answer in this pack. Write them down verbatim.</li>
+          <li>Rate 1–5: <i>Tension</i>, <i>Agency</i> (my choices mattered), <i>Clarity</i>, <i>Tremors feel</i>, <i>Would play again</i>.</li>
+        </ol>
+
+        <h2>Decision criteria</h2>
+        <table class="tight">
+          <thead><tr><th>Outcome</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Win rate under 30% across Session A</td><td>Reduce Essential Work by 1 or start with 5 Rescue tokens before testing modules.</td></tr>
+            <tr><td>Win rate over 70%</td><td>Raise Essential Work or move the Evacuate gate to round 12.</td></tr>
+            <tr><td>Games end before round 10 by loss</td><td>Reduce chase to 1 node on all bands (already Core) and test V1 earlier.</td></tr>
+            <tr><td>Module adds more than 3 minutes per Graboid phase</td><td>Cut or simplify it.</td></tr>
+            <tr><td>A rule needs re-explaining in game 2</td><td>Rewrite it; if still unclear in game 3, cut it.</td></tr>
+            <tr><td>A component is never touched in two games</td><td>Remove it from the pack.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="folio"><span>Part 6 — Playtest protocol</span><span>Recording, issues, decisions</span></div>
+    </section>
+
+    <!-- ============================ APPENDIX A: CHARACTERS ============================ -->
+    <section class="page">
+      <h1>Appendix A. Character Sheets<small>One per player · Movement / Nerve / Search / Combat</small></h1>
+      <div class="sheetgrid" id="charSheets"></div>
+      <div class="folio"><span>Appendix A — Characters</span><span></span></div>
+    </section>
+
+    <section class="page">
+      <h2>Burt's kit</h2>
+      <p>Deal 3 at setup, Burt keeps 2. Each card can be discarded once for <b>Prepared for Anything</b>. Heavy weapons add +2 Noise to a Fight; Burt's weakness adds +1 for any equipment use.</p>
+      <table id="kitTable"></table>
+      <h2>Condition reference</h2>
+      <table class="tight">
+        <thead><tr><th>Condition</th><th>Effect</th><th>Cleared by</th></tr></thead>
+        <tbody>
+          <tr><td>Shaken</td><td>+1 Noise on Move or Run (not careful).</td><td>Earl's Keep Moving; a full round without moving (house rule if needed).</td></tr>
+          <tr><td>Injured</td><td>1 action. Character-specific penalty (see sheet).</td><td>Aid with a Medkit.</td></tr>
+          <tr><td>Critical</td><td>0 actions. 2-round timer → dead.</td><td>Aid with a Medkit → Injured.</td></tr>
+          <tr><td>Pinned</td><td>Cannot move. 1 action.</td><td>Aid (no Medkit) or being pulled clear.</td></tr>
+          <tr><td>Threatened (by worm X)</td><td>Next catch by X = Grabbed.</td><td>X submerges or dies; you are pulled clear.</td></tr>
+          <tr><td>Grabbed</td><td>Injured, Pinned, only Struggle. Next catch = dead.</td><td>Rescue, Struggle, Line Rescue, worm dies.</td></tr>
+        </tbody>
+      </table>
+      <div class="folio"><span>Appendix A — Characters</span><span>Kit and conditions</span></div>
+    </section>
+
+    <!-- ============================ APPENDIX B: OBJECTIVES ============================ -->
+    <div id="objectiveDeck"></div>
+
+    <!-- ============================ APPENDIX C: CALAMITIES ============================ -->
+    <section class="page">
+      <h1>Appendix C. Calamity Deck<small>30 cards · draw on rounds 4, 7, 10, 12, 14</small></h1>
+      <h2>Node translation table</h2>
+      <p>Calamity and objective text was written for the 14-node town. On the valley board read these names as follows. Where a card blocks a route, block the listed valley route.</p>
+      <table class="tight">
+        <thead><tr><th>Card says</th><th>Valley node</th><th>Card says</th><th>Valley node</th></tr></thead>
+        <tbody>
+          <tr><td>Telephone Line / the radio</td><td>N02 Roadworks / Tel Cut</td><td>Chang's / Chang's Market / the store</td><td>N14 Chang's Store</td></tr>
+          <tr><td>Bixby Road / the highway</td><td>N32 Cliff Edge (valley exit)</td><td>Chang's Trailer / fuel</td><td>N12 Chang's Trailer</td></tr>
+          <tr><td>Horse Corral / the horses</td><td>N06 Horse Path 1</td><td>Water Tower</td><td>N13 Water Tower</td></tr>
+          <tr><td>Rhonda's Camp / seismograph</td><td>N07 Horse Path 2</td><td>Nestor's Trailer</td><td>N16 Nestor's Trailer</td></tr>
+          <tr><td>Junkyard / the Dump / workshop</td><td>N23 Junkyard</td><td>Nancy's House</td><td>N24 Nancy's House</td></tr>
+          <tr><td>Caterpillar / the loader / the CAT</td><td>N22 Bulldozer Site</td><td>Melvin's Place</td><td>N15 Melvin's Shack (or N20 Melvin's Trailer)</td></tr>
+          <tr><td>Burt's / Burt's house / the compound</td><td>N29 Gummer Armory</td><td>Jim &amp; Megan's / the clinic</td><td>N05 Dr. Jim's Homestead</td></tr>
+          <tr><td>Route "Corral–Junkyard"</td><td>N06 ↔ N05 Dr. Jim's</td><td>Route "Dump–Bixby Road"</td><td>N30 Cat Path ↔ N19 Main St North</td></tr>
+          <tr><td>"one adjacent route" to Bixby Road</td><td>N32 ↔ N31 Cliff Approach</td><td>Sector C / "Burt's sector"</td><td>Sector C West Compound</td></tr>
+          <tr><td>Sector E / "south"</td><td>Sector E South Cliffs</td><td>Open ground beneath the Telephone Line</td><td>N04 Canyon Rd South</td></tr>
+        </tbody>
+      </table>
+      <h2>Deck order</h2>
+      <p>Act I (#1–10) shuffled on top · Act II (#11–25) shuffled beneath · Act III (#26–29) shuffled beneath that · <b>#30 Get Out of Perfection</b> on the bottom. Rounds 4 → Act I, 7 and 10 → Act II, 12 → Act III, 14 → #30. Rhonda's Seismologist may bury a card; a buried card goes under #30 and is never drawn.</p>
+      <p class="muted">On #30, read "one round remains" as "the game ends at the end of round 14".</p>
+      <div class="folio"><span>Appendix C — Calamities</span><span>Translation and deck order</span></div>
+    </section>
+    <div id="calamityDeck"></div>
+
+    <!-- ============================ APPENDIX D: ITEMS ============================ -->
+    <div id="itemDeck"></div>
+
+    <!-- ============================ APPENDIX E: BEHAVIOUR ============================ -->
+    <div id="behaviourDeck"></div>
+
+    <!-- ============================ APPENDIX F: PLAY AIDS ============================ -->
+    <section class="page">
+      <h1>Appendix F. Play Aids<small>Round log — one sheet per game</small></h1>
+      <p>Game # ______ · Date ______ · Players ______ · Configuration (Core / V1 / M1–M5): ________________ · Start time ______</p>
+      <table class="log tight">
+        <thead>
+          <tr><th>Rd</th><th>Noise</th><th>Band</th><th>Loudest node</th><th>Surf.</th><th>Catch</th><th>Grab</th><th>Resc.</th><th>Wnd/Kill</th><th>Ess. done</th><th>Calamity / band</th><th>Time</th><th class="wide">Notes / table talk</th></tr>
+        </thead>
+        <tbody id="logRows"></tbody>
+      </table>
+      <p>Result: Win / Loss · Round ______ · Reason ______________________________________________ · End time ______</p>
+      <p>Ratings 1–5 — Tension ___ Agency ___ Clarity ___ Tremors feel ___ Play again ___</p>
+      <p>Biggest single change for next game: ________________________________________________________________</p>
+      <div class="folio"><span>Appendix F — Play aids</span><span>Round log</span></div>
+    </section>
+
+    <section class="page">
+      <h2>Graboid Hunt tracker</h2>
+      <p>Slide a marker per worm. Surface at 2. Note the sector (Core) or node (M1) in the box.</p>
+      <table class="log">
+        <thead><tr><th style="width:12%">Worm</th><th>Sector / node</th><th style="width:8%">0</th><th style="width:8%">1</th><th style="width:8%">2</th><th style="width:8%">3</th><th style="width:14%">Surfaced at</th><th style="width:10%">Misses</th><th style="width:10%">Wounds</th></tr></thead>
+        <tbody>
+          <tr><td>G1</td><td></td><td></td><td></td><td></td><td></td><td></td><td>☐ ☐</td><td>☐ ☐</td></tr>
+          <tr><td>G2</td><td></td><td></td><td></td><td></td><td></td><td></td><td>☐ ☐</td><td>☐ ☐</td></tr>
+          <tr><td>G3</td><td></td><td></td><td></td><td></td><td></td><td></td><td>☐ ☐</td><td>☐ ☐</td></tr>
+          <tr><td>G4</td><td></td><td></td><td></td><td></td><td></td><td></td><td>☐ ☐</td><td>☐ ☐</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Sector noise scratch pad</h2>
+      <p>Add up the cubes per sector during the Graboid phase. Cross out as rounds pass.</p>
+      <table class="log tight">
+        <thead><tr><th>Round</th><th>A North Canyon</th><th>B Town Centre</th><th>C West Compound</th><th>D East Yard</th><th>E South Cliffs</th><th>Loudest</th></tr></thead>
+        <tbody id="sectorRows"></tbody>
+      </table>
+
+      <h2>Shared supply and markers</h2>
+      <table class="tight">
+        <thead><tr><th>Rescue tokens</th><th>Medkits</th><th>Quiet Move</th><th>Fuel</th><th>Desperation</th><th>Aggression</th><th>Noise Limit</th></tr></thead>
+        <tbody><tr><td>☐ ☐ ☐ ☐ ☐</td><td>☐ ☐ ☐ ☐ ☐</td><td>☐ ☐ ☐ ☐</td><td>☐ ☐ ☐ ☐ ☐</td><td>0 1 2 3 4 5</td><td>0 1 2 3</td><td>6 5 4</td></tr></tbody>
+      </table>
+      <p class="kicker">Items in supply</p>
+      <p style="min-height:0.9in;border:1px solid #999;padding:4px"></p>
+      <div class="folio"><span>Appendix F — Play aids</span><span>Trackers</span></div>
+    </section>
+
+    <script src="../js/valley-board.js"></script>
+    <script src="../js/data.js"></script>
+    <script>
+      const D = TREMORS_DATA;
+      const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      const nodeById = Object.fromEntries(D.nodes.map((n) => [n.id, n]));
+      const nodeLabel = (id) => { const n = nodeById[id]; return n ? `${n.blueprint} ${n.name}` : id; };
+      const charName = Object.fromEntries(D.characters.map((c) => [c.id, c.name]));
+
+      document.getElementById("version").textContent = new Date().toISOString().slice(0, 10) + " · 14 rounds · calamity 4/7/10/12/14 · evacuate 10+";
+
+      /* Sectors */
+      (function () {
+        const rows = Object.entries(D.sectors).map(([k, s]) => {
+          const ns = D.nodes.filter((n) => n.sector === k).map((n) => n.blueprint).join(", ");
+          return `<tr><td><b>${k}</b> ${esc(s.name)}</td><td>${ns}</td><td>${s.adjacent.join(" ")}</td></tr>`;
+        });
+        document.getElementById("sectorTable").innerHTML = `<thead><tr><th>Sector</th><th>Nodes</th><th>Adjacent</th></tr></thead><tbody>${rows.join("")}</tbody>`;
+      })();
+
+      /* Gazetteer */
+      (function () {
+        const objAt = {};
+        for (const kind of ["essential", "optional", "character"]) {
+          for (const o of D.objectives[kind]) (objAt[o.location] ||= []).push(o.name);
+        }
+        const starts = { store: "Val, Earl start", rhonda: "Rhonda starts", burt: "Burt starts" };
+        const rows = D.nodes.map((n) => {
+          const bits = [];
+          if (starts[n.id]) bits.push(starts[n.id]);
+          if (objAt[n.id]) bits.push("Objective: " + objAt[n.id].join("; "));
+          if ((D.solidRockNodes || []).includes(n.id) && !n.boulder && n.type !== "tower") bits.push("Solid Rock when found");
+          return `<tr><td><b>${n.blueprint}</b></td><td>${esc(n.name)}</td><td>${esc(n.terrain)}</td><td style="text-align:center">${n.sector}</td><td style="text-align:center">${n.search}</td><td style="text-align:center">${n.noiseMod > 1 ? "N+1" : ""}</td><td>${esc(n.id)}</td><td>${esc(bits.join(". "))}</td></tr>`;
+        });
+        document.getElementById("gazetteer").innerHTML = `<thead><tr><th>ID</th><th>Name</th><th>Terrain</th><th>Sec</th><th>S</th><th>Loud</th><th>Legacy ID</th><th>Notes</th></tr></thead><tbody>${rows.join("")}</tbody>`;
+      })();
+
+      /* Character summary + sheets */
+      (function () {
+        document.getElementById("charSummary").innerHTML = D.characters
+          .map((c) => `<tr><td><b>${esc(c.name)}</b></td><td>${c.movement}/${c.nerve}/${c.search}/${c.combat}</td><td>${esc(nodeLabel(c.start))}</td><td>${esc(c.weakness)}</td></tr>`)
+          .join("");
+        const order = ["val", "earl", "rhonda", "burt"];
+        document.getElementById("charSheets").innerHTML = order
+          .map((id) => D.characters.find((c) => c.id === id))
+          .map(
+            (c) => `
+          <div class="charsheet">
+            <h3>${esc(c.name)}</h3>
+            <p class="quote">“${esc(c.quote)}”</p>
+            <p class="kicker">${esc(c.role)}</p>
+            <div class="stats">
+              <div><b>${c.movement}</b><span>Movement</span></div>
+              <div><b>${c.nerve}</b><span>Nerve</span></div>
+              <div><b>${c.search}</b><span>Search</span></div>
+              <div><b>${c.combat}</b><span>Combat</span></div>
+            </div>
+            <p><b>Start:</b> ${esc(nodeLabel(c.start))}</p>
+            <p><b>Weakness:</b> ${esc(c.weakness)}</p>
+            ${c.abilities.map((a) => `<p><b>${esc(a.name)}.</b> ${esc(a.text)}</p>`).join("")}
+            <p><b>Signature (once per game) — ${esc(c.signature.name)}.</b> ${esc(c.signature.text)}</p>
+            <p><b>When Injured:</b> ${esc(c.injuredText)}</p>
+            <div class="track">Health <span>Healthy</span><span>Injured</span><span>Critical ☐☐</span> &nbsp; Actions ☐ ☐ &nbsp; Shaken ☐ &nbsp; Pinned ☐ &nbsp; Signature used ☐</div>
+            <div class="track">Threatened by <span>G1</span><span>G2</span><span>G3</span><span>G4</span> &nbsp; Grabbed ☐</div>
+          </div>`
+          )
+          .join("");
+        document.getElementById("kitTable").innerHTML =
+          `<thead><tr><th>Card</th><th>Kind</th><th>Heavy</th><th>Effect</th></tr></thead><tbody>` +
+          D.equipment.map((e) => `<tr><td><b>${esc(e.name)}</b></td><td>${esc(e.kind)}</td><td>${e.heavy ? "Yes" : ""}</td><td>${esc(e.text)}</td></tr>`).join("") +
+          `</tbody>`;
+      })();
+
+      /* Card page builder */
+      /* First sheet carries the appendix heading and holds 6 cards; later sheets hold 9. */
+      function cardPages(container, title, subtitle, intro, cards, folio) {
+        const sheets = [];
+        let i = 0;
+        sheets.push(cards.slice(0, 6));
+        i = 6;
+        while (i < cards.length) {
+          sheets.push(cards.slice(i, i + 9));
+          i += 9;
+        }
+        let html = "";
+        sheets.forEach((chunk, idx) => {
+          html += `<section class="page cardpage">`;
+          if (idx === 0) html += `<h1>${title}<small>${subtitle}</small></h1>${intro ? `<p class="muted" style="margin-bottom:6px">${intro}</p>` : ""}`;
+          html += `<div class="card-grid">${chunk.join("")}</div>`;
+          html += `<div class="folio"><span>${folio}</span><span>Sheet ${idx + 1} of ${sheets.length}</span></div></section>`;
+        });
+        document.getElementById(container).innerHTML = html;
+      }
+
+      /* Objectives */
+      (function () {
+        const objectiveCard = (obj, kind) => {
+          const who = obj.character ? ` · ${charName[obj.character] || obj.character}` : "";
+          return `<article class="card">
+            <div class="card-head"><span class="badge ${kind}">${kind}</span><span class="stats">Work ${obj.work} · Noise ${obj.noise}</span></div>
+            <h2>${esc(obj.name)}</h2>
+            <p class="where">${esc(nodeLabel(obj.location))}${esc(who)}</p>
+            <p class="flavour">${esc(obj.flavour)}</p>
+            <div class="body"><p class="outcome"><b>Pass</b> ${esc(obj.pass)}</p><p class="outcome"><b>Fail</b> ${esc(obj.fail)}</p></div>
+          </article>`;
+        };
+        const setup = `<article class="card instruction">
+          <div class="card-head"><span class="badge essential">Objectives</span><span class="stats">17 cards</span></div>
+          <h2>Deck setup</h2>
+          <ul>
+            <li>Shuffle Essential, Optional and Character piles separately.</li>
+            <li>Draw <b>3 Essential</b>, <b>2 Optional</b>, <b>1 Character</b>.</li>
+            <li>Work on the printed node. Tick 1 per Work action.</li>
+            <li>Every Work action is at least 1 Noise unless Rhonda's Don't Move or a Quiet Move token applies.</li>
+            <li>Failure changes the board; it is not an instant loss.</li>
+            <li>All Essentials done → Evacuate from <b>round 10</b>.</li>
+          </ul>
+        </article>`;
+        const cards = [
+          setup,
+          ...D.objectives.essential.map((o) => objectiveCard(o, "essential")),
+          ...D.objectives.optional.map((o) => objectiveCard(o, "optional")),
+          ...D.objectives.character.map((o) => objectiveCard(o, "character")),
+        ];
+        cardPages("objectiveDeck", "Appendix B. Objective Deck", "6 Essential · 7 Optional · 4 Character · poker size, cut on dashed lines", "", cards, "Appendix B — Objectives");
+      })();
+
+      /* Calamities */
+      (function () {
+        const calamityCard = (c) => `<article class="card">
+          <div class="card-head"><span class="badge calamity">Act ${c.act} · #${c.id}</span><span class="stats">Calamity</span></div>
+          <h2>${esc(c.title)}</h2>
+          <p class="flavour">${esc(c.flavour)}</p>
+          <div class="body">
+            <p class="band"><b>Quiet (0–8)</b> ${esc(c.quiet)}</p>
+            <p class="band"><b>Disturbed (9–14)</b> ${esc(c.disturbed)}</p>
+            <p class="band"><b>Frenzy (15+)</b> ${esc(c.frenzy)}</p>
+          </div>
+        </article>`;
+        const setup = `<article class="card instruction">
+          <div class="card-head"><span class="badge calamity">Calamity</span><span class="stats">30 cards</span></div>
+          <h2>Deck setup</h2>
+          <ul>
+            <li>Draw on rounds <b>4, 7, 10, 12, 14</b> only, after the Graboid phase.</li>
+            <li>Stack Act I (1–10) over Act II (11–25) over Act III (26–29); <b>#30</b> at the bottom.</li>
+            <li>Band from the round's noise total: <b>Quiet 0–8 · Disturbed 9–14 · Frenzy 15+</b>.</li>
+            <li>Rhonda may peek and keep or bury the top card (Seismologist).</li>
+            <li>Town names → valley nodes: see the translation table.</li>
+          </ul>
+        </article>`;
+        cardPages("calamityDeck", "Appendix C. Calamity Cards", "30 cards · three acts", "", [setup, ...D.calamities.map(calamityCard)], "Appendix C — Calamities");
+      })();
+
+      /* Items, rigs, kit */
+      (function () {
+        const itemName = Object.fromEntries(D.items.map((i) => [i.id, i.name]));
+        const itemCards = [];
+        for (const it of D.items) {
+          for (let k = 0; k < it.copies; k++) {
+            const rigs = D.rigs.filter((r) => r.parts.includes(it.id)).map((r) => `${r.name} (+ ${r.parts.filter((p) => p !== it.id).map((p) => itemName[p]).join(", ")})`);
+            itemCards.push(`<article class="card">
+              <div class="card-head"><span class="badge item">Item</span><span class="stats">Search deck</span></div>
+              <h2>${esc(it.name)}</h2>
+              <p class="where">Shared supply · use is an action (floor 1 Noise)</p>
+              <div class="body">
+                <p class="outcome"><b>Alone</b> ${esc(it.text)}</p>
+                <p class="outcome"><b>Rigs</b> ${esc(rigs.join(" · "))}</p>
+              </div>
+              <span class="copies">${k + 1}/${it.copies}</span>
+            </article>`);
+          }
+        }
+        const rigCards = D.rigs.map(
+          (r) => `<article class="card instruction">
+            <div class="card-head"><span class="badge rig">Rig</span><span class="stats">Reference</span></div>
+            <h2>${esc(r.name)}</h2>
+            <p class="rigparts">${r.parts.map((p) => esc(itemName[p])).join(" + ")}</p>
+            <div class="body"><p class="outcome">${esc(r.text)}</p><p class="outcome"><b>Cost</b> One action. Both parts leave the supply.</p></div>
+          </article>`
+        );
+        const kitCards = D.equipment.map(
+          (e) => `<article class="card">
+            <div class="card-head"><span class="badge kit">Burt's kit</span><span class="stats">${e.heavy ? "Heavy" : esc(e.kind)}</span></div>
+            <h2>${esc(e.name)}</h2>
+            <p class="where">Deal 3, keep 2</p>
+            <div class="body"><p class="outcome">${esc(e.text)}</p><p class="outcome"><b>Prepared</b> Discard to cancel one attack or breach at Burt's node (once per round).</p></div>
+          </article>`
+        );
+        const setup = `<article class="card instruction">
+          <div class="card-head"><span class="badge item">Items</span><span class="stats">16 + 5 + 6</span></div>
+          <h2>Search deck setup</h2>
+          <ul>
+            <li>Shuffle the 16 item cards face down.</li>
+            <li>Search success (d6 + Search + node S ≥ 9) draws the top card into the shared supply.</li>
+            <li>Anyone may use a supply item on their turn: one action, at least 1 Noise.</li>
+            <li>A <b>Rig</b> spends two named items as one action. Keep the 5 rig cards face up as a reference.</li>
+            <li>Burt's 6 kit cards are a separate pile: deal 3, keep 2.</li>
+          </ul>
+        </article>`;
+        cardPages("itemDeck", "Appendix D. Item Deck, Rigs and Burt's Kit", "16 items (two of each) · 5 rig reference cards · 6 kit cards", "", [setup, ...itemCards, ...rigCards, ...kitCards], "Appendix D — Items");
+      })();
+
+      /* Behaviour deck (Module M5) — from the Gemini movement spec */
+      (function () {
+        const beh = [
+          { t: "Sensory Adaptation", q: 3, ai: "Graboids ignore nodes holding 1 Noise. They target only nodes with 2+.", seismic: "Noise spillover reaches one node further this round (M2), or +1 to every sector total (Core)." },
+          { t: "Blind Charge", q: 2, ai: "Each surfaced Graboid ignores prey and charges 4 nodes in a straight line along routes, breaching any building it ends on.", seismic: "The loudest node takes 1 Erosion (M3) or becomes Unsafe (Core)." },
+          { t: "Subterranean Ambush", q: 2, ai: "Underground Graboids do not move. The next character to enter any Exposed Dirt node is caught by the nearest one, which surfaces there.", seismic: "Fault Line Collapse: choose two non-adjacent Exposed Dirt nodes; they count as a fault line for the rest of the game." },
+          { t: "Tentacle Probe", q: 3, ai: "Surfaced Graboids target the nearest human instead of noise, and may catch a character on an adjacent node without moving.", seismic: "Rockslide: one Safe Boulder node of your choice becomes Exposed Dirt for the rest of the game." },
+          { t: "Ground Subsidence", q: 2, ai: "Graboids lose their target. Each underground token drifts one sector (or node, M1) toward the town centre (sector B / N18).", seismic: "One Micro-Safe Roof of the players' choice collapses into Exposed Dirt permanently." },
+        ];
+        const cards = [];
+        cards.push(`<article class="card instruction">
+          <div class="card-head"><span class="badge behaviour">Behaviour</span><span class="stats">Module M5</span></div>
+          <h2>Deck setup</h2>
+          <ul>
+            <li>Only with Module M5.</li>
+            <li>Shuffle all 12 cards.</li>
+            <li>On any round with a <b>Disturbed</b> or <b>Frenzy</b> total, draw one after band movement and before Hunt ticks.</li>
+            <li>Resolve <b>Seismic</b> (map change) first, then <b>AI</b> for this Graboid phase only.</li>
+            <li>Discard after use. Reshuffle when empty.</li>
+          </ul>
+        </article>`);
+        for (const b of beh) {
+          for (let k = 0; k < b.q; k++) {
+            cards.push(`<article class="card">
+              <div class="card-head"><span class="badge behaviour">Behaviour</span><span class="stats">Dual · AI / Seismic</span></div>
+              <h2>${esc(b.t)}</h2>
+              <div class="body">
+                <p class="band"><b>Seismic — resolve first</b> ${esc(b.seismic)}</p>
+                <p class="band"><b>AI — this phase</b> ${esc(b.ai)}</p>
+              </div>
+              <span class="copies">${k + 1}/${b.q}</span>
+            </article>`);
+          }
+        }
+        cardPages("behaviourDeck", "Appendix E. Graboid Behaviour Deck", "12 cards · Module M5 only · adapted from the Gemini movement spec", "", cards, "Appendix E — Behaviour");
+      })();
+
+      /* Log rows */
+      (function () {
+        let rows = "";
+        for (let r = 1; r <= 14; r++) {
+          const cal = [4, 7, 10, 12, 14].includes(r) ? "▲" : "";
+          rows += `<tr><td><b>${r}</b> ${cal}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="wide"></td></tr>`;
+        }
+        document.getElementById("logRows").innerHTML = rows;
+        let srows = "";
+        for (let r = 1; r <= 14; r++) srows += `<tr><td>${r}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+        document.getElementById("sectorRows").innerHTML = srows;
+      })();
+    </script>
+  </body>
+</html>

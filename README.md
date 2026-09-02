@@ -2,7 +2,7 @@
 
 Cooperative board-game prototype based on the 1990 film. One table, one death, everyone loses.
 
-This repository is the dedicated home for the game. The design started as a [ChatGPT conversation](https://chatgpt.com/share/6a848aab-4a20-83eb-a0a1-aeb7af2477d3); the full thread is archived in [`docs/design-conversation.md`](docs/design-conversation.md). The prior Cloud Agent thread (chase, pacing, items) is archived in [`docs/prior-agent-conversation.md`](docs/prior-agent-conversation.md). Film geography for Perfection and the valley: [`docs/film-geography.md`](docs/film-geography.md). Screenplay quotes reference (Wilson & Maddock draft): [`docs/movie-script-quotes.md`](docs/movie-script-quotes.md). Compiled rules: [`docs/rules.md`](docs/rules.md).
+This repository is the dedicated home for the game. The design started as a [ChatGPT conversation](https://chatgpt.com/share/6a848aab-4a20-83eb-a0a1-aeb7af2477d3); the full thread is archived in [`docs/design-conversation.md`](docs/design-conversation.md). The prior Cloud Agent thread (chase, pacing, items) is archived in [`docs/prior-agent-conversation.md`](docs/prior-agent-conversation.md). Film geography for Perfection and the valley: [`docs/film-geography.md`](docs/film-geography.md). Screenplay quotes reference (Wilson & Maddock draft): [`docs/movie-script-quotes.md`](docs/movie-script-quotes.md). Compiled rules: [`docs/rules.md`](docs/rules.md) (Phase 1 town). **Valley merged spec** (32-node map + Gemini movement): [`docs/rules-valley.md`](docs/rules-valley.md), implementation checklist [`docs/valley-engine-checklist.md`](docs/valley-engine-checklist.md).
 
 ## Play
 
@@ -17,6 +17,8 @@ Then go to `http://localhost:8000/`. Printable **town** board: `http://localhost
 **Phase 2 valley blueprint** (32-node network graph, design reference): `docs/valley-network-blueprint.png`. **Full tactical board map** (300 DPI, terrain + fault lines): `docs/Perfection_Valley_Full_Board_Map.png`. Regenerate with `pip install -r scripts/requirements.txt && python scripts/valley_thematic_map.py` (simple graph: `python scripts/valley_network.py`; engine data: `python scripts/valley_to_js.py`).
 
 You run **Val, Earl, Rhonda, and Burt**. Noise is shared. Every action is at least 1 Noise unless Rhonda hasn't moved this turn or you spend a Quiet Move token. Graboids surface on Hunt 2 and chase the nearest character. First catch is Threatened; the same worm catching again is Grabbed. Search fills a shared item supply; two items can be rigged into a Pipe Bomb, Tripwire Bait, Fire Bomb, Line Rescue, or Field Generator.
+
+**Full playtest pack** (one printable document: valley map + key, rules, setup, example turn, test protocol, all card decks): `print/playtest-pack.html`, also `print/perfection-playtest-pack.pdf`.
 
 ## Tests
 
